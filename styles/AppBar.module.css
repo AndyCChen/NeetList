@@ -1,0 +1,46 @@
+.container {
+   background: #474747;
+   height: 65px;
+   flex-direction: row;
+   display: flex;
+   align-items: center;
+}
+
+.logo{
+   margin-left: 10vw;
+   margin-right: 25px;
+}
+
+.searchBoxContainer {
+   display: flex;
+   align-items: center;
+   background: white;
+   border-radius: 10px;
+   max-width: 625px;
+   height: 35px;
+   flex-grow: 1;
+}
+
+.searchIcon {
+   margin-left: 5px;
+}
+
+.searchBox {
+   margin-left: 0;
+   padding: 10px;
+   background: transparent;
+   border-radius: 10px;
+   height: 35px;
+   width: 100%;
+   border-style: none;
+}
+
+.searchBox:focus {
+   outline: none;
+}
+
+.dropMenu {
+   margin: auto;
+   margin-right: 1vw;
+   flex-shrink: 0;
+}

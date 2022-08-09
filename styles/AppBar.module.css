@@ -73,6 +73,17 @@
    cursor: pointer;
 }
 
+.signInContainerBackground {
+   background-color: black;
+   opacity: 0.80;
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   width: 100vw;
+   height: 100vh;
+}
+
 .signInContainer {
    background-color: #474747;
    position: absolute;
@@ -93,21 +104,22 @@
 }
 
 @keyframes fadeIn {
-   from {opacity: 0; top: 45%}
+   from {opacity: 0; top: 40%}
    to {opacity: 1; top: 50%}
 }
 
 @keyframes fadeOut {
    from {opacity: 1; top: 50%;}
-   to {opacity: 0; top: 45%;}
+   to {opacity: 0; top: 40%;}
 }
 
 /*
    for smaller broswer window
 */
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
    .signInContainer {
-      width: 450px;
+      flex-grow: 1;
+      width: 100vw;
       height: 400px;
    }
 }
@@ -115,7 +127,7 @@
 /* 
    for larger broswer window
 */
-@media only screen and (min-width: 600px) {
+@media only screen and (min-width: 700px) {
    .signInContainer {
       width: 600px;
       height: 500px;

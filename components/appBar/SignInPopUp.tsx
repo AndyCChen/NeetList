@@ -1,18 +1,20 @@
-import { useEffect } from 'react'
-
+import React from 'react'
 import appBarStyles from '../../styles/AppBar.module.css'
 
 type Props = {
-	showSignIn: boolean
+	showSignIn: boolean,
 }
 
-const SignInPopUp = ({ showSignIn }: Props) => {
+const SignInPopUp = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 
 	return (
-		<div id='signIn' className={ `${ appBarStyles.signInContainer }  ${ showSignIn ? appBarStyles.openModal : appBarStyles.closeModal }` }>
+		<div 
+			ref={ ref } 
+			className={ `${ appBarStyles.signInContainer }  ${ props.showSignIn ? appBarStyles.openModal : appBarStyles.closeModal }` }	
+		>
 			<input type='text' placeholder='username'/>
 		</div>
 	)
-}
+})
 
 export default SignInPopUp

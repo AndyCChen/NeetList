@@ -12,7 +12,7 @@ type Props = {
 const NavButton = ({ scr, height, width, setState }: Props) => {
 	return (
 		<button onClick={setState} className={ appBarStyles.navItem }>
-			<Image src={scr} height={height} width={width} layout='fixed' color='white'/>
+			<Image src={scr} height={height} width={width} layout='fixed'/>
 		</button>
 	)
 }

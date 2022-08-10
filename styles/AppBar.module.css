@@ -84,13 +84,14 @@
    height: 100vh;
 }
 
+/* fade in/out animations for semi transparent background */ 
 .closeBackground {
-   animation: backgroundFadeOut 150ms forwards;
+   animation: backgroundFadeOut 200ms  forwards;
    pointer-events: none;
 }
 
 .openBackground {
-   animation: backgroundFadeIn 150ms forwards;
+   animation: backgroundFadeIn 200ms  forwards;
 }
 
 @keyframes backgroundFadeIn {
@@ -113,13 +114,14 @@
    padding: 10px;
 }
 
+/* fade in/out animations for signin popup */
 .closeModal {
-   animation: fadeOut 150ms forwards;
+   animation: fadeOut 200ms forwards;
    pointer-events: none;
 }
 
 .openModal {
-   animation: fadeIn 150ms forwards;
+   animation: fadeIn 200ms forwards;
 }
 
 @keyframes fadeIn {

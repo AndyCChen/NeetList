@@ -10,8 +10,15 @@ const AppBar = () => {
 	// bool for controlling if signInBox is shown or not
 	const [showSignIn, setShowSignIn] = useState(false);
 
-	// ref to the DOM element inside of SignInPopUp component
-	const signInRef = useRef<HTMLDivElement>(null);
+	// hide signIn popup initially when page is first loaded
+	const [initialShowSignInState, setInitialShowSignInState] = useState(false);
+
+	// hook to only set the initial vlaue of initialShowSignInState to true once
+	useEffect(() => {
+		if (showSignIn && !initialShowSignInState) {
+			setInitialShowSignInState(true);
+		}
+	}, [showSignIn]);
 
 	// toggle sign in box
 	const _setShowSignIn = (): void => {
@@ -32,9 +39,12 @@ const AppBar = () => {
 			} else {
 				document.removeEventListener('click', _handleClickOutside);
 			}
-		},[showSignIn]);
+		}, [ref, showSignIn]);
 	}
 
+	// ref to the DOM element inside of SignInPopUp component
+	const signInRef = useRef<HTMLDivElement>(null);
+	
 	_closeSignPopUp(signInRef);
 
 	return (
@@ -49,8 +59,11 @@ const AppBar = () => {
 				<NavButton scr='/logIn.svg' height={20} width={20} setState={_setShowSignIn}/>
 
 				{/*  semi transparent div background when signin popup appears */}
-				{showSignIn && <div className={ `${ appBarStyles.signInContainerBackground } ${ showSignIn ? appBarStyles.openBackground : appBarStyles.closeBackground }` }></div>}
-				<SignInPopUp ref={signInRef} showSignIn={showSignIn}/>
+				{
+					initialShowSignInState && 
+						<div className={ `${ appBarStyles.signInContainerBackground } ${ showSignIn ? appBarStyles.openBackground : appBarStyles.closeBackground }` }></div>
+				}
+				{initialShowSignInState && <SignInPopUp ref={signInRef} showSignIn={showSignIn}/>}
 			</nav>
 		</header>
 	)

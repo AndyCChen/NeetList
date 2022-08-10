@@ -57,13 +57,7 @@ const AppBar = () => {
 
 			<nav className={ appBarStyles.navButtonContainer}>
 				<NavButton scr='/logIn.svg' height={20} width={20} setState={_setShowSignIn}/>
-
-				{/*  semi transparent div background when signin popup appears */}
-				{
-					initialShowSignInState && 
-						<div className={ `${ appBarStyles.signInContainerBackground } ${ showSignIn ? appBarStyles.openBackground : appBarStyles.closeBackground }` }></div>
-				}
-				{initialShowSignInState && <SignInPopUp ref={signInRef} showSignIn={showSignIn}/>}
+         	<SignInPopUp ref={signInRef} showSignIn={showSignIn} initialShowSignInState= { initialShowSignInState }/>
 			</nav>
 		</header>
 	)

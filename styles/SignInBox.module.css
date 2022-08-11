@@ -70,6 +70,7 @@
 }
 
 .signInImage {
+   user-select: none;
    margin-bottom: 30%;
    margin-left: 10%;
    margin-right: 10%;
@@ -91,6 +92,7 @@
 }
 
 .submit {
+   user-select: none;
    display: flex;
    align-items: center;
    margin-left: auto;
@@ -128,7 +130,7 @@
    .signInContainer {
       flex-grow: 1;
       width: 100vw;
-      height: 22.875rem;
+      height: auto;
    }
 }
 
@@ -138,6 +140,6 @@
 @media only screen and (min-width: 700px) {
    .signInContainer {
       width: 34.375rem;
-      height: 22.875rem;
+      height: auto;
    }
 }

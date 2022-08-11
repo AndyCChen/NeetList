@@ -7,22 +7,22 @@ import SignInPopUp from './SignInPopUp'
 import appBarStyles from '../../styles/AppBar.module.css'
 
 const AppBar = () => {
-	// bool for controlling if signInBox is shown or not
-	const [showSignIn, setShowSignIn] = useState(false);
+	// bool for controlling if fadeIn or fadeOut animation is played
+	const [playFadeIn, setPlayFadeIn] = useState(false);
 
 	// hide signIn popup initially when page is first loaded
-	const [initialShowSignInState, setInitialShowSignInState] = useState(false);
+	const [showSignInState, setShowSignInState] = useState(false);
 
-	// hook to only set the initial vlaue of initialShowSignInState to true once
+	// hook to only set the initial vlaue of showSignInState to true once
 	useEffect(() => {
-		if (showSignIn && !initialShowSignInState) {
-			setInitialShowSignInState(true);
+		if (playFadeIn && !showSignInState) {
+			setShowSignInState(true);
 		}
-	}, [showSignIn]);
+	}, [playFadeIn]);
 
 	// toggle sign in box
-	const _setShowSignIn = (): void => {
-		setShowSignIn(!showSignIn);
+	const _setPlayFadeIn = (): void => {
+		setPlayFadeIn(!playFadeIn);
 	}
 
 	// hook to close signInPopup if clicked outside the component
@@ -30,16 +30,16 @@ const AppBar = () => {
 		useEffect(() => {
 			const _handleClickOutside = (event: MouseEvent) => {
 				if (ref.current && !ref.current.contains(event.target as Element) && (event.target as Element).tagName === 'DIV') {
-					setShowSignIn(false);
+					setPlayFadeIn(false);
 				}
 			}
 
-			if (showSignIn) {
+			if (playFadeIn) {
 				document.addEventListener('click', _handleClickOutside);
 			} else {
 				document.removeEventListener('click', _handleClickOutside);
 			}
-		}, [ref, showSignIn]);
+		}, [ref, playFadeIn]);
 	}
 
 	// ref to the DOM element inside of SignInPopUp component
@@ -56,8 +56,8 @@ const AppBar = () => {
 			<SearchBox />
 
 			<nav className={ appBarStyles.navButtonContainer}>
-				<NavButton scr='/logIn.svg' height={20} width={20} setState={_setShowSignIn}/>
-         	<SignInPopUp ref={signInRef} showSignIn={showSignIn} initialShowSignInState= { initialShowSignInState }/>
+				<NavButton scr='/logIn.svg' height={20} width={20} setState={_setPlayFadeIn}/>
+         	<SignInPopUp ref={signInRef} playFadeIn={playFadeIn} showSignInState= { showSignInState }/>
 			</nav>
 		</header>
 	)

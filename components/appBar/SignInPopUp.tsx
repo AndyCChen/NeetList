@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import SignInForm from './SignInForm';
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -10,9 +11,25 @@ type Props = {
 
 const SignInPopUp = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 
+	const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
+
+	const _setUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setUsername(event.currentTarget.value);
+	}
+
+	const _setPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setPassword(event.currentTarget.value);
+	}
+
 	// user sign in info submit handler
 	const _handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-		console.log('submitted!')
+		if (username.length === 0 || password.length === 0) {
+			alert('Please fill out all fields!');
+		}
+
+		console.log('Username', username);
+		console.log('Password', password);
 		event.preventDefault();
 	}
 
@@ -35,27 +52,7 @@ const SignInPopUp = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 						<div className={ signInBoxStyles.signInImage }>
 							<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
 						</div>
-						<div className={ signInBoxStyles.signInFormContainer }>
-							<p style={{ color: 'white', fontSize: '2rem', marginBottom: '0' }}>
-								Sign In
-							</p>
-							<p style={{ color: 'white', fontSize: '1rem', opacity: '0.5' }}>
-								Welcome back!
-							</p>
-
-							<input className={ signInBoxStyles.inputField } type='text' placeholder='username'/>
-							<input className={ signInBoxStyles.inputField } type='text' placeholder='password'/>
-							<button className={ signInBoxStyles.submit } onClick={_handleSubmit}>
-								<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='fixed' />
-							</button>
-
-							<p style={{ color: 'black', fontSize: '0.8rem', textAlign: 'center' }}>
-								Don't have an account?
-								<button className={ signInBoxStyles.signUp } onClick={_handleClick}>
-									Sign Up!
-								</button>
-							</p>
-						</div>
+						<SignInForm setUsername={_setUsername} setPassword={_setPassword} handleSubmit={_handleSubmit} handleClick={_handleClick} />
 					</div>
 				</>
 			}

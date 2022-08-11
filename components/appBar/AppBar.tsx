@@ -56,8 +56,9 @@ const AppBar = () => {
 			<SearchBox />
 
 			<nav className={ appBarStyles.navButtonContainer}>
-				<NavButton scr='/logIn.svg' height={20} width={20} setState={_setPlayFadeIn}/>
-         	<SignInPopUp ref={signInRef} playFadeIn={playFadeIn} showSignInState= { showSignInState }/>
+				<NavButton scr='/logIn.svg' height={20} width={20} setState={_setPlayFadeIn}>
+					<SignInPopUp ref={signInRef} playFadeIn={playFadeIn} showSignInState= { showSignInState }/>
+				</NavButton>
 			</nav>
 		</header>
 	)

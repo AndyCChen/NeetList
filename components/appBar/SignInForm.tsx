@@ -44,7 +44,7 @@ const SignInForm = ({ handleClick }: Props) => {
 			<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword}/>
 
 			<button className={ signInBoxStyles.submit } onClick={_handleSubmit}>
-				<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='fixed' />
+				<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='intrinsic' />
 			</button>
 
 			<p style={{ color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center' }}>

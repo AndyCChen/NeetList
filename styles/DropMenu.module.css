@@ -35,10 +35,13 @@
 }
 
 .userIcon {
+   display: flex;
+   align-items: center;
+   justify-content: center;
    background-color: white;
    border-radius: 50%;
-   width: auto;
-   height: auto;
+   width: 3rem;
+   height: 3 rem;
    margin-right: 1rem;
    user-select: none;
 }

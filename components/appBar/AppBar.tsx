@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
 import SearchBox from './SearchBox'
-import NavButton from './NavButton'
+import NavItem from './NavItem'
 import SignInPopUp from './SignInPopUp'
 import DropdownMenu from './DropdownMenu'
 
@@ -21,7 +21,7 @@ const AppBar = () => {
 	const [showDropMenuState, setShowDropMenuState] = useState(false);
 
 	// bool for if user is logged in
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	// hook to make signInPopup render only once and to stay rendered
 	useEffect(() => {
@@ -79,12 +79,13 @@ const AppBar = () => {
 
 			<nav className={ appBarStyles.navButtonContainer}> 
 				{!isLoggedIn ?
-					<NavButton scr='/logIn.svg' height={20} width={20} setState={_setPopupFadeIn}>
+					<NavItem scr='/logIn.svg' height={20} width={20} setState={_setPopupFadeIn}>
 						<SignInPopUp ref={signInRef} playFadeIn={isPopupFadeIn} showSignInState= {showSignInState}/>
-					</NavButton> :
-					<NavButton scr='/dropMenu.svg' height={20} width={20} setState={_setDropMenuFadeIn}>
+					</NavItem>
+					:
+					<NavItem scr='/dropMenu.svg' height={20} width={20} setState={_setDropMenuFadeIn}>
 						<DropdownMenu playFadeIn={isDropMenuFadeIn} showDropMenuState={showDropMenuState}/>
-					</NavButton>
+					</NavItem>
 				}
 			</nav>
 		</header>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
+import  { createUser } from '../../utils/userAuth'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -35,13 +36,14 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 		console.log('Username', username);
 		console.log('Password', password);
 		console.log('Password confirm', confirmPassword);
+		createUser(email, password);
 		event.preventDefault();
 	}
 
 
 	return (
 		<div className={ signInBoxStyles.signInFormContainer }>
-			<p style={{ color: 'white', fontSize: '2rem', marginBottom: '0' }}>
+			<p style={{ color: 'white', fontSize: '2rem', marginBottom: '0', marginTop: '0'  }}>
 				Sign Up
 			</p>
 			<p style={{ color: 'white', fontSize: '1rem', opacity: '0.5' }}>
@@ -57,7 +59,7 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 				<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='fixed' />
 			</button>
 
-			<p style={{ color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center' }}>
+			<p style={{color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center', marginTop: 'auto', marginBottom: '0'}}>
 				Already have an account?
 				<button className={ signInBoxStyles.signUp } onClick={setShowSignUp}>
 					Sign in!

@@ -14,9 +14,9 @@ const NavButton = ({ children, scr, height, width, setState }: Props) => {
 	return (
 		<>
 			<button onClick={setState} className={ appBarStyles.navItem }>
-			<Image src={scr} alt='nav icon' height={height} width={width} layout='fixed'/>
-		</button>
-		{children}
+				<Image src={scr} alt='nav icon' height={height} width={width} layout='fixed'/>
+			</button>
+			{children}
 		</>
 	)
 }

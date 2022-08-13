@@ -31,7 +31,6 @@
 
 .signInContainer {
    display: flex;
-   justify-content: space-around;
    align-items: center;
    background-color: #474747;
    position: absolute;
@@ -39,7 +38,7 @@
    left: 50%;
    transform: translate(-50%, -50%);
    border-radius: 1rem;
-   padding: 1rem;
+   padding: 2rem;
 }
 
 /* fade in/out animations for signin popup */
@@ -67,6 +66,7 @@
    flex-direction: column;
    align-self: flex-start;
    flex-grow: 1;
+   height: 100%;
 }
 
 .signInImage {
@@ -78,7 +78,7 @@
 
 .inputField {
    background-color: #474747;
-   margin-bottom: 1rem;
+   margin-bottom: 0.8rem;
    height: 3rem;
    border-radius: 1rem;
    border-color: #418D89;
@@ -95,8 +95,7 @@
    user-select: none;
    display: flex;
    align-items: center;
-   margin-left: auto;
-   margin-right: auto;
+   margin: 0.5rem auto 0.5rem auto;
    background-color: #418D89;
    border-style: none;
    cursor: pointer;
@@ -130,7 +129,7 @@
    .signInContainer {
       flex-grow: 1;
       width: 100vw;
-      height: auto;
+      height: 30rem;
    }
 }
 
@@ -140,6 +139,6 @@
 @media only screen and (min-width: 700px) {
    .signInContainer {
       width: 34.375rem;
-      height: auto;
+      height: 30rem;
    }
 }

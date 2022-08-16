@@ -38,7 +38,7 @@
    left: 50%;
    transform: translate(-50%, -50%);
    border-radius: 1rem;
-   padding: 2rem;
+   padding: 1.5rem;
 }
 
 /* fade in/out animations for signin popup */
@@ -64,7 +64,6 @@
 .signInFormContainer {
    display: flex;
    flex-direction: column;
-   align-self: flex-start;
    flex-grow: 1;
    height: 100%;
 }
@@ -80,10 +79,11 @@
    background-color: #474747;
    margin-bottom: 0.8rem;
    height: 3rem;
+   border-width: 2px;
    border-radius: 1rem;
    border-color: #418D89;
    border-style: solid;
-   padding-left: 1rem;
+   padding: 0 0 0 1rem;
    color: white;
 }
 
@@ -102,6 +102,7 @@
    border-radius: 0.5rem;
    height: 3rem;
    transition: 150ms;
+   margin-bottom: 0;
 }
 
 .submit:hover {
@@ -129,7 +130,7 @@
    .signInContainer {
       flex-grow: 1;
       width: 100vw;
-      height: 30rem;
+      height: auto;
    }
 }
 
@@ -139,6 +140,6 @@
 @media only screen and (min-width: 700px) {
    .signInContainer {
       width: 34.375rem;
-      height: 30rem;
+      height: auto;
    }
 }

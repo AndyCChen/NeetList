@@ -54,7 +54,7 @@ const SignInForm = ({ handleClick }: Props) => {
 				<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='intrinsic' />
 			</button>
 
-			<p style={{color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center', marginTop: 'auto', marginBottom: '0'}}>
+			<p style={{ color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center', marginBottom: '0' }}>
 				Don't have an account?
 				<button className={ signInBoxStyles.signUp } onClick={handleClick}>
 					Create one here!

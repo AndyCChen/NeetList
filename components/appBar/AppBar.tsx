@@ -4,10 +4,14 @@ import SearchBox from './SearchBox'
 import NavItem from './NavItem'
 import SignInPopUp from './SignInPopUp'
 import DropdownMenu from './DropdownMenu'
+import { useAuth } from '../../context/UserAuthContext'
 
 import appBarStyles from '../../styles/AppBar.module.css'
 
 const AppBar = () => {
+	// custom hook to access userAuth context
+	const { user } = useAuth();
+
 	// true: play fade in animation, else play fade out animation for signin popup
 	const [isPopupFadeIn, setPopupFadeIn] = useState(false);
 
@@ -19,9 +23,6 @@ const AppBar = () => {
 
 	// leave signIn popup initially unrendered when page is first loaded
 	const [showDropMenuState, setShowDropMenuState] = useState(false);
-
-	// bool for if user is logged in
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 	// hook to make signInPopup render only once and to stay rendered
 	useEffect(() => {
@@ -78,13 +79,13 @@ const AppBar = () => {
 			<SearchBox />
 
 			<nav className={ appBarStyles.navButtonContainer}> 
-				{!isLoggedIn ?
-					<NavItem scr='/logIn.svg' height={20} width={20} setState={_setPopupFadeIn}>
-						<SignInPopUp ref={signInRef} playFadeIn={isPopupFadeIn} showSignInState= {showSignInState}/>
-					</NavItem>
-					:
+				{user ?
 					<NavItem scr='/dropMenu.svg' height={20} width={20} setState={_setDropMenuFadeIn}>
 						<DropdownMenu playFadeIn={isDropMenuFadeIn} showDropMenuState={showDropMenuState}/>
+					</NavItem>
+					:
+					<NavItem scr='/logIn.svg' height={20} width={20} setState={_setPopupFadeIn}>
+						<SignInPopUp ref={signInRef} playFadeIn={isPopupFadeIn} showSignInState= {showSignInState}/>
 					</NavItem>
 				}
 			</nav>

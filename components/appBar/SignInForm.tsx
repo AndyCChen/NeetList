@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import { signInUser } from '../../utils/userAuth'
+import { useAuth } from '../../context/UserAuthContext'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -9,12 +9,13 @@ type Props = {
 }
 
 const SignInForm = ({ handleClick }: Props) => {
+	const { signIn } = useAuth();
 
-	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 
 	const _setUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
-		setUsername(event.currentTarget.value);
+		setEmail(event.currentTarget.value);
 	}
 
 	const _setPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,16 +23,19 @@ const SignInForm = ({ handleClick }: Props) => {
 	}
 
 	// user sign in info submit handler
-	const _handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-		if (username.length === 0 || password.length === 0) {
+	const _handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+		event.preventDefault();
+
+		if (email.length === 0 || password.length === 0) {
 			alert('Please fill out all fields!');
 		}
 
-		console.log('Username', username);
-		console.log('Password', password);
-		event.preventDefault();
-
-		signInUser(username, password);
+		try {
+			await signIn(email, password);
+			console.log('signed in');
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 	return (
@@ -43,7 +47,7 @@ const SignInForm = ({ handleClick }: Props) => {
 				Welcome back!
 			</p>
 
-			<input className={ signInBoxStyles.inputField } type='text' placeholder='Username' onChange={_setUsername}/>
+			<input className={ signInBoxStyles.inputField } type='text' placeholder='Email' onChange={_setUsername}/>
 			<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword}/>
 
 			<button className={ signInBoxStyles.submit } onClick={_handleSubmit}>

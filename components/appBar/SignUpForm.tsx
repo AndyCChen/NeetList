@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import  { createUser } from '../../utils/userAuth'
+import { useAuth } from '../../context/UserAuthContext'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -9,6 +9,7 @@ type Props = {
 }
 
 const SignUpForm = ({ setShowSignUp }: Props) => {
+	const { signUp } = useAuth();
 
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
@@ -31,13 +32,15 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 		setConfirmPassword(event.currentTarget.value);
 	}
 
-	const _handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
-		console.log('Email', email);
-		console.log('Username', username);
-		console.log('Password', password);
-		console.log('Password confirm', confirmPassword);
-		createUser(email, password);
+	const _handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
+
+		try {
+			await signUp(email, password);
+			console.log('signed up');
+		} catch (error) {
+			console.log(error);
+		}
 	}
 
 

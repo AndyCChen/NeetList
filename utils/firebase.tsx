@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: "AIzaSyDdIWbGg5pNv905bpY-gsvzI4hWYwMFZBk",
@@ -6,12 +7,10 @@ const firebaseConfig = {
   projectId: "neetlist-dc970",
   storageBucket: "neetlist-dc970.appspot.com",
   messagingSenderId: "492360632946",
-  appId: "1:492360632946:web:7e9db2525991017c65d0eb"
+  appId: "1:492360632946:web:b9f70c166d0f1b6365d0eb"
 };
 
 // Initialize Firebase
-const initFirebase = () => {
-  const app = initializeApp(firebaseConfig);
-}
+const app = initializeApp(firebaseConfig);
 
-export { initFirebase };
+export const auth = getAuth();

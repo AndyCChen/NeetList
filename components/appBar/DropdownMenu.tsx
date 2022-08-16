@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useAuth } from '../../context/UserAuthContext'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 
@@ -8,6 +9,9 @@ type Props = {
 }
 
 const DropdownMenu = ({ playFadeIn ,showDropMenuState }: Props) => {
+	const { logout } = useAuth();
+
+
 	return (
 		<>
 			{showDropMenuState &&
@@ -31,7 +35,7 @@ const DropdownMenu = ({ playFadeIn ,showDropMenuState }: Props) => {
 						<p>Settings</p>
 					</button>
 
-					<button className={ dropMenuStyles.menuButton}>
+					<button className={ dropMenuStyles.menuButton} onClick={logout}>
 						<p>Logout</p>
 					</button>
 				</div>

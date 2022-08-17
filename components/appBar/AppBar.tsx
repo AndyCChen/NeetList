@@ -36,7 +36,12 @@ const AppBar = () => {
 		if (isDropMenuFadeIn && !showDropMenuState) {
 			setShowDropMenuState(true);
 		}
-	}, [isDropMenuFadeIn]);
+
+		if (!user) {
+			setDropMenuFadeIn(false);
+			setShowDropMenuState(false);
+		}
+	}, [isDropMenuFadeIn, user]);
 
 	// hook to close signInPopup if clicked outside the component
 	const _closeSignPopUp = (ref: RefObject<HTMLDivElement>) => {

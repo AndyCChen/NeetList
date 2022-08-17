@@ -123,6 +123,29 @@
    color: #52ADA8;
 }
 
+.error {
+   display: flex;
+   background-color: #d43c31;
+   border-radius: 0.5rem;
+   color: white;
+   font-size: 0.85rem;
+   padding: 0.5rem;
+   margin-bottom: 0.8rem;
+}
+
+.error button {
+   font-size: 2rem;
+   color: #b8b8b8;
+   background-color: transparent;
+   border-style: none;
+   margin-left: auto;
+   transition: 150ms;
+}
+
+.error button:hover {
+   color: white;
+}
+
 /*
    for smaller broswer window
 */

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { useAuth } from '../../context/UserAuthContext'
+import Error from './Error'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -9,7 +10,14 @@ type Props = {
 }
 
 const SignInForm = ({ handleClick }: Props) => {
-	const { signIn } = useAuth();
+	const { signIn, user } = useAuth();
+
+	const [showError, setShowError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+
+	const _setShowError = () => {
+		setShowError(!showError);
+	}
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -27,14 +35,19 @@ const SignInForm = ({ handleClick }: Props) => {
 		event.preventDefault();
 
 		if (email.length === 0 || password.length === 0) {
-			alert('Please fill out all fields!');
+			setErrorMessage('Please fill out both fields!');
+			setShowError(true);
+			return;
 		}
 
 		try {
 			await signIn(email, password);
-			console.log('signed in');
-		} catch (error) {
-			console.log(error);
+			if (user) {
+				setShowError(false);
+			}
+		} catch (error: any) {
+			setErrorMessage((error.code as string).slice(5));
+			setShowError(true);
 		}
 	}
 
@@ -47,7 +60,9 @@ const SignInForm = ({ handleClick }: Props) => {
 				Welcome back!
 			</p>
 
-			<input className={ signInBoxStyles.inputField } type='text' placeholder='Email' onChange={_setUsername}/>
+			{showError && <Error errorMessage={ errorMessage } setShowError={_setShowError}/>}
+
+			<input className={ signInBoxStyles.inputField } type='email' placeholder='Email' onChange={_setUsername}/>
 			<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword}/>
 
 			<button className={ signInBoxStyles.submit } onClick={_handleSubmit}>

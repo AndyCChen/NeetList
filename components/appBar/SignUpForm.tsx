@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '../../context/UserAuthContext'
+import Error from './Error';
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -9,7 +10,14 @@ type Props = {
 }
 
 const SignUpForm = ({ setShowSignUp }: Props) => {
-	const { signUp } = useAuth();
+	const { signUp, user } = useAuth();
+
+	const [showError, setShowError] = useState(false);
+	const [errorMessage, setErrorMessage] = useState('');
+
+	const _setShowError = () => {
+		setShowError(!showError);
+	}
 
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
@@ -35,11 +43,24 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 	const _handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
 		event.preventDefault();
 
+		if (email.length === 0 || username.length === 0 || password.length === 0 || confirmPassword.length === 0) {
+			setErrorMessage('Please fill in all fields!');
+			setShowError(true);
+			return;
+		} else if (password !== confirmPassword) {
+			setErrorMessage('Password confirmation does not match!');
+			setShowError(true);
+			return;
+		}
+
 		try {
 			await signUp(email, password);
-			console.log('signed up');
-		} catch (error) {
-			console.log(error);
+			if (user) {
+				setShowError(false);
+			}
+		} catch (error: any) {
+			setErrorMessage((error.code as string).slice(5));
+			setShowError(true);
 		}
 	}
 
@@ -52,6 +73,8 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 			<p style={{ color: 'white', fontSize: '1rem', opacity: '0.5' }}>
 				Make an account to use extra features!
 			</p>
+
+			{showError && <Error errorMessage={ errorMessage } setShowError={_setShowError}/>}
 
 			<input className={ signInBoxStyles.inputField } type='email' placeholder='Email' onChange={_setEmail}/>
 			<input className={ signInBoxStyles.inputField } type='text' placeholder='Username' onChange={_setUsername}/>

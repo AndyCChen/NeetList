@@ -40,4 +40,7 @@ const SignInPopUp = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 	)
 })
 
+// display name
+SignInPopUp.displayName = 'SignInPopUp';
+
 export default SignInPopUp

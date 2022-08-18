@@ -45,4 +45,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 	)
 })
 
+// display name
+DropdownMenu.displayName = 'DropdownMenu';
+
 export default DropdownMenu

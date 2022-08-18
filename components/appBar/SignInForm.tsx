@@ -70,7 +70,7 @@ const SignInForm = ({ handleClick }: Props) => {
 			</button>
 
 			<p style={{ color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center', marginBottom: '0' }}>
-				Don't have an account?
+				Don&apos;t have an account?
 				<button className={ signInBoxStyles.signUp } onClick={handleClick}>
 					Create one here!
 				</button>

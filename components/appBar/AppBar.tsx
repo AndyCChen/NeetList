@@ -36,13 +36,15 @@ const AppBar = () => {
 		if (isDropMenuFadeIn && !showDropMenuState) {
 			setShowDropMenuState(true);
 		}
+	}, [isDropMenuFadeIn]);
 
-		// when user logs out unrender dropmenu and set animation to fadeout
+	// when user logs out un-render dropmenu and set animation to fadeout
+	useEffect(() => {
 		if (!user) {
 			setDropMenuFadeIn(false);
 			setShowDropMenuState(false);
 		}
-	}, [isDropMenuFadeIn, user]);
+	}, [user])
 
 	// hook to close signInPopup if clicked outside the component
 	const _closeSignPopUp = (ref: RefObject<HTMLDivElement>) => {

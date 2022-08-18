@@ -6,7 +6,7 @@ const SearchBox = () => {
 	return (
 		<div className={ appBarStyles.searchBoxContainer}>
 			<div className = { appBarStyles.searchIcon}>
-				<Image src='/search.svg' height={35} width={35} layout='fixed' />
+				<Image src='/search.svg' alt='search icon' height={35} width={35} layout='fixed' />
 			</div>
 			<input className={ appBarStyles.searchBox } type='search' placeholder='search anime...'/>
 		</div>

@@ -37,6 +37,7 @@ const AppBar = () => {
 			setShowDropMenuState(true);
 		}
 
+		// when user logs out unrender dropmenu and set animation to fadeout
 		if (!user) {
 			setDropMenuFadeIn(false);
 			setShowDropMenuState(false);
@@ -60,6 +61,26 @@ const AppBar = () => {
 		}, [ref, isPopupFadeIn]);
 	}
 
+	// hook to close drop menu if clicked outside the component
+	const _closeDropMenu = (ref: RefObject<HTMLDivElement>) => {
+		useEffect(() => {
+			const _handleClickOutside = (event: MouseEvent) => {
+				if (ref.current && !ref.current.contains(event.target as Element) && (event.target as Element).tagName !== 'BUTTON' && (event.target as Element).id !== 'navButton') {
+					setDropMenuFadeIn(false);
+				}
+				console.log((event.target as Element).id)
+			}
+
+			if (isDropMenuFadeIn) {
+				document.addEventListener('click', _handleClickOutside);
+				console.log('added')
+			} else {
+				document.removeEventListener('click', _handleClickOutside);
+				console.log('removed')
+			}
+		}, [ref, isDropMenuFadeIn]);
+	}
+
 	// toggle sign in box
 	const _setPopupFadeIn = (): void => {
 		setPopupFadeIn(!isPopupFadeIn);
@@ -70,10 +91,12 @@ const AppBar = () => {
 		setDropMenuFadeIn(!isDropMenuFadeIn);
 	}
 
-	// ref to the DOM element inside of SignInPopUp component
+	// ref to the DOM element inside of SignInPopUp and DropMenu component
 	const signInRef = useRef<HTMLDivElement>(null);
-	
+	const dropMenuRef = useRef<HTMLDivElement>(null);
+
 	_closeSignPopUp(signInRef);
+	_closeDropMenu(dropMenuRef);
 
 	return (
 		<header  className={ appBarStyles.container }>
@@ -86,7 +109,7 @@ const AppBar = () => {
 			<nav className={ appBarStyles.navButtonContainer}> 
 				{user ?
 					<NavItem scr='/dropMenu.svg' height={20} width={20} setState={_setDropMenuFadeIn}>
-						<DropdownMenu playFadeIn={isDropMenuFadeIn} showDropMenuState={showDropMenuState}/>
+						<DropdownMenu ref={dropMenuRef} playFadeIn={isDropMenuFadeIn} showDropMenuState={showDropMenuState}/>
 					</NavItem>
 					:
 					<NavItem scr='/logIn.svg' height={20} width={20} setState={_setPopupFadeIn}>

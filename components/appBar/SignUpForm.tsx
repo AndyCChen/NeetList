@@ -56,6 +56,7 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 		try {
 			await signUp(email, password);
 			if (user) {
+				setShowSignUp()
 				setShowError(false);
 			}
 		} catch (error: any) {

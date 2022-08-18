@@ -70,15 +70,12 @@ const AppBar = () => {
 				if (ref.current && !ref.current.contains(event.target as Element) && (event.target as Element).id !== 'navButton') {
 					setDropMenuFadeIn(false);
 				}
-				console.log((event.target as Element).id)
 			}
 
 			if (isDropMenuFadeIn) {
 				document.addEventListener('click', _handleClickOutside);
-				console.log('added')
 			} else {
 				document.removeEventListener('click', _handleClickOutside);
-				console.log('removed')
 			}
 		}, [ref, isDropMenuFadeIn]);
 	}

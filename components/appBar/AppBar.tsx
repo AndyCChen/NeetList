@@ -65,7 +65,7 @@ const AppBar = () => {
 	const _closeDropMenu = (ref: RefObject<HTMLDivElement>) => {
 		useEffect(() => {
 			const _handleClickOutside = (event: MouseEvent) => {
-				if (ref.current && !ref.current.contains(event.target as Element) && (event.target as Element).tagName !== 'BUTTON' && (event.target as Element).id !== 'navButton') {
+				if (ref.current && !ref.current.contains(event.target as Element) && (event.target as Element).id !== 'navButton') {
 					setDropMenuFadeIn(false);
 				}
 				console.log((event.target as Element).id)

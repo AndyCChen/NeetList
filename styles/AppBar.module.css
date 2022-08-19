@@ -1,7 +1,6 @@
 .container {
    background: #474747;
    height: 70px;
-   flex-direction: row;
    display: flex;
    align-items: center;
 }

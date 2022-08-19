@@ -1,9 +1,10 @@
-export interface Anime {
-   media: Media[]
+export interface AnimeList {
+   media: Anime[]
 }
 
-export interface Media {
+export interface Anime {
    id: string,
+   bannerImage: string,
    title: {
       romaji: string,
       english: string,

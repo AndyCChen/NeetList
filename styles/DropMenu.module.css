@@ -6,6 +6,7 @@
    filter: drop-shadow(5px 5px 4px rgba(0, 0, 0, 0.5));
    display: flex;
    flex-direction: column;
+   z-index: 1;
 }
 
 .openModal {

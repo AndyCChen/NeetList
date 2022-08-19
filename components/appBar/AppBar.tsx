@@ -98,7 +98,7 @@ const AppBar = () => {
 	_closeDropMenu(dropMenuRef);
 
 	return (
-		<header  className={ appBarStyles.container }>
+		<div className={ appBarStyles.container }>
 			<div className={ appBarStyles.logo }>
 				<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
 			</div>
@@ -116,7 +116,7 @@ const AppBar = () => {
 					</NavItem>
 				}
 			</nav>
-		</header>
+		</div>
 	)
 }
 

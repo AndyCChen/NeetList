@@ -1,11 +1,12 @@
-import { Anime } from '../interfaces/queryInterface'
+import { AnimeList } from '../interfaces/queryInterface'
 
-export const getTrendingMedia = async(): Promise<Anime> => {
+export const getTrendingMedia = async(): Promise<AnimeList> => {
 	let query = `
 		query ($page: Int, $perPage: Int) {
 			Page (page: $page, perPage: $perPage) {
 				media (sort: TRENDING_DESC, type: ANIME) {
 					id,
+					bannerImage,
 					title {
 						romaji,
 						english,

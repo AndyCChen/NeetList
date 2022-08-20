@@ -2,4 +2,5 @@
    background-color: rgb(175, 105, 105);
    position: relative;
    height: auto;
+   user-select: none;
 }

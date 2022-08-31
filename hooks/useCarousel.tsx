@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from "react";
 import { CarouselState, CarouselAction } from '../interfaces/carouselInterfaces';
+import { mouseState } from '../interfaces/mousePositionInterfaces';
 
 const getNextIndex = (currentIndex: number, length: number) => {
    return (currentIndex + 1) % length;
@@ -31,6 +32,6 @@ const reducer = (state: CarouselState, action: CarouselAction) => {
    }
 }
 
-export const useCarousel = (mouseOffset: number) => {
-   console.log(mouseOffset);
+export const useCarousel = (mouseState: mouseState) => {
+   console.log(mouseState);
 }

@@ -1,6 +1,17 @@
-.trendingBarContainer {
-   background-color: rgb(175, 105, 105);
-   position: relative;
-   height: auto;
+.carouselContainer {
    user-select: none;
+   overflow: hidden;
 }
+
+.carouselInner {
+   display: flex;
+}
+
+.carouselItem {
+   background-color: rgb(175, 105, 105);
+   border-radius: 0.8rem;
+   padding: 0.5rem;
+   flex-shrink: 0;
+   width: 100%;
+}
+

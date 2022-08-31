@@ -2,11 +2,8 @@ import type { NextPage, GetServerSideProps, GetServerSidePropsContext} from 'nex
 import Head from 'next/head'
 import { AnimeList, Anime } from '../interfaces/queryInterface'
 import { getTrendingMedia } from '../utils/aniListQueries'
-import Image from 'next/image'
 import TrendingBar from '../components/TrendingBar'
-import { useEffect, useState } from 'react'
 
-import TrendingBarStyles from '../styles/TrendingBar.module.css'
 
 type Props = {
 	trendingList: AnimeList;
@@ -18,7 +15,12 @@ const Home: NextPage<Props> = ({ trendingList }) => {
 			<Head>
 				<title>NeetList</title>
 			</Head>
-			<TrendingBar imageUrls={ trendingList.media.map((anime: Anime) => anime.bannerImage) }/>
+			<TrendingBar 
+				imageUrls={
+					trendingList.media.map((anime: Anime) => anime.bannerImage)
+						.filter((imageUrl: string) => imageUrl)
+				 }
+			/>
 		</>
 	)
 }

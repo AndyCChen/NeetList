@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, RefObject } from 'react';
 import Image from 'next/image';
+import { useMousePosition } from '../hooks/useMousePositionX';
+import { useCarousel } from '../hooks/useCarousel';
 
 import TrendingBarStyles from '../styles/TrendingBar.module.css'
 
@@ -9,53 +11,13 @@ type Props = {
 
 const TrendingBar = ({ imageUrls }: Props) => {
 
+	const carouselContainerRef = useRef<HTMLDivElement>(null);
+
+	const cursorPositionX = useMousePosition(carouselContainerRef);
 	
+	useCarousel(cursorPositionX);
 
-	
-
-	// track x position of cursor relative to initail point that is clicked on
-	const _trackMousePosition = (ref: RefObject<HTMLDivElement>) => {
-		// bool to track if the mouse held down or not
-		let isDown = false;
-
-		// x position of cursor when user clicks down
-		let originX: number;
-
-		useEffect(() => {
-			// when mouse is held done update origin, and add mousemove event listener
-			const handleMouseDown = (e: MouseEvent) => {
-				isDown = true;
-				originX = e.clientX
-				document.addEventListener('mousemove', handleMouseMove);	
-				document.addEventListener('mouseup', handleMouseUp);	
-			}
-
-			// when mouse is released, remove mousemove event listener
-			const handleMouseUp = (e: MouseEvent) => {
-				if (isDown) {
-					document.removeEventListener('mousemove', handleMouseMove);
-					document.removeEventListener('mouseup', handleMouseUp);
-					isDown = false;
-				}
-			}
-
-			const handleMouseMove = (e: MouseEvent) => {
-				console.log(e.clientX - originX);
-			}
-
-			ref.current?.addEventListener('mousedown', handleMouseDown);
-			
-			return () => {
-				ref.current?.removeEventListener('mousedown', handleMouseDown);
-			}
-		}, []);
-	}
-
-	const trendingBarRef = useRef<HTMLDivElement>(null);
-
-	_trackMousePosition(trendingBarRef);
-
-	// hook for making media queries
+	// hook for making media queries to change image size based on browser window width
 	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {
 		// array of media queries
 		const mediaQueryList = queries.map((query: string) => window.matchMedia(query));
@@ -92,7 +54,7 @@ const TrendingBar = ({ imageUrls }: Props) => {
 			'only screen and (max-width: 1200px)'
 		],
 		[
-			'1000', 
+			'800', 
 			'700',
 			'600', 
 			'500'
@@ -101,17 +63,25 @@ const TrendingBar = ({ imageUrls }: Props) => {
 	);
 
 	return (
-		<div ref={trendingBarRef} className={ TrendingBarStyles.trendingBarContainer }>
-			<Image
-				className={ TrendingBarStyles.image } 
-				src={imageUrls[0]} 
-				height={height} 
-				width={1900} 
-				layout='responsive' 
-				objectFit='cover' 
-				objectPosition='top right'
-				draggable= 'false'
-			/>
+		<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
+			<div className={ TrendingBarStyles.carouselInner }>
+				{
+					imageUrls.map((url: string, key: number) =>
+						url &&
+						<div className={ TrendingBarStyles.carouselItem} key={key}>
+							<Image
+								src={url}
+								height={height}
+								width={1900}
+								objectFit='cover'
+								layout='responsive'
+								style={{ borderRadius: '10px' }}
+								draggable='false'
+							/>
+						</div>
+					)
+				}
+			</div>
 		</div>
 	)
 }

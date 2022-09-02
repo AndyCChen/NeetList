@@ -15,7 +15,7 @@ const TrendingBar = ({ imageUrls }: Props) => {
 
 	const cursorPositionX = useMousePosition(carouselContainerRef);
 	
-	useCarousel(cursorPositionX);
+	const [activeIndex] = useCarousel(imageUrls.length);
 
 	// hook for making media queries to change image size based on browser window width
 	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {

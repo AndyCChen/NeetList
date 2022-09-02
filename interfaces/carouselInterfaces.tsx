@@ -14,6 +14,17 @@ interface CarouselPrevAction {
    length: number
 };
 
+interface CarouselDoneAction {
+   type: 'Done',
+};
+
+interface CarouselDragAction {
+   type: 'Drag',
+   offset: number,
+};
+
 export type CarouselAction = 
    CarouselNextAction |
-   CarouselPrevAction;
+   CarouselPrevAction |
+   CarouselDoneAction |
+   CarouselDragAction;

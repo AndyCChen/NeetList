@@ -1,56 +1,26 @@
+import { off } from "process";
 import { RefObject, useState, useEffect, useReducer } from "react";
-import { mouseState, mouseAction } from '../interfaces/mousePositionInterfaces';
 
-export const useMousePosition = (ref: RefObject<HTMLDivElement>): mouseState => {
-   const initialState = {
-      offset: 0,
-      isSwipedLeft: false,
-      isSwipedRight: false,
-      isSwiping: false,
-   }
-
-   const reducer = (state: mouseState, action: mouseAction) => {
-      switch (action.type) {
-         case 'Swiping':
-            return {
-               offset: action.offset,
-               isSwipedLeft: false,
-               isSwipedRight: false,
-               isSwiping: true,
-            };
-         case 'SwipedLeft':
-            return {
-               offset: state.offset,
-               isSwipedLeft: true,
-               isSwipedRight: false,
-               isSwiping: false,
-            };
-         case 'SwipedRight':
-            return {
-               offset: state.offset,
-               isSwipedLeft: false,
-               isSwipedRight: true,
-               isSwiping: false,
-            };
-         default:
-            return {
-               offset: 0,
-               isSwipedLeft: false,
-               isSwipedRight: false,
-               isSwiping: false,
-            };
-      }
-   }
-
-   const [state, dispatch] = useReducer(reducer, initialState);
-
+export const useMousePosition = (ref: RefObject<HTMLDivElement>): number => {
    // bool to track if the mouse held down or not
    let isDown = false;
 
    // x position of cursor when user clicks down
    let originX: number;
 
+   // local variable used to access cursorPositionX state
+   let offsetX: number;
+
+   // x position state of cursor relative to originX
+   const [cursorPositionX, setCursorPosition] = useState(0);
+
+   const _getCursorPositionX = () => offsetX;
+
    useEffect(() => {
+      const swipingEvent = new CustomEvent('swiping', {detail: _getCursorPositionX});
+      const swipedLeftEvent = new Event('swipedLeft');
+      const swipedRightEvent = new Event('swipedRight');
+
       // when mouse is held done update origin, and add mousemove event listener
       const handleMouseDown = (e: MouseEvent) => {
          isDown = true;
@@ -65,18 +35,19 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>): mouseState => 
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
             isDown = false;
-            console.log('dfd')
-            if (Math.sign(state.offset) === -1) {
-               dispatch({type: 'SwipedLeft'})
-            } else if (Math.sign(state.offset) === 1) {
-               dispatch({type: 'SwipedRight'})
+ 
+            if (Math.sign(_getCursorPositionX()) === -1) {
+               document.dispatchEvent(swipedLeftEvent);
+            } else if (Math.sign(_getCursorPositionX()) === 1) {
+               document.dispatchEvent(swipedRightEvent);
             }
          }
       }
 
       const handleMouseMove = (e: MouseEvent) => {
-         let cursorPositionX: number = e.clientX - originX;
-         dispatch({type: 'Swiping', offset: cursorPositionX});
+         offsetX = e.clientX - originX;
+         setCursorPosition(offsetX);
+         document.dispatchEvent(swipingEvent);
       }
 
       ref.current?.addEventListener('mousedown', handleMouseDown);
@@ -86,5 +57,5 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>): mouseState => 
       }
    }, []);
 
-   return state;
+   return cursorPositionX;
 }

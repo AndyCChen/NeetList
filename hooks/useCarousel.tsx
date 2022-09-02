@@ -1,6 +1,5 @@
-import { useEffect, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import { CarouselState, CarouselAction } from '../interfaces/carouselInterfaces';
-import { mouseState } from '../interfaces/mousePositionInterfaces';
 
 const getNextIndex = (currentIndex: number, length: number) => {
    return (currentIndex + 1) % length;
@@ -28,10 +27,51 @@ const reducer = (state: CarouselState, action: CarouselAction) => {
             ...state,
             desiredIndex: getPrevIndex(state.activeIndex, action.length)
          };
-      
+      case 'Done':
+         return {
+            ...state,
+            activeIndex: state.desiredIndex,
+         };
+      case 'Drag':
+         return {
+            ...state,
+            offset: action.offset,
+         };
    }
 }
 
-export const useCarousel = (mouseState: mouseState) => {
-   console.log(mouseState);
+export const useCarousel = (length: number): [number] => {
+   const [state, dispatch] = useReducer(reducer, initialState);
+
+   // handle a swiping operation that is in progress
+   const swiping = (e: any) => {
+      //console.log(e.detail());
+      dispatch({type: 'Drag', offset: e.detail()})
+   }
+
+   useEffect(() => {
+      console.log(state.offset);
+   }, [state.offset]);
+
+   const swipedLeft = () => {
+      console.log('left')
+   }
+
+   const swipedRight = () => {
+      console.log('right')
+   }
+
+   useEffect(() => {
+        document.addEventListener('swiping', swiping);
+        document.addEventListener('swipedLeft', swipedLeft);
+        document.addEventListener('swipedRight', swipedRight);
+
+        return () => {
+         document.removeEventListener('swiping', swiping);
+         document.removeEventListener('swipedLeft', swipedLeft);
+         document.removeEventListener('swipedRight', swipedRight);
+     };
+   }, []);
+
+   return [state.activeIndex]
 }

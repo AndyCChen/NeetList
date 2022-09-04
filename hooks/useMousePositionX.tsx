@@ -1,52 +1,52 @@
-import { off } from "process";
 import { RefObject, useState, useEffect, useReducer } from "react";
 
-export const useMousePosition = (ref: RefObject<HTMLDivElement>): number => {
+export const useMousePosition = (ref: RefObject<HTMLDivElement>) => {
    // bool to track if the mouse held down or not
    let isDown = false;
 
    // x position of cursor when user clicks down
    let originX: number;
 
-   // local variable used to access cursorPositionX state
-   let offsetX: number;
+   // cursor position on x axis relative to originX
+   let cursorPositionX: number;
 
-   // x position state of cursor relative to originX
-   const [cursorPositionX, setCursorPosition] = useState(0);
+   // width of the curouselItem
+   let clientWidth: number;
 
-   const _getCursorPositionX = () => offsetX;
+   // getter functions for cursorPositionX and clientWidth
+   const _getCursorPositionX = () => cursorPositionX;
+   const _getClientWidth = () => clientWidth;
 
    useEffect(() => {
+      // custom events that are fired when their respective conditions are met
       const swipingEvent = new CustomEvent('swiping', {detail: _getCursorPositionX});
-      const swipedLeftEvent = new Event('swipedLeft');
-      const swipedRightEvent = new Event('swipedRight');
+      const swiped = new CustomEvent('swiped', {detail: _getClientWidth});
 
       // when mouse is held done update origin, and add mousemove event listener
       const handleMouseDown = (e: MouseEvent) => {
          isDown = true;
+         clientWidth= (e.target as HTMLElement).clientWidth;
          originX = e.clientX
+         
          document.addEventListener('mousemove', handleMouseMove);	
          document.addEventListener('mouseup', handleMouseUp);	
       }
 
-      // when mouse is released, remove mousemove event listener
+      // when mouse is released, remove mousemove event listener and dispatch the swiped event
+      // to indicate that a swiped operation has finished
       const handleMouseUp = (e: MouseEvent) => {
          if (isDown) {
+            isDown = false;
+            document.dispatchEvent(swiped);
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-            isDown = false;
- 
-            if (Math.sign(_getCursorPositionX()) === -1) {
-               document.dispatchEvent(swipedLeftEvent);
-            } else if (Math.sign(_getCursorPositionX()) === 1) {
-               document.dispatchEvent(swipedRightEvent);
-            }
          }
       }
 
+      // update cursorPositionX when mouse is moving and dispatch swiping event
+      // to indicate that a swiping operation is in progress
       const handleMouseMove = (e: MouseEvent) => {
-         offsetX = e.clientX - originX;
-         setCursorPosition(offsetX);
+         cursorPositionX = e.clientX - originX;
          document.dispatchEvent(swipingEvent);
       }
 
@@ -56,6 +56,4 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>): number => {
          ref.current?.removeEventListener('mousedown', handleMouseDown);
       }
    }, []);
-
-   return cursorPositionX;
 }

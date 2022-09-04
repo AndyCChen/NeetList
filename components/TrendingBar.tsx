@@ -13,9 +13,9 @@ const TrendingBar = ({ imageUrls }: Props) => {
 
 	const carouselContainerRef = useRef<HTMLDivElement>(null);
 
-	const cursorPositionX = useMousePosition(carouselContainerRef);
+	useMousePosition(carouselContainerRef);
 	
-	const [activeIndex] = useCarousel(imageUrls.length);
+	const {activeIndex, styles} = useCarousel(imageUrls.length);
 
 	// hook for making media queries to change image size based on browser window width
 	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {
@@ -63,12 +63,21 @@ const TrendingBar = ({ imageUrls }: Props) => {
 	);
 
 	return (
-		<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
-			<div className={ TrendingBarStyles.carouselInner }>
+			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
+				<div className={ TrendingBarStyles.carouselItem} style={styles}>
+					<Image
+						src={imageUrls[imageUrls.length - 1]}
+						height={height}
+						width={1900}
+						objectFit='cover'
+						layout='responsive'
+						style={{ borderRadius: '10px' }}
+						draggable='false'
+					/>
+				</div>
 				{
 					imageUrls.map((url: string, key: number) =>
-						url &&
-						<div className={ TrendingBarStyles.carouselItem} key={key}>
+						<div className={ TrendingBarStyles.carouselItem} key={key} style={styles}>
 							<Image
 								src={url}
 								height={height}
@@ -81,8 +90,18 @@ const TrendingBar = ({ imageUrls }: Props) => {
 						</div>
 					)
 				}
+				<div className={ TrendingBarStyles.carouselItem} style={styles}>
+					<Image
+						src={imageUrls[0]}
+						height={height}
+						width={1900}
+						objectFit='cover'
+						layout='responsive'
+						style={{ borderRadius: '10px' }}
+						draggable='false'
+					/>
+				</div>
 			</div>
-		</div>
 	)
 }
 

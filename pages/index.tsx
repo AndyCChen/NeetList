@@ -4,7 +4,6 @@ import { AnimeList, Anime } from '../interfaces/queryInterface'
 import { getTrendingMedia } from '../utils/aniListQueries'
 import TrendingBar from '../components/TrendingBar'
 
-
 type Props = {
 	trendingList: AnimeList;
 }

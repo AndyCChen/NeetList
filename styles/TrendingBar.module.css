@@ -1,10 +1,10 @@
 .carouselContainer {
    user-select: none;
-   overflow: hidden;
 }
 
 .carouselInner {
    display: flex;
+   position: relative;
 }
 
 .carouselItem {
@@ -14,4 +14,3 @@
    flex-shrink: 0;
    width: 100%;
 }
-

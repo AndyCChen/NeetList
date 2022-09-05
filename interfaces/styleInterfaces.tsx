@@ -16,9 +16,16 @@ interface styleDragAction {
 
 interface styleDoneAction {
 	type: 'Done',
+	activeIndex: number,
 };
+
+interface styleTransitionAction {
+	type: 'Transition',
+	direction: number,
+}
 
 export type styleAction = 
 	stylePopBackAction |
 	styleDragAction |
-	styleDoneAction;
+	styleDoneAction |
+	styleTransitionAction;

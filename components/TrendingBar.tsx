@@ -64,42 +64,44 @@ const TrendingBar = ({ imageUrls }: Props) => {
 
 	return (
 			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
-				<div className={ TrendingBarStyles.carouselItem} style={styles}>
-					<Image
-						src={imageUrls[imageUrls.length - 1]}
-						height={height}
-						width={1900}
-						objectFit='cover'
-						layout='responsive'
-						style={{ borderRadius: '10px' }}
-						draggable='false'
-					/>
-				</div>
-				{
-					imageUrls.map((url: string, key: number) =>
-						<div className={ TrendingBarStyles.carouselItem} key={key} style={styles}>
-							<Image
-								src={url}
-								height={height}
-								width={1900}
-								objectFit='cover'
-								layout='responsive'
-								style={{ borderRadius: '10px' }}
-								draggable='false'
-							/>
-						</div>
-					)
-				}
-				<div className={ TrendingBarStyles.carouselItem} style={styles}>
-					<Image
-						src={imageUrls[0]}
-						height={height}
-						width={1900}
-						objectFit='cover'
-						layout='responsive'
-						style={{ borderRadius: '10px' }}
-						draggable='false'
-					/>
+				<div className={TrendingBarStyles.carouselInner} style={styles}>
+					<div className={ TrendingBarStyles.carouselItem}>
+						<Image
+							src={imageUrls[imageUrls.length - 1]}
+							height={height}
+							width={1900}
+							objectFit='cover'
+							layout='responsive'
+							style={{ borderRadius: '10px' }}
+							draggable='false'
+						/>
+					</div>
+					{
+						imageUrls.map((url: string, key: number) =>
+							<div className={ TrendingBarStyles.carouselItem} key={key}>
+								<Image
+									src={url}
+									height={height}
+									width={1900}
+									objectFit='cover'
+									layout='responsive'
+									style={{ borderRadius: '10px' }}
+									draggable='false'
+								/>
+							</div>
+						)
+					}
+					<div className={ TrendingBarStyles.carouselItem}>
+						<Image
+							src={imageUrls[0]}
+							height={height}
+							width={1900}
+							objectFit='cover'
+							layout='responsive'
+							style={{ borderRadius: '10px' }}
+							draggable='false'
+						/>
+					</div>
 				</div>
 			</div>
 	)

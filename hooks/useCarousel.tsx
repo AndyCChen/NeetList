@@ -6,6 +6,8 @@ const transitionTime: number = 400;
 const smoothTransition: string = `transform ${transitionTime}ms ease`;
 const noTransition: string = '';
 
+const autoRotationTime: number = 5000;
+
 const getNextIndex = (currentIndex: number, length: number) => {
    return (currentIndex + 1) % length;
 }
@@ -120,10 +122,8 @@ export const useCarousel = (length: number): {activeIndex: number, styles: React
    useEffect(() => {
       // if activeIndex and desiredIndex are not equal, perform transition to the desired index
       if (carauselState.activeIndex !== carauselState.desiredIndex && Math.sign(carauselState.offset) !== 0) {
-         styleDispatch({type: 'Transition', direction: Math.sign(carauselState.offset)});
-         console.log('transitioning')
-
-      } else if (!isNaN(carauselState.offset)){
+         styleDispatch({type: 'Transition', direction: isNaN(carauselState.offset) ? -1 : Math.sign(carauselState.offset)});
+      } else if (!isNaN(carauselState.offset)) {
          // offset will be set to zero if it did not exceed the threshold needed to transiton to next or prev index,
          // in this case we popback to the active carousel item
          if (carauselState.offset === 0) {
@@ -152,6 +152,12 @@ export const useCarousel = (length: number): {activeIndex: number, styles: React
 
       return () => clearTimeout(timeOut);
    }, [carauselState.desiredIndex]);
+
+   useEffect(() => {
+      const timeOut = setTimeout(() => carouselDispatch({type: 'Next', length: length}), autoRotationTime);
+
+      return () => clearTimeout(timeOut);
+   }, [carauselState.offset, carauselState.activeIndex]);
 
    return {activeIndex: carauselState.activeIndex, styles: styleState}
 }

@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, RefObject } from 'react';
 import Image from 'next/image';
-import { useMousePosition } from '../hooks/useMousePositionX';
 import { useCarousel } from '../hooks/useCarousel';
 
 import TrendingBarStyles from '../styles/TrendingBar.module.css'
@@ -12,10 +11,8 @@ type Props = {
 const TrendingBar = ({ imageUrls }: Props) => {
 
 	const carouselContainerRef = useRef<HTMLDivElement>(null);
-
-	useMousePosition(carouselContainerRef);
 	
-	const {activeIndex, styles} = useCarousel(imageUrls.length);
+	const {activeIndex, styles} = useCarousel(imageUrls.length, carouselContainerRef);
 
 	// hook for making media queries to change image size based on browser window width
 	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {
@@ -66,6 +63,9 @@ const TrendingBar = ({ imageUrls }: Props) => {
 			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
 				<div className={TrendingBarStyles.carouselInner} style={styles}>
 					<div className={ TrendingBarStyles.carouselItem}>
+						<div className={TrendingBarStyles.carouselTextOverlay}>
+							<p>{imageUrls[0]}</p>
+						</div>
 						<Image
 							src={imageUrls[imageUrls.length - 1]}
 							height={height}
@@ -79,6 +79,9 @@ const TrendingBar = ({ imageUrls }: Props) => {
 					{
 						imageUrls.map((url: string, key: number) =>
 							<div className={ TrendingBarStyles.carouselItem} key={key}>
+								<div className={TrendingBarStyles.carouselTextOverlay}>
+									df
+								</div>
 								<Image
 									src={url}
 									height={height}
@@ -92,6 +95,9 @@ const TrendingBar = ({ imageUrls }: Props) => {
 						)
 					}
 					<div className={ TrendingBarStyles.carouselItem}>
+						<div className={TrendingBarStyles.carouselTextOverlay}>
+							df
+						</div>
 						<Image
 							src={imageUrls[0]}
 							height={height}

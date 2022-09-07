@@ -1,6 +1,7 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { RefObject, useEffect, useReducer, useState } from "react";
 import { CarouselState, CarouselAction } from '../interfaces/carouselInterfaces';
 import { styleState, styleAction } from '../interfaces/styleInterfaces';
+import { useMousePosition } from "./useMousePositionX";
 
 const transitionTime: number = 400;
 const smoothTransition: string = `transform ${transitionTime}ms ease`;
@@ -95,10 +96,12 @@ const styleReducer = (state: styleState, action: styleAction) => {
    }
 }
 
-export const useCarousel = (length: number): {activeIndex: number, styles: React.CSSProperties} => {
+export const useCarousel = (length: number, containerRef: RefObject<HTMLDivElement>): {activeIndex: number, styles: React.CSSProperties} => {
    const [carauselState, carouselDispatch] = useReducer(carouselReducer, initialCarouselState);
 
    const [styleState, styleDispatch] = useReducer(styleReducer, initialStyleState);
+
+   useMousePosition(containerRef);
 
    // handle a swiping operation that is in progress
    const swiping = (e: any) => {

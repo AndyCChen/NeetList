@@ -11,6 +11,7 @@
 .carouselItem {
    flex-shrink: 0;
    width: 100%;
+   height: auto;
 }
 
 .carouselTextOverlay {
@@ -20,4 +21,45 @@
    z-index: 1;
    width: 100%;
    height: 100%;
+}
+
+.itemIndicatorContainer {
+   position: absolute;
+   display: flex;
+   width: 100%;
+   z-index: 1;
+}
+
+.itemIndicator {
+   background-color: white;
+   width: 0.8rem;
+   height: 0.8rem;
+   border-radius: 50%;
+}
+
+/* smaller screens */
+@media only screen and (max-width: 700px) {
+   .itemIndicatorContainer {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+   }
+
+   .itemIndicator {
+      margin-left: 0.5rem;
+      margin-bottom: 0.5rem;
+   }
+}
+
+/* larger screens */
+@media only screen and (min-width: 700px) {
+   .itemIndicatorContainer {
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 2rem;
+   }
+
+   .itemIndicator {
+      margin-bottom: 0.5rem;
+   }
 }

@@ -17,7 +17,7 @@ const Home: NextPage<Props> = ({ trendingList }) => {
 			<TrendingBar 
 				imageUrls={
 					trendingList.media.map((anime: Anime) => anime.bannerImage)
-						.filter((imageUrl: string) => imageUrl)
+						.filter((imageUrl: string) => imageUrl).slice(0, 8)
 				 }
 			/>
 		</>
@@ -25,7 +25,7 @@ const Home: NextPage<Props> = ({ trendingList }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-	const trendingList = await getTrendingMedia();
+	const trendingList = await getTrendingMedia({page: 1, perPage: 20});
 
 	return {
 		props: {

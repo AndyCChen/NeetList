@@ -12,7 +12,7 @@ const TrendingBar = ({ imageUrls }: Props) => {
 
 	const carouselContainerRef = useRef<HTMLDivElement>(null);
 	
-	const {activeIndex, styles} = useCarousel(imageUrls.length, carouselContainerRef);
+	const {activeIndex, styles, containerHeight} = useCarousel(imageUrls.length, carouselContainerRef);
 
 	// hook for making media queries to change image size based on browser window width
 	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {
@@ -61,6 +61,13 @@ const TrendingBar = ({ imageUrls }: Props) => {
 
 	return (
 			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
+				<div className={ TrendingBarStyles.itemIndicatorContainer } style={{height: `${containerHeight}px`}}>
+					{
+						imageUrls.map((_, index: number) =>
+							<div className={TrendingBarStyles.itemIndicator} style={{backgroundColor: activeIndex === index ? '#418D89' : 'white'}} key={index}></div>
+						)
+					}
+				</div>
 				<div className={TrendingBarStyles.carouselInner} style={styles}>
 					<div className={ TrendingBarStyles.carouselItem}>
 						<div className={TrendingBarStyles.carouselTextOverlay}>

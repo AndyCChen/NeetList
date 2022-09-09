@@ -1,6 +1,6 @@
 import { RefObject, useState, useEffect, useReducer } from "react";
 
-export const useMousePosition = (ref: RefObject<HTMLDivElement>) => {
+export const useMousePosition = (ref: RefObject<HTMLDivElement>): {containerHeight: number}=> {
    // bool to track if the mouse held down or not
    let isDown = false;
 
@@ -17,7 +17,16 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>) => {
    const _getCursorPositionX = () => cursorPositionX;
    const _getClientWidth = () => clientWidth;
 
+   const [containerHeight, setContainerHeight] = useState(0);
+
    useEffect(() => {
+      if(ref.current) {
+         setContainerHeight(ref.current?.clientHeight);
+      }
+   }, [])
+
+   useEffect(() => {
+
       // custom events that are fired when their respective conditions are met
       const swipingEvent = new CustomEvent('swiping', {detail: _getCursorPositionX});
       const swiped = new CustomEvent('swiped', {detail: _getClientWidth});
@@ -29,7 +38,7 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>) => {
          originX = e.clientX
          
          document.addEventListener('mousemove', handleMouseMove);	
-         document.addEventListener('mouseup', handleMouseUp);	
+         document.addEventListener('mouseup', handleMouseUp);
       }
 
       // when mouse is released, remove mousemove event listener and dispatch the swiped event
@@ -50,10 +59,22 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>) => {
          document.dispatchEvent(swipingEvent);
       }
 
+      // update containerHeight as the window size changes
+      const handleResize = () => {
+         console.log(ref.current?.clientHeight);
+         if (ref.current) {
+            setContainerHeight(ref.current.clientHeight);
+         }
+      }
+
       ref.current?.addEventListener('mousedown', handleMouseDown);
+      window.addEventListener("resize", handleResize, true);
 
       return () => {
          ref.current?.removeEventListener('mousedown', handleMouseDown);
+         window.removeEventListener("resize", handleResize, true);
       }
    }, []);
+
+   return {containerHeight: containerHeight};
 }

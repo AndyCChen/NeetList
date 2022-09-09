@@ -18,7 +18,7 @@ const getPrevIndex = (currentIndex: number, length: number) => {
 }
 
 const getThreshold = (clientWidth: number) => {
-   return clientWidth / 2;
+   return clientWidth / 3;
 }
 
 const initialCarouselState: CarouselState  = {
@@ -96,12 +96,12 @@ const styleReducer = (state: styleState, action: styleAction) => {
    }
 }
 
-export const useCarousel = (length: number, containerRef: RefObject<HTMLDivElement>): {activeIndex: number, styles: React.CSSProperties} => {
+export const useCarousel = (length: number, containerRef: RefObject<HTMLDivElement>): {activeIndex: number, styles: React.CSSProperties, containerHeight: number} => {
    const [carauselState, carouselDispatch] = useReducer(carouselReducer, initialCarouselState);
 
    const [styleState, styleDispatch] = useReducer(styleReducer, initialStyleState);
 
-   useMousePosition(containerRef);
+   const {containerHeight} = useMousePosition(containerRef);
 
    // handle a swiping operation that is in progress
    const swiping = (e: any) => {
@@ -115,11 +115,13 @@ export const useCarousel = (length: number, containerRef: RefObject<HTMLDivEleme
 
       // if offset exceeds threshold, go to next or previous index,
       // else popback to current index
-      if (Math.abs(carauselState.offset) > threshold && direction !== 0) {
+      if ((Math.abs(carauselState.offset) > threshold) && direction !== 0) {
          carouselDispatch({type: direction === -1 ? 'Next' : 'Prev', length: length});
       } else {
          carouselDispatch({type: 'Drag', offset: 0});
       }
+
+      //console.log(isQuickSwipe)
    }
 
    useEffect(() => {
@@ -162,5 +164,5 @@ export const useCarousel = (length: number, containerRef: RefObject<HTMLDivEleme
       return () => clearTimeout(timeOut);
    }, [carauselState.offset, carauselState.activeIndex]);
 
-   return {activeIndex: carauselState.activeIndex, styles: styleState}
+   return {activeIndex: carauselState.activeIndex, styles: styleState, containerHeight: containerHeight}
 }

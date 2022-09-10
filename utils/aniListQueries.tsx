@@ -1,12 +1,18 @@
 import { AnimeList } from '../interfaces/queryInterface'
 
-export const getTrendingMedia = async(): Promise<AnimeList> => {
+type Props = {
+	page: number,
+	perPage: number,
+};
+
+export const getTrendingMedia = async({page, perPage}: Props): Promise<AnimeList> => {
 	let query = `
 		query ($page: Int, $perPage: Int) {
 			Page (page: $page, perPage: $perPage) {
 				media (sort: TRENDING_DESC, type: ANIME) {
 					id,
 					bannerImage,
+					description (asHtml: false),
 					title {
 						romaji,
 						english,
@@ -18,8 +24,8 @@ export const getTrendingMedia = async(): Promise<AnimeList> => {
 	`;
 
 	let variables = {
-		page: 1,
-		perPage: 8,
+		page: page,
+		perPage: perPage,
 	}
 
 	let url = 'https://graphql.anilist.co';

@@ -15,9 +15,9 @@ const Home: NextPage<Props> = ({ trendingList }) => {
 				<title>NeetList</title>
 			</Head>
 			<TrendingBar 
-				imageUrls={
-					trendingList.media.map((anime: Anime) => anime.bannerImage)
-						.filter((imageUrl: string) => imageUrl).slice(0, 8)
+				animeList={
+					trendingList.media.map((anime: Anime) => anime)
+						.filter((anime: Anime) => anime.bannerImage).slice(0, 8)
 				 }
 			/>
 		</>

@@ -15,19 +15,47 @@
 }
 
 .carouselTextOverlay {
+   display: flex;
+   align-items: flex-end;
    color: white;
    position: absolute;
    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.20));
    z-index: 1;
    width: 100%;
    height: 100%;
+   padding-right: 45vw;
+   padding-bottom: 1vh;
+}
+
+.textContainer {
+   display: flex;
+   flex-direction: column;
+   flex-grow: 1;
+   min-width: 0;
+}
+
+.textContainer h1 {
+   display: -webkit-box;
+   font-size: 2rem;
+   overflow: hidden;
+   -webkit-line-clamp: 4;
+   -webkit-box-orient: vertical;
+}
+
+.textContainer p {
+   display: -webkit-box;
+   font-size: 1rem;
+   overflow: hidden;
+   -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 .itemIndicatorContainer {
    position: absolute;
    display: flex;
-   width: 100%;
+   width: 100vw;
    z-index: 1;
+   flex-direction: column;
 }
 
 .itemIndicator {
@@ -40,26 +68,54 @@
 /* smaller screens */
 @media only screen and (max-width: 700px) {
    .itemIndicatorContainer {
-      flex-direction: row;
-      align-items: flex-end;
       justify-content: center;
+      align-items: flex-end;
+      right: 2rem;
    }
 
    .itemIndicator {
       margin-left: 0.5rem;
       margin-bottom: 0.5rem;
    }
+
+   .carouselTextOverlay {
+      padding-left: 2rem;
+   }
 }
 
 /* larger screens */
 @media only screen and (min-width: 700px) {
    .itemIndicatorContainer {
-      flex-direction: column;
       justify-content: center;
       margin-left: 2rem;
    }
 
    .itemIndicator {
       margin-bottom: 0.5rem;
+   }
+
+   .carouselTextOverlay {
+      padding-left: 6rem;
+   }
+}
+
+/* shrink font size as window width gets smaller */
+@media only screen and (max-width: 1000px) {
+   .textContainer h1 {
+      font-size: 1.8rem;
+   }
+   
+   .textContainer p {
+      font-size:1rem;
+   }
+}
+
+@media only screen and (max-width: 600px) {
+   .textContainer h1 {
+      font-size: 1.5rem;
+   }
+   
+   .textContainer p {
+      font-size: 0.9rem;
    }
 }

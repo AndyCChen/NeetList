@@ -1,18 +1,19 @@
 import { useState, useEffect, useRef, RefObject } from 'react';
 import Image from 'next/image';
 import { useCarousel } from '../hooks/useCarousel';
+import { Anime } from '../interfaces/queryInterface';
 
 import TrendingBarStyles from '../styles/TrendingBar.module.css'
 
 type Props = {
-	imageUrls: string[],
+	animeList: Anime[],
 }
 
-const TrendingBar = ({ imageUrls }: Props) => {
+const TrendingBar = ({ animeList }: Props) => {
 
 	const carouselContainerRef = useRef<HTMLDivElement>(null);
 	
-	const {activeIndex, styles, containerHeight} = useCarousel(imageUrls.length, carouselContainerRef);
+	const {activeIndex, styles, containerHeight} = useCarousel(animeList.length, carouselContainerRef);
 
 	// hook for making media queries to change image size based on browser window width
 	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {
@@ -59,11 +60,18 @@ const TrendingBar = ({ imageUrls }: Props) => {
 		'400'
 	);
 
+	const parseDescription = (description: string): string => {
+		let tempDoc = document.createElement('DIV');
+		tempDoc.innerHTML = description;
+
+		return tempDoc.textContent || tempDoc.innerText || '';
+	};
+
 	return (
 			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
 				<div className={ TrendingBarStyles.itemIndicatorContainer } style={{height: `${containerHeight}px`}}>
 					{
-						imageUrls.map((_, index: number) =>
+						animeList.map((_, index: number) =>
 							<div className={TrendingBarStyles.itemIndicator} style={{backgroundColor: activeIndex === index ? '#418D89' : 'white'}} key={index}></div>
 						)
 					}
@@ -71,10 +79,13 @@ const TrendingBar = ({ imageUrls }: Props) => {
 				<div className={TrendingBarStyles.carouselInner} style={styles}>
 					<div className={ TrendingBarStyles.carouselItem}>
 						<div className={TrendingBarStyles.carouselTextOverlay}>
-							<p>{imageUrls[0]}</p>
+							<div className={TrendingBarStyles.textContainer}>
+								<h1>{animeList[animeList.length - 1].title.english}</h1>
+								<p>{parseDescription(animeList[animeList.length - 1].description)}</p>
+							</div>
 						</div>
 						<Image
-							src={imageUrls[imageUrls.length - 1]}
+							src={animeList[animeList.length - 1].bannerImage}
 							height={height}
 							width={1900}
 							objectFit='cover'
@@ -84,13 +95,16 @@ const TrendingBar = ({ imageUrls }: Props) => {
 						/>
 					</div>
 					{
-						imageUrls.map((url: string, key: number) =>
+						animeList.map((anime: Anime, key: number) =>
 							<div className={ TrendingBarStyles.carouselItem} key={key}>
 								<div className={TrendingBarStyles.carouselTextOverlay}>
-									df
+									<div className={TrendingBarStyles.textContainer}>
+										<h1>{anime.title.english}</h1>
+										<p>{parseDescription(anime.description)}</p>
+									</div>
 								</div>
 								<Image
-									src={url}
+									src={anime.bannerImage}
 									height={height}
 									width={1900}
 									objectFit='cover'
@@ -103,10 +117,13 @@ const TrendingBar = ({ imageUrls }: Props) => {
 					}
 					<div className={ TrendingBarStyles.carouselItem}>
 						<div className={TrendingBarStyles.carouselTextOverlay}>
-							df
+							<div className={TrendingBarStyles.textContainer}>
+								<h1>{animeList[0].title.english}</h1>
+								<p>{parseDescription(animeList[0].description)}</p>
+							</div>
 						</div>
 						<Image
-							src={imageUrls[0]}
+							src={animeList[0].bannerImage}
 							height={height}
 							width={1900}
 							objectFit='cover'

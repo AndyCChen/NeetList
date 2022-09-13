@@ -1,0 +1,14 @@
+.title {
+    color: grey;
+}
+
+.displayBarContainer {
+    display: flex;
+    justify-content: center space-evenly;
+}
+
+.animeCard {
+    height: 10rem;
+    width: 5rem;
+    background-color: black;
+}

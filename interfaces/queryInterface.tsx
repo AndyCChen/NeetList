@@ -10,5 +10,8 @@ export interface Anime {
       romaji: string,
       english: string,
       native: string,
+   },
+   coverImage: {
+      large: string,
    }
 }

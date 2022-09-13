@@ -3,13 +3,14 @@ import { AnimeList } from '../interfaces/queryInterface'
 type Props = {
 	page: number,
 	perPage: number,
+	sort: string,
 };
 
-export const getTrendingMedia = async({page, perPage}: Props): Promise<AnimeList> => {
+export const getMedia = async({page, perPage, sort}: Props): Promise<AnimeList> => {
 	let query = `
-		query ($page: Int, $perPage: Int) {
+		query ($page: Int, $perPage: Int, $sort: [MediaSort]) {
 			Page (page: $page, perPage: $perPage) {
-				media (sort: TRENDING_DESC, type: ANIME) {
+				media (sort: $sort, type: ANIME) {
 					id,
 					bannerImage,
 					description (asHtml: false),
@@ -17,15 +18,18 @@ export const getTrendingMedia = async({page, perPage}: Props): Promise<AnimeList
 						romaji,
 						english,
 						native,
+					},
+					coverImage {
+						large,
 					}
 				}
 			}
-		}
-	`;
+		}`;
 
 	let variables = {
 		page: page,
 		perPage: perPage,
+		sort: sort,
 	}
 
 	let url = 'https://graphql.anilist.co';

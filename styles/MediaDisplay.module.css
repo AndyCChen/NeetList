@@ -1,14 +1,34 @@
 .title {
     color: grey;
+    font-size:large;
+}
+
+.viewAll {
+    color: grey;
+    justify-self: flex-end;
+    margin-left:  auto;
+    margin-top: auto;
+}
+
+.displayBarInfoContainer {
+    display: flex;
+}
+
+.displayBarContainerWrapper {
+    display: flex;
+    justify-content: center;
 }
 
 .displayBarContainer {
     display: flex;
-    justify-content: center space-evenly;
+    flex-direction: column;
+}
+
+.animeBarContainer {
+    display: flex;
+    gap: 10px;
 }
 
 .animeCard {
-    height: 10rem;
-    width: 5rem;
-    background-color: black;
+    
 }

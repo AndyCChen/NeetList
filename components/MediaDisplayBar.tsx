@@ -11,14 +11,19 @@ type Props = {
 const MediaDisplayBar = ({ animeList , title}: Props) => {
 	
 	return (
-		<div>
-			<h3 className={ MediaDisplayStyles.title }>{title}</h3>
+		<div className={ MediaDisplayStyles.displayBarContainerWrapper }>
 			<div className={ MediaDisplayStyles.displayBarContainer }>
-				{
-					animeList.media.map((anime: Anime, index: number) =>
-						<AnimeCard coverImageUrl={ anime.coverImage.large } key={ index }/>
-					)
-				}
+				<div className={ MediaDisplayStyles.displayBarInfoContainer }>
+					<p className={ MediaDisplayStyles.title }>{title}</p>
+					<p className ={ MediaDisplayStyles.viewAll }>View All</p>
+				</div>
+				<div className={ MediaDisplayStyles.animeBarContainer }>
+					{
+						animeList.media.map((anime: Anime, index: number) =>
+							<AnimeCard coverImageUrl={ anime.coverImage.large } key={ index }/>
+						)
+					}
+				</div>
 			</div>
 		</div>
 	)

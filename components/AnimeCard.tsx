@@ -9,7 +9,7 @@ type Props = {
 const AnimeCard = ({ coverImageUrl }: Props) => {
 	return (
 		<div className={ MediaDisplayStyles.animeCard }>
-			<Image src={ coverImageUrl } height={400} width={300}/>
+			<Image src={ coverImageUrl } height={300} width={200} style={{ borderRadius: '8px' }}/>
 		</div>
 	)
 }

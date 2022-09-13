@@ -90,7 +90,6 @@ const TrendingBar = ({ animeList }: Props) => {
 							width={1900}
 							objectFit='cover'
 							layout='responsive'
-							style={{ borderRadius: '10px' }}
 							draggable='false'
 						/>
 					</div>
@@ -109,7 +108,6 @@ const TrendingBar = ({ animeList }: Props) => {
 									width={1900}
 									objectFit='cover'
 									layout='responsive'
-									style={{ borderRadius: '10px' }}
 									draggable='false'
 								/>
 							</div>
@@ -128,7 +126,6 @@ const TrendingBar = ({ animeList }: Props) => {
 							width={1900}
 							objectFit='cover'
 							layout='responsive'
-							style={{ borderRadius: '10px' }}
 							draggable='false'
 						/>
 					</div>

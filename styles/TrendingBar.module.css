@@ -17,7 +17,6 @@
 .carouselTextOverlay {
    display: flex;
    align-items: flex-end;
-   color: white;
    position: absolute;
    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.20));
    z-index: 1;
@@ -40,6 +39,7 @@
    overflow: hidden;
    -webkit-line-clamp: 4;
    -webkit-box-orient: vertical;
+   color: white;
 }
 
 .textContainer p {
@@ -47,13 +47,13 @@
    font-size: 1rem;
    overflow: hidden;
    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
+   -webkit-box-orient: vertical;
+   color: #C2CCCD;
 }
 
 .itemIndicatorContainer {
    position: absolute;
    display: flex;
-   width: 100vw;
    z-index: 1;
    flex-direction: column;
 }

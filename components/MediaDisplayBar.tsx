@@ -14,13 +14,17 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 		<div className={ MediaDisplayStyles.displayBarContainerWrapper }>
 			<div className={ MediaDisplayStyles.displayBarContainer }>
 				<div className={ MediaDisplayStyles.displayBarInfoContainer }>
-					<p className={ MediaDisplayStyles.title }>{title}</p>
-					<p className ={ MediaDisplayStyles.viewAll }>View All</p>
+					<h3 className={ MediaDisplayStyles.title }>{title}</h3>
+					<p className ={ MediaDisplayStyles.seeAll }>See All</p>
 				</div>
 				<div className={ MediaDisplayStyles.animeBarContainer }>
 					{
 						animeList.media.map((anime: Anime, index: number) =>
-							<AnimeCard coverImageUrl={ anime.coverImage.large } key={ index }/>
+							<AnimeCard
+								key={ index }
+								coverImageUrl={ anime.coverImage.large }
+								title={ anime.title.english }
+							/>
 						)
 					}
 				</div>

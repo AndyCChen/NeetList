@@ -1,34 +1,51 @@
 .title {
-    color: grey;
-    font-size:large;
+	color: #4f4f4f;
 }
 
-.viewAll {
-    color: grey;
-    justify-self: flex-end;
-    margin-left:  auto;
-    margin-top: auto;
+.seeAll {
+	color: #4f4f4f;
+	margin-left:  auto;
+	margin-top: auto;
+	cursor: pointer;
+	transition: 300ms;
+}
+
+.seeAll:hover {
+   color: #418D89;
 }
 
 .displayBarInfoContainer {
-    display: flex;
+   display: flex;
 }
 
 .displayBarContainerWrapper {
-    display: flex;
-    justify-content: center;
+	display: flex;
+	justify-content: center;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
 }
 
 .displayBarContainer {
-    display: flex;
-    flex-direction: column;
+	display: flex;
+	flex-direction: column;
 }
 
 .animeBarContainer {
-    display: flex;
-    gap: 10px;
+	display: flex;
+	gap: 10px;
 }
 
 .animeCard {
-    
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
+
+.animeCard:hover .animeCardTitle {
+	color: #418D89;
+}
+
+.animeCardTitle {
+	color: #4f4f4f;
+	transition: 300ms;
 }

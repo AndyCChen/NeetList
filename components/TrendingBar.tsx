@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, RefObject } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
 import { useCarousel } from '../hooks/useCarousel';
 import { Anime } from '../interfaces/queryInterface';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 import TrendingBarStyles from '../styles/TrendingBar.module.css'
 
@@ -15,36 +16,7 @@ const TrendingBar = ({ animeList }: Props) => {
 	
 	const {activeIndex, styles, containerHeight} = useCarousel(animeList.length, carouselContainerRef);
 
-	// hook for making media queries to change image size based on browser window width
-	const useMedia = (queries: string[], heightList: string[], defaultHeight: string): string => {
-		// array of media queries
-		const mediaQueryList = queries.map((query: string) => window.matchMedia(query));
-
-		// get the corresponding height of the matching query
-		const getHeight = (): string => {
-			// find index of first matching query if it exists
-			const index = mediaQueryList.findIndex((mediaQuery: MediaQueryList) => mediaQuery.matches);
-
-			// if no queries match, return default height
-			return index === -1 ? defaultHeight : heightList[index];
-		}
-		
-		const [height, setHeight] = useState(getHeight());
-
-		useEffect(() => {
-			const handler = () => setHeight(getHeight);
-
-			mediaQueryList.forEach((mediaQuery: MediaQueryList) => mediaQuery.addEventListener('change', handler));
-
-			return () => mediaQueryList.forEach((mediaQuery: MediaQueryList) => {
-				mediaQuery.removeEventListener('change', handler)
-			});
-		}, []);
-
-		return height;
-	}
-
-	const height = useMedia(
+	const height = useMediaQuery(
 		[
 			'only screen and (max-width: 600px)', 
 			'only screen and (max-width: 800px)',

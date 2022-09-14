@@ -32,7 +32,7 @@ const Home: NextPage<Props> = ({ trendingList, popularList }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 	const trendingList = await getMedia({page: 1, perPage: 20, sort: 'TRENDING_DESC'});
-	const popularList = await getMedia({page: 1, perPage: 5, sort: 'POPULARITY_DESC'});
+	const popularList = await getMedia({page: 1, perPage: 6, sort: 'POPULARITY_DESC'});
 
 	return {
 		props: {

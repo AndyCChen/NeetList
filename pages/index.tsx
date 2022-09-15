@@ -6,11 +6,12 @@ import TrendingBar from '../components/TrendingBar'
 import MediaDisplayBar from '../components/MediaDisplayBar';
 
 type Props = {
-	trendingList: AnimeList;
-	popularList: AnimeList
+	trendingList: AnimeList,
+	popularList: AnimeList,
+	popularCurrentSeasonList: AnimeList,
 }
 
-const Home: NextPage<Props> = ({ trendingList, popularList }) => {
+const Home: NextPage<Props> = ({ trendingList, popularList, popularCurrentSeasonList }) => {
 	return (
 		<>
 			<Head>
@@ -23,21 +24,31 @@ const Home: NextPage<Props> = ({ trendingList, popularList }) => {
 				 }
 			/>
 			<MediaDisplayBar
+				title='POPULAR THIS SEASON'
+				animeList={ popularCurrentSeasonList }
+			/>
+			<MediaDisplayBar
 				title='All TIME POPULAR'
-				animeList={popularList}
+				animeList={ popularList }
 			/>
 		</>
 	)
 }
 
+const getSeason = (month: number) => {
+
+}
+
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-	const trendingList = await getMedia({page: 1, perPage: 20, sort: 'TRENDING_DESC'});
-	const popularList = await getMedia({page: 1, perPage: 6, sort: 'POPULARITY_DESC'});
+	const trendingList = await getMedia({ page: 1, perPage: 20, sort: 'TRENDING_DESC' });
+	const popularList = await getMedia({ page: 1, perPage: 6, sort: 'POPULARITY_DESC' });
+	const popularCurrentSeasonList = await getMedia({ page:1, perPage: 6, sort: 'POPULARITY_DESC', season: 'SUMMER'});
 
 	return {
 		props: {
 			trendingList,
 			popularList,
+			popularCurrentSeasonList,
 		}
 	}
 }

@@ -61,7 +61,6 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>): {containerHeig
 
       // update containerHeight as the window size changes
       const handleResize = () => {
-         console.log(ref.current?.clientHeight);
          if (ref.current) {
             setContainerHeight(ref.current.clientHeight);
          }

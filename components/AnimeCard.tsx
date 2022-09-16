@@ -1,25 +1,21 @@
 import Image from 'next/image'
-import { useElementDimensions } from '../hooks/useElementDimensions'
-import { useRef } from 'react';
+import React from 'react';
 
 import MediaDisplayStyles from '../styles/MediaDisplay.module.css'
 
 type Props = {
 	coverImageUrl: string,
-	title: string,
 };
 
-const AnimeCard = ({ coverImageUrl, title }: Props) => {
-	const animeCardRef = useRef<HTMLDivElement>(null);
-
-	const { elementWidth } = useElementDimensions(animeCardRef);
+const AnimeCard = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 
 	return (
-		<div ref={ animeCardRef } className={ MediaDisplayStyles.animeCard }>
-			<Image src={ coverImageUrl } height={300} width={200} style={{ borderRadius: '8px' }}/>
-			<p className={ MediaDisplayStyles.animeCardTitle } >{title}</p>
+		<div>
+			<div ref={ ref } className={ MediaDisplayStyles.animeCard }>
+				<Image src={ props.coverImageUrl } height={300} width={200} style={{ borderRadius: '8px' }}/>
+			</div>
 		</div>
 	)
-}
+})
 
 export default AnimeCard

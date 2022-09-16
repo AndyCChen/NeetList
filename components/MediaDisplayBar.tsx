@@ -27,8 +27,8 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 	);
 	
 	return (
-		<div className={ MediaDisplayStyles.displayBarContainerWrapper }>
-			<div className={ MediaDisplayStyles.displayBarContainer }>
+		<div className={ MediaDisplayStyles.displayBarContainer }>
+			<div>
 				<div className={ MediaDisplayStyles.displayBarInfoContainer }>
 					<h3 className={ MediaDisplayStyles.title }>{title}</h3>
 					<p className ={ MediaDisplayStyles.seeAll }>See All</p>

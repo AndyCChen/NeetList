@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useCarousel } from '../hooks/useCarousel';
 import { Anime } from '../interfaces/queryInterface';
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import { useElementHeight } from '../hooks/useElementHeight';
+import { useElementDimensions } from '../hooks/useElementDimensions';
 
 import TrendingBarStyles from '../styles/TrendingBar.module.css'
 
@@ -17,7 +17,7 @@ const TrendingBar = ({ animeList }: Props) => {
 	
 	const {activeIndex, styles} = useCarousel(animeList.length, carouselContainerRef);
 
-	const divHeight = useElementHeight(carouselContainerRef);
+	const {elementHeight} = useElementDimensions(carouselContainerRef);
 
 	const height = useMediaQuery(
 		[
@@ -44,7 +44,7 @@ const TrendingBar = ({ animeList }: Props) => {
 
 	return (
 			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
-				<div className={ TrendingBarStyles.itemIndicatorContainer } style={{height: `${divHeight}px`}}>
+				<div className={ TrendingBarStyles.itemIndicatorContainer } style={{height: `${elementHeight}px`}}>
 					{
 						animeList.map((_, index: number) =>
 							<div className={TrendingBarStyles.itemIndicator} style={{backgroundColor: activeIndex === index ? '#418D89' : 'white'}} key={index}></div>

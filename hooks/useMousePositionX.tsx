@@ -1,6 +1,6 @@
-import { RefObject, useState, useEffect } from "react";
+import { RefObject, useEffect } from "react";
 
-export const useMousePosition = (ref: RefObject<HTMLDivElement>): {containerHeight: number}=> {
+export const useMousePosition = (ref: RefObject<HTMLDivElement>)=> {
    // bool to track if the mouse held down or not
    let isDown = false;
 
@@ -16,14 +16,6 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>): {containerHeig
    // getter functions for cursorPositionX and clientWidth
    const _getCursorPositionX = () => cursorPositionX;
    const _getClientWidth = () => clientWidth;
-
-   const [containerHeight, setContainerHeight] = useState(0);
-
-   useEffect(() => {
-      if(ref.current) {
-         setContainerHeight(ref.current?.clientHeight);
-      }
-   }, [])
 
    useEffect(() => {
 
@@ -59,21 +51,10 @@ export const useMousePosition = (ref: RefObject<HTMLDivElement>): {containerHeig
          document.dispatchEvent(swipingEvent);
       }
 
-      // update containerHeight as the window size changes
-      const handleResize = () => {
-         if (ref.current) {
-            setContainerHeight(ref.current.clientHeight);
-         }
-      }
-
       ref.current?.addEventListener('mousedown', handleMouseDown);
-      window.addEventListener("resize", handleResize, true);
 
       return () => {
          ref.current?.removeEventListener('mousedown', handleMouseDown);
-         window.removeEventListener("resize", handleResize, true);
       }
    }, []);
-
-   return {containerHeight: containerHeight};
 }

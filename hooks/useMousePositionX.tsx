@@ -1,4 +1,4 @@
-import { RefObject, useState, useEffect, useReducer } from "react";
+import { RefObject, useState, useEffect } from "react";
 
 export const useMousePosition = (ref: RefObject<HTMLDivElement>): {containerHeight: number}=> {
    // bool to track if the mouse held down or not

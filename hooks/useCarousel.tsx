@@ -1,5 +1,6 @@
 import React, { RefObject, useEffect, useReducer, useState } from "react";
 import { CarouselState, CarouselAction } from '../interfaces/carouselInterfaces';
+import { useMousePosition } from "./useMousePositionX";
 import { styleState, styleAction } from '../interfaces/styleInterfaces';
 
 const transitionTime: number = 400;
@@ -100,6 +101,8 @@ export const useCarousel = (length: number, containerRef: RefObject<HTMLDivEleme
 
    const [styleState, styleDispatch] = useReducer(styleReducer, initialStyleState);
 
+   useMousePosition(containerRef);
+
    // handle a swiping operation that is in progress
    const swiping = (e: any) => {
       carouselDispatch({type: 'Drag', offset: e.detail()});
@@ -117,8 +120,6 @@ export const useCarousel = (length: number, containerRef: RefObject<HTMLDivEleme
       } else {
          carouselDispatch({type: 'Drag', offset: 0});
       }
-
-      //console.log(isQuickSwipe)
    }
 
    useEffect(() => {

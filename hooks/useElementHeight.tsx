@@ -1,12 +1,14 @@
 import { RefObject, useEffect, useState } from "react";
 
-export const useElementHeight = (ref: RefObject<HTMLDivElement>): number => {
+export const useElementDimensions = (ref: RefObject<HTMLDivElement>): {elementHeight: number, elementWidth: number} => {
 
    const [elementHeight, setElementHeight] = useState(0);
+   const [elementWidth, setElementWidth] = useState(0);
 
    useEffect(() => {
       if (ref.current) {
          setElementHeight(ref.current.clientHeight);
+         setElementWidth(ref.current.clientWidth);
       }
    }, []);
 
@@ -14,6 +16,7 @@ export const useElementHeight = (ref: RefObject<HTMLDivElement>): number => {
       const handleResize = () => {
          if (ref.current) {
             setElementHeight(ref.current.clientHeight);
+            setElementWidth(ref.current.clientWidth)
          }
       }
 
@@ -22,5 +25,5 @@ export const useElementHeight = (ref: RefObject<HTMLDivElement>): number => {
       return () => window.removeEventListener('resize', handleResize, true);
    }, []);
 
-   return elementHeight;
+   return {elementHeight, elementWidth};
 }

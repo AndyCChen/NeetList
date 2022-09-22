@@ -52,6 +52,7 @@ const AppBar = () => {
 			const _handleClickOutside = (event: MouseEvent) => {
 				if (ref.current && !ref.current.contains(event.target as Element) && (event.target as Element).tagName === 'DIV') {
 					setPopupFadeIn(false);
+					document.body.style.overflow =  'auto';
 				}
 			}
 
@@ -83,6 +84,7 @@ const AppBar = () => {
 	// toggle sign in box
 	const _setPopupFadeIn = (): void => {
 		setPopupFadeIn(!isPopupFadeIn);
+		document.body.style.overflow =  'hidden';
 	}
 
 	// toggle sign in box

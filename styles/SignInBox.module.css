@@ -2,9 +2,8 @@
 .signInContainerBackground {
    background-color: black;
    position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
+   top: 0;
+   left: 0;
    width: 100vw;
    height: 100vh;
    z-index: 2;
@@ -35,10 +34,10 @@
    align-items: center;
    background-color: #474747;
    position: absolute;
-   z-index: 3;
-   top: 50%;
    left: 50%;
-   transform: translate(-50%, -50%);
+   top: -45%;
+   transform: translate(-50%, 45%);
+   z-index: 3;
    border-radius: 1rem;
    padding: 1.5rem;
 }

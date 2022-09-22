@@ -1,8 +1,12 @@
-.displayBarContainer {
+.displayBarContainerWrapper {
 	display: flex;
 	justify-content: center;
-	margin-left: 1rem;
-	margin-right: 1rem;
+}
+
+.displayBarContainer {
+	display: flex;
+	flex-direction: column;
+	width: 85vw;
 }
 
 .displayBarInfoContainer {
@@ -27,21 +31,19 @@
 
 .animeBarContainer {
 	display: flex;
+	justify-content: center;
+	gap: 8px;
 }
 
 .animeCard {
+	width: 100%;
 	cursor: pointer;
-}
-
-.animeCard:hover .animeCardTitle {
-	color: #418D89;
-}
-
-.animeTitleContainer {
 	display: flex;
-	justify-content: center;
-	margin-left: 1rem;
-	margin-right: 1rem;
+	flex-direction: column;
+}
+
+.animeCard:hover .animeTitle {
+	color: #418D89;
 }
 
 .animeTitle {

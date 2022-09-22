@@ -1,8 +1,6 @@
 import AnimeCard from '../components/AnimeCard'
 import { AnimeList, Anime } from '../interfaces/queryInterface'
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import { useRef } from 'react';
-import { useElementDimensions } from '../hooks/useElementDimensions';
 
 import MediaDisplayStyles from '../styles/MediaDisplay.module.css'
 
@@ -27,43 +25,27 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 		],
 		6
 	);
-	
-	const animeCardRef = useRef<HTMLDivElement>(null);
-
-	const { elementWidth } = useElementDimensions(animeCardRef);
-	console.log(elementWidth);
 
 	return (
-		<>
+		<div className={ MediaDisplayStyles.displayBarContainerWrapper }>
 			<div className={ MediaDisplayStyles.displayBarContainer }>
-				<div>
-					<div className={ MediaDisplayStyles.displayBarInfoContainer }>
-						<h3 className={ MediaDisplayStyles.title }>{title}</h3>
-						<p className ={ MediaDisplayStyles.seeAll }>See All</p>
-					</div>
-					<div className={ MediaDisplayStyles.animeBarContainer }>
-						{
-							animeList.media.map((anime: Anime, index: number) =>
-								<AnimeCard
-									ref={ animeCardRef }
-									key={ index }
-									coverImageUrl={ anime.coverImage.large }
-								/>
-							).slice(0, columnCount as number)
-						}
-					</div>
+				<div className={ MediaDisplayStyles.displayBarInfoContainer }>
+					<h3 className={ MediaDisplayStyles.title }>{title}</h3>
+					<p className ={ MediaDisplayStyles.seeAll }>See All</p>
+				</div>
+				<div className={ MediaDisplayStyles.animeBarContainer }>
+					{
+						animeList.media.map((anime: Anime, index: number) =>
+							<AnimeCard
+								key={ index }
+								coverImageUrl={ anime.coverImage.large }
+								title={ anime.title.english }
+							/>
+						).slice(0, columnCount as number)
+					}
 				</div>
 			</div>
-			<div className={ MediaDisplayStyles.animeTitleContainer }>
-				{
-					animeList.media.map((anime: Anime, index) =>
-						<p key={ index } className={ MediaDisplayStyles.animeTitle } style={{ width: elementWidth }}>
-							{ anime.title.english }
-						</p>
-					).slice(0, columnCount as number)
-				}
-			</div>
-		</>
+		</div>
 	)
 }
 

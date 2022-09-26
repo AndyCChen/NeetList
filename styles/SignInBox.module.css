@@ -35,8 +35,7 @@
    background-color: #474747;
    position: absolute;
    left: 50%;
-   top: -45%;
-   transform: translate(-50%, 45%);
+   transform: translate(-50%, 20%);
    z-index: 3;
    border-radius: 1rem;
    padding: 1.5rem;
@@ -53,13 +52,13 @@
 }
 
 @keyframes fadeIn {
-   from {opacity: 0; top: 40%}
+   from {opacity: 0; top: 20%}
    to {opacity: 1; top: 50%}
 }
 
 @keyframes fadeOut {
    from {opacity: 1; top: 50%;}
-   to {opacity: 0; top: 40%;}
+   to {opacity: 0; top: 20%;}
 }
 
 .signInFormContainer {

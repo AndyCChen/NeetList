@@ -42,13 +42,12 @@ const SignInForm = ({ handleClick }: Props) => {
 
 		try {
 			await signIn(email, password);
-			if (user) {
-				setShowError(false);
-			}
 		} catch (error: any) {
 			setErrorMessage((error.code as string).slice(5));
 			setShowError(true);
 		}
+
+		document.body.style.overflow =  'auto';
 	}
 
 	return (

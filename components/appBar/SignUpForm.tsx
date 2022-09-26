@@ -55,14 +55,12 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 
 		try {
 			await signUp(email, password);
-			if (user) {
-				setShowSignUp()
-				setShowError(false);
-			}
 		} catch (error: any) {
 			setErrorMessage((error.code as string).slice(5));
 			setShowError(true);
 		}
+
+		document.body.style.overflow = 'auto';
 	}
 
 

@@ -15,7 +15,9 @@ const AnimeCard = ({ coverImageUrl, title }: Props)=> {
 
 	return (
 		<div className={ MediaDisplayStyles.animeCard }>
-			<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+			<div>
+				<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+			</div>
 			<p className={ MediaDisplayStyles.animeTitle }>{title}</p>
 		</div>
 	)

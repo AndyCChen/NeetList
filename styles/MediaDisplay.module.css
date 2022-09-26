@@ -6,7 +6,7 @@
 .displayBarContainer {
 	display: flex;
 	flex-direction: column;
-	width: 85vw;
+	width: 80vw;
 }
 
 .displayBarInfoContainer {
@@ -31,10 +31,12 @@
 
 .animeBarContainer {
 	display: flex;
-	gap: 8px;
+	justify-content: space-between;
+	gap: 5px;
 }
 
 .animeCard {
+	max-width: 200px;
 	width: 100%;
 	cursor: pointer;
 	display: flex;

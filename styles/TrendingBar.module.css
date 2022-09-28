@@ -1,6 +1,7 @@
 .carouselContainer {
    user-select: none;
    overflow: hidden;
+   position: relative;
 }
 
 .carouselInner {
@@ -11,7 +12,6 @@
 .carouselItem {
    flex-shrink: 0;
    width: 100%;
-   height: auto;
 }
 
 .carouselTextOverlay {
@@ -56,6 +56,8 @@
    display: flex;
    z-index: 1;
    flex-direction: column;
+   height: 100%;
+   justify-content: center;
 }
 
 .itemIndicator {
@@ -68,7 +70,6 @@
 /* smaller screens */
 @media only screen and (max-width: 700px) {
    .itemIndicatorContainer {
-      justify-content: center;
       align-items: flex-end;
       right: 2rem;
    }
@@ -86,7 +87,6 @@
 /* larger screens */
 @media only screen and (min-width: 700px) {
    .itemIndicatorContainer {
-      justify-content: center;
       margin-left: 2rem;
    }
 

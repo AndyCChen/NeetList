@@ -33,7 +33,9 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 						},
 						coverImage {
 							large,
-						}
+						},
+						season,
+						seasonYear,
 					}
 				}
 			}`;
@@ -52,7 +54,9 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 						},
 						coverImage {
 							large,
-						}
+						},
+						season,
+						seasonYear,
 					}
 				}
 			}`;

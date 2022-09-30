@@ -38,8 +38,12 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 						animeList.media.map((anime: Anime, index: number) =>
 							<AnimeCard
 								key={ index }
+								id={ index }
+								length={ animeList.media.slice(0, columnCount as number).length}
 								coverImageUrl={ anime.coverImage.large }
 								title={ anime.title.english }
+								season={ anime.season }
+								seasonYear={ anime.seasonYear }
 							/>
 						).slice(0, columnCount as number)
 					}

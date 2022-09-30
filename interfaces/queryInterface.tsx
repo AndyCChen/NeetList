@@ -13,5 +13,7 @@ export interface Anime {
    },
    coverImage: {
       large: string,
-   }
+   },
+   season: string,
+   seasonYear: number,
 }

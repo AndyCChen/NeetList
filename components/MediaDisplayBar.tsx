@@ -44,6 +44,10 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 								title={ anime.title.english }
 								season={ anime.season }
 								seasonYear={ anime.seasonYear }
+								studio={ anime.studios.nodes[0].name }
+								format={ anime.format }
+								episodes={ anime.episodes }
+								genres={ anime.genres }
 							/>
 						).slice(0, columnCount as number)
 					}

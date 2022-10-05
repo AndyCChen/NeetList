@@ -36,6 +36,14 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 						},
 						season,
 						seasonYear,
+						studios (isMain: true) {
+							nodes {
+								name
+							}
+						},
+						format,
+						episodes,
+						genres,
 					}
 				}
 			}`;
@@ -57,6 +65,14 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 						},
 						season,
 						seasonYear,
+						studios (isMain: true) {
+							nodes {
+								name
+							}
+						},
+						format,
+						episodes,
+						genres,
 					}
 				}
 			}`;

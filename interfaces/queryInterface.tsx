@@ -2,6 +2,10 @@ export interface AnimeList {
    media: Anime[]
 }
 
+type Studio = {
+   name: string
+}
+
 export interface Anime {
    id: string,
    bannerImage: string,
@@ -16,4 +20,10 @@ export interface Anime {
    },
    season: string,
    seasonYear: number,
+   studios: {
+      nodes: Studio[],
+   },
+   format: string,
+   episodes: string,
+   genres: string[],
 }

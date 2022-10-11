@@ -32,7 +32,6 @@ const getFormat = (format: string): string => {
 		default:
 			return '';
 	};
-
 }
 
 const AnimeCard = ({ id, length, coverImageUrl, title, season, seasonYear, studio, format, episodes, genres }: Props)=> {
@@ -45,8 +44,14 @@ const AnimeCard = ({ id, length, coverImageUrl, title, season, seasonYear, studi
 			<div className={ id == length - 1? MediaDisplayStyles.toolTipEnd : MediaDisplayStyles.toolTip }>
 				<span style={{ color: '#4f4f4f' }}>{season} {seasonYear}</span>
 				<p className={ MediaDisplayStyles.studio }>{studio}</p>
-				<p className={ MediaDisplayStyles.info }>{getFormat(format)}  &#8226; {episodes} episodes</p>
-				<p>{genres}</p>
+				<p className={ MediaDisplayStyles.info }>{getFormat(format)} {episodes && <span>&#8226; {episodes} episodes</span>}</p>
+				<div className={ MediaDisplayStyles.genresContainer }>
+					{
+						genres.map((genre: string) =>
+							<div className={ MediaDisplayStyles.genreItem }>{genre}</div>
+						)
+					}
+				</div>
 			</div>
 		</div>
 	)

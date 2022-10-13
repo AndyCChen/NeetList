@@ -2,6 +2,7 @@ import React, { useContext, createContext, useEffect, useState } from 'react'
 import { onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, UserCredential } from 'firebase/auth'
 import { auth } from '../utils/firebase'
 import { UserInterface, UserAuthContextInterface } from '../interfaces/userInterface'
+import { async } from '@firebase/util';
 
 const UserAuthContext = createContext<UserAuthContextInterface>({
 	user: null,
@@ -34,15 +35,15 @@ export const UserAuthProvider = ({ children }: {children: React.ReactNode}) => {
 		});
 	}, []);
 
-	const signUp = (email: string, password: string) => {
+	const signUp = async (email: string, password: string): Promise<UserCredential> => {
 		return createUserWithEmailAndPassword(auth, email, password);
 	}
 
-	const signIn = (email: string, password: string) => {
+	const signIn = async (email: string, password: string): Promise<UserCredential> => {
 		return signInWithEmailAndPassword(auth, email, password);
 	}
 
-	const logout = async () => {
+	const logout = async (): Promise<void> => {
 		await signOut(auth);
 		setUser(null);
 	}

@@ -47,8 +47,8 @@ const AnimeCard = ({ id, length, coverImageUrl, title, season, seasonYear, studi
 				<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
 				<div className={ MediaDisplayStyles.genresContainer }>
 					{
-						genres.map((genre: string) =>
-							<div className={ MediaDisplayStyles.genreItem }>{ genre }</div>
+						genres.map((genre: string, index: number) =>
+							<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
 						)
 					}
 				</div>

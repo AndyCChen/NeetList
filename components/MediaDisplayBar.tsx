@@ -37,10 +37,9 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 				<div className={ MediaDisplayStyles.animeBarContainer }>
 					{
 						animeList.media.map((anime: Anime, index: number) =>
-							<Link href={ `/media/${encodeURIComponent(anime.id)}` }>
+							<Link href={ `/media/${encodeURIComponent(anime.id)}` } key={ index }>
 								<a className={ MediaDisplayStyles.animeCard }>
 									<AnimeCard
-										key={ index }
 										id={ index }
 										length={ animeList.media.slice(0, columnCount as number).length }
 										coverImageUrl={ anime.coverImage.large }

@@ -1,4 +1,4 @@
-import { AnimeList } from '../interfaces/queryInterface'
+import { AnimeList, Anime } from '../interfaces/queryInterface'
 
 type Props = {
 	page: number,
@@ -15,7 +15,7 @@ type Props = {
 	season: filter results by seasons, default is undefined, if undefined the query is made without the season argument
 	year: filter results by year, default is set to current year
 */
-export const getMedia = async({page, perPage, sort, season, year = new Date().getFullYear()}: Props): Promise<AnimeList> => {
+export const getMedia = async ({ page, perPage, sort, season, year = new Date().getFullYear() }: Props): Promise<AnimeList> => {
 	let query: string;
 
 	if (season !== undefined) {
@@ -78,7 +78,7 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 			}`;
 	}
 
-	let variables = {
+	const variables = {
 		page: page,
 		perPage: perPage,
 		sort: sort,
@@ -86,8 +86,8 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 		year: year,
 	};
 
-	let url = 'https://graphql.anilist.co';
-	let options = {
+	const url = 'https://graphql.anilist.co';
+	const options = {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -103,4 +103,59 @@ export const getMedia = async({page, perPage, sort, season, year = new Date().ge
 	const trendingList = await res.json();
 
 	return res.ok ? trendingList.data.Page : Promise.reject(trendingList);
+};
+
+type getMediaByIDProps = {
+	id: number
+};
+
+export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<Anime> => {
+	const query = 
+		`query ($id: Int) {
+			Media (id: $id, type: ANIME) {
+				id,
+				bannerImage,
+				description (asHtml: false),
+				title {
+					romaji,
+					english,
+					native,
+				},
+				coverImage {
+					large,
+				},
+				season,
+				seasonYear,
+				studios (isMain: true) {
+					nodes {
+						name
+					}
+				},
+				format,
+				episodes,
+				genres,
+			}
+		}`;
+
+	const variables = {
+		id: id
+	};
+
+	const url = 'https://graphql.anilist.co';
+	const options = {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+		},
+		body: JSON.stringify({
+			query: query,
+			variables: variables,
+		})
+	};
+
+	const res = await fetch(url, options);
+	const media = await res.json();
+
+	return res.ok ? media.data.Media : Promise.reject(media);
 }

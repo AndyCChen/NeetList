@@ -33,6 +33,10 @@
    min-width: 0;
 }
 
+.textContainer:hover h1 {
+   color: #418D89;
+}
+
 .textContainer h1 {
    display: -webkit-box;
    font-size: 2rem;
@@ -40,6 +44,10 @@
    -webkit-line-clamp: 2;
    -webkit-box-orient: vertical;
    color: white;
+   cursor: pointer;
+   transition: 300ms;
+   user-select: none;
+   -webkit-user-drag: none;
 }
 
 .textContainer p {
@@ -49,6 +57,7 @@
    -webkit-line-clamp: 4;
    -webkit-box-orient: vertical;
    color: #C2CCCD;
+   cursor: pointer;
 }
 
 .itemIndicatorContainer {

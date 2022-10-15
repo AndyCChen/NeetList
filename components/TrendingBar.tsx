@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useCarousel } from '../hooks/useCarousel';
 import { Anime } from '../interfaces/queryInterface';
 import { useMediaQuery } from '../hooks/useMediaQuery';
+import Link from 'next/link';
 
 import TrendingBarStyles from '../styles/TrendingBar.module.css'
 
@@ -69,10 +70,12 @@ const TrendingBar = ({ animeList }: Props) => {
 						animeList.map((anime: Anime, key: number) =>
 							<div className={ TrendingBarStyles.carouselItem} key={key}>
 								<div className={ TrendingBarStyles.carouselTextOverlay }>
-									<div className={ TrendingBarStyles.textContainer }>
-										<h1>{ anime.title.english }</h1>
-										<p>{ parseDescription(anime.description) }</p>
-									</div>
+									<Link href={ `/media/${encodeURIComponent(anime.id)}` }>
+										<a className={ TrendingBarStyles.textContainer } draggable='false'>
+											<h1>{ anime.title.english }</h1>
+											<p>{ parseDescription(anime.description) }</p>
+										</a>
+									</Link>
 								</div>
 								<Image
 									src={ anime.bannerImage }

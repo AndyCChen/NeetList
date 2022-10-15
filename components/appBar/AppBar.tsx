@@ -5,6 +5,7 @@ import NavItem from './NavItem'
 import SignInPopUp from './SignInPopUp'
 import DropdownMenu from './DropdownMenu'
 import { useAuth } from '../../context/UserAuthContext'
+import Link from 'next/link'
 
 import appBarStyles from '../../styles/AppBar.module.css'
 
@@ -101,20 +102,22 @@ const AppBar = () => {
 
 	return (
 		<div className={ appBarStyles.container }>
-			<div className={ appBarStyles.logo }>
-				<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
-			</div>
+			<Link href='/'>
+				<a className={ appBarStyles.logo }>
+					<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
+				</a>
+			</Link>
 
 			<SearchBox />
 
 			<nav className={ appBarStyles.navButtonContainer}> 
 				{user ?
-					<NavItem scr='/dropMenu.svg' height={20} width={20} setState={_setDropMenuFadeIn}>
-						<DropdownMenu ref={dropMenuRef} playFadeIn={isDropMenuFadeIn} showDropMenuState={showDropMenuState}/>
+					<NavItem scr='/dropMenu.svg' height={20} width={20} setState={ _setDropMenuFadeIn }>
+						<DropdownMenu ref={ dropMenuRef } playFadeIn={ isDropMenuFadeIn } showDropMenuState={ showDropMenuState }/>
 					</NavItem>
 					:
-					<NavItem scr='/logIn.svg' height={20} width={20} setState={_setPopupFadeIn}>
-						<SignInPopUp ref={signInRef} playFadeIn={isPopupFadeIn} showSignInState= {showSignInState}/>
+					<NavItem scr='/logIn.svg' height={20} width={20} setState={ _setPopupFadeIn }>
+						<SignInPopUp ref={ signInRef } playFadeIn={ isPopupFadeIn } showSignInState= { showSignInState} />
 					</NavItem>
 				}
 			</nav>

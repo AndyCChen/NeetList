@@ -1,6 +1,6 @@
 import { NextPage } from "next/types"
-import { useRouter } from "next/router"
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
+
 import { getMediaByID } from '../../utils/aniListQueries'
 import { Anime } from '../../interfaces/queryInterface'
 
@@ -8,7 +8,7 @@ type Props = {
    media: Anime
 }
 
-const Test: NextPage<Props> = ({ media }) => {
+const MediaPage: NextPage<Props> = ({ media }) => {
    return (
       <div>
          { media.title.english }
@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
       id = context.params.media_ID;
    }
 
-   const media = await getMediaByID({ id: id as unknown as number});
+   const media = await getMediaByID({ id: id as unknown as number });
 
    // return error 404 if request is failed
    if (!media) {
@@ -39,4 +39,4 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
    }
 }
 
-export default Test
+export default MediaPage

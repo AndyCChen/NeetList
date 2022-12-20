@@ -1,6 +1,6 @@
 import { AnimeList, Anime } from '../interfaces/queryInterface'
 
-type Props = {
+type getMediaProps = {
 	page: number,
 	perPage: number,
 	sort: string,
@@ -15,7 +15,7 @@ type Props = {
 	season: filter results by seasons, default is undefined, if undefined the query is made without the season argument
 	year: filter results by year, default is set to current year
 */
-export const getMedia = async ({ page, perPage, sort, season, year = new Date().getFullYear() }: Props): Promise<AnimeList> => {
+export const getMedia = async ({ page, perPage, sort, season, year = new Date().getFullYear() }: getMediaProps): Promise<AnimeList> => {
 	let query: string;
 
 	if (season !== undefined) {
@@ -158,4 +158,67 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<Anime> =>
 	const media = await res.json();
 
 	return res.ok ? media.data.Media : Promise.reject(media);
+}
+
+type getMediaByNameProps = {
+	page: number,
+	perPage: number,
+	sort: string,
+	searchString: string,
+}
+
+export const getMediaByName = async ({ page, perPage, sort, searchString }: getMediaByNameProps): Promise<AnimeList> => {
+	const query = 
+		`query ($page: Int, $perPage: Int, $sort: [MediaSort], $search: String) {
+			Page (page: $page, perPage: $perPage) {
+				media (sort: $sort, search: $search, type: ANIME) {
+					id,
+					bannerImage,
+					description (asHtml: false),
+					title {
+						romaji,
+						english,
+						native,
+					},
+					coverImage {
+						large,
+					},
+					season,
+					seasonYear,
+					studios (isMain: true) {
+						nodes {
+							name
+						}
+					},
+					format,
+					episodes,
+					genres,
+				}
+			}
+		}`;
+
+		const variables = {
+			page: page,
+			perPage: perPage,
+			sort: sort,
+			search: searchString
+		};
+	
+		const url = 'https://graphql.anilist.co';
+		const options = {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json',
+			},
+			body: JSON.stringify({
+				query: query,
+				variables: variables,
+			})
+		};
+	
+		const res = await fetch(url, options);
+		const mediaList = await res.json();
+	
+		return res.ok ? mediaList.data.Page : Promise.reject(mediaList);
 }

@@ -28,11 +28,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 					</button>
 
 					<button className={ dropMenuStyles.menuButton}>
-						<p>Friends</p>
-					</button>
-
-					<button className={ dropMenuStyles.menuButton}>
-						<p>Settings</p>
+						<p>Watch List</p>
 					</button>
 
 					<button className={ dropMenuStyles.menuButton} onClick={logout}>

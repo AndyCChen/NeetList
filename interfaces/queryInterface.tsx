@@ -1,5 +1,5 @@
 export interface AnimeList {
-   media: Anime[]
+   media: Anime[],
 }
 
 type Studio = {

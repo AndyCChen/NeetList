@@ -2,8 +2,10 @@ import { GetServerSideProps, GetServerSidePropsContext } from "next"
 import { NextPage } from "next"
 import { AnimeList, Anime } from "../../interfaces/queryInterface"
 import MediaDisplayGrid from "../../components/MediaDisplayGrid"
-
 import { getMediaByName } from "../../utils/aniListQueries"
+
+import GridStyles from '../../styles/SearchPage.module.css'
+import { useEffect, useState } from "react"
 
 type Props = {
 	searchString: string,
@@ -11,10 +13,52 @@ type Props = {
 }
 
 const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
-	mediaList.media.forEach((value: Anime) => console.log(value.title.english ? value.title.english : value.title.romaji));
+
+	let pageNumber: number = 1;
+	let isDoneQuerying = false;
+
+	const [pageResults, setPageResults] = useState<Anime[]>(mediaList.media);
+
+	// hook to ensure pageResults state is not stale
+	useEffect(() => {
+		setPageResults(mediaList.media);
+	}, [mediaList]);
+
+	const queryNextPageResults = async () => {
+
+		// increment current page number to query the next page
+		pageNumber++;
+	  	const nextPageQuery = await getMediaByName({ page: pageNumber, perPage: 20, sort: 'POPULARITY_DESC', searchString: searchString })
+
+		// return to avoid uneeded state update if query returns no results
+		if (nextPageQuery.media.length == 0) {
+			isDoneQuerying = true;
+			return;
+		}
+
+		setPageResults((currentPageResults) => [...currentPageResults, ...nextPageQuery.media]);
+	}
+
+	// make query for next page when user scrolls to bottom of the page
+	const handleScroll = () => {
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+			!isDoneQuerying && queryNextPageResults();
+		}
+	}
+
+	// detect when user scrolls to the bottom of the page
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+
+		return () => window.removeEventListener('scroll', handleScroll);
+	}, [mediaList]);
 
 	return (
-		<MediaDisplayGrid animeList={ mediaList }/>
+		<div className={ GridStyles.pageContent }>
+			{
+				pageResults.length != 0 ? <MediaDisplayGrid animeList={ pageResults }/> : <div>No Results</div>
+			}
+		</div>
 	)
 }
 
@@ -25,12 +69,12 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 		searchString = context.params.search_name;
 	}
 
-	const mediaList = await getMediaByName({ page: 1, perPage: 10, sort: 'POPULARITY_DESC', searchString: searchString as string});
+	const mediaList = await getMediaByName({ page: 1, perPage: 20, sort: 'POPULARITY_DESC', searchString: searchString as string});
 
 	return {
 		props: {
 			searchString,
-			mediaList,
+			mediaList
 		}
 	}
 }

@@ -1,10 +1,9 @@
 import Image from 'next/image'
+import { useEffect, useRef, useState, useMemo, RefObject } from 'react';
 
 import MediaDisplayStyles from '../styles/MediaDisplay.module.css'
 
 type Props = {
-	id: number,
-	length: number,
 	coverImageUrl: string,
 	title: string,
 	season: string,
@@ -34,14 +33,74 @@ const getFormat = (format: string): string => {
 	};
 }
 
-const AnimeCard = ({ id, length, coverImageUrl, title, season, seasonYear, studio, format, episodes, genres }: Props)=> {
+const AnimeCard = ({ coverImageUrl, title, season, seasonYear, studio, format, episodes, genres }: Props)=> {
+	const isInViewport = (ref: RefObject<HTMLDivElement>): boolean => {
+		const [isIntersectingViewport, setIsIntersectingViewport] = useState(false);
+		
+		const observer = useMemo((): IntersectionObserver => {
+			return new IntersectionObserver(([entry]) => setIsIntersectingViewport(entry.isIntersecting));
+		}, []);
+
+		useEffect(() => {
+			observer.observe(ref.current as Element);
+
+			return () => {
+				observer.disconnect();
+			}
+		}, [ref, observer]);
+
+		return isIntersectingViewport;
+	};
+
+	const handleResize = () => {
+		const animeCardBoundingRect = animeCardRef.current?.getBoundingClientRect();
+		const rightOffset = animeCardBoundingRect?.right;
+		const toolTipWidth = toolTipRef.current?.clientWidth;
+
+		if (rightOffset == undefined || toolTipWidth == undefined) {
+			return;
+		}
+
+		const rightRemainingPixels =  window.innerWidth - rightOffset;
+		
+		if (rightRemainingPixels <= toolTipWidth) {
+			setIsTooltipFit(false);
+		} else {
+			setIsTooltipFit(true);
+		}
+	}
+
+	const animeCardRef = useRef<HTMLDivElement>(null);
+	const toolTipRef = useRef<HTMLDivElement>(null);
+
+	const [isTooltipFit, setIsTooltipFit] = useState(true);
+
+	const isAnimeCardInView = isInViewport(animeCardRef);
+
+	useEffect(() => {
+		if (isAnimeCardInView) {
+			window.addEventListener('resize', handleResize);
+		} else {
+			window.removeEventListener('resize', handleResize);
+		}
+
+		return () => window.removeEventListener('resize', handleResize);
+	}, [isAnimeCardInView]);
+
+	// run handleResize on initial render of anime card to check if toolTip overflows
+	useEffect(() => {
+		handleResize();
+	}, []);
+
 	return (
 		<>
-			<div>
-				<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+			<div ref={ animeCardRef }>
+				<div>
+					<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+				</div>
+				<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
 			</div>
-			<p className={ MediaDisplayStyles.animeTitle }>{title}</p>
-			<div className={ id == length - 1? MediaDisplayStyles.toolTipEnd : MediaDisplayStyles.toolTip }>
+			<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
 				<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
 				<p className={ MediaDisplayStyles.studio }>{ studio }</p>
 				<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>

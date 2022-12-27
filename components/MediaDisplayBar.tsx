@@ -38,10 +38,8 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 					{
 						animeList.media.map((anime: Anime, index: number) =>
 							<Link href={ `/media/${encodeURIComponent(anime.id)}` } key={ index }>
-								<div className={ MediaDisplayStyles.animeCard }>
+								<a className={ MediaDisplayStyles.animeCard }>
 									<AnimeCard
-										id={ index }
-										length={ animeList.media.slice(0, columnCount as number).length }
 										coverImageUrl={ anime.coverImage.large }
 										title={ anime.title.english }
 										season={ anime.season }
@@ -51,7 +49,7 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 										episodes={ anime.episodes }
 										genres={ anime.genres }
 									/>
-								</div>
+								</a>
 							</Link>
 						).slice(0, columnCount as number)
 					}

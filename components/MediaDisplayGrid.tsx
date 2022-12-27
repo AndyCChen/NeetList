@@ -15,10 +15,8 @@ const MediaDisplayGrid = ({ animeList }: Props) => {
 			{
 				animeList.map((anime: Anime, index: number) =>
 					<Link href={ `/media/${encodeURIComponent(anime.id)}` } key={ index }>
-						<div className={ MediaDisplayStyles.animeCard }>
+						<a className={ MediaDisplayStyles.animeCard }>
 							<AnimeCard
-								id={ index }
-								length={ 0 }
 								coverImageUrl={ anime.coverImage.large }
 								title={ anime.title.english ? anime.title.english : anime.title.romaji }
 								season={ anime.season ? anime.season : 'TBA' }
@@ -28,7 +26,7 @@ const MediaDisplayGrid = ({ animeList }: Props) => {
 								episodes={ anime.episodes }
 								genres={ anime.genres }
 							/>
-						</div>
+						</a>
 					</Link>
 				)
 			}

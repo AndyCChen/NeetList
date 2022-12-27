@@ -18,11 +18,22 @@ const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
 	let isDoneQuerying = false;
 
 	const [pageResults, setPageResults] = useState<Anime[]>(mediaList.media);
-
-	// hook to ensure pageResults state is not stale
+	
 	useEffect(() => {
+		// ensure pageResults state is not stale
 		setPageResults(mediaList.media);
+
+		// detect when user scrolls to the bottom of the page
+		window.addEventListener('scroll', handleScroll);
+
+		return () => window.removeEventListener('scroll', handleScroll);
 	}, [mediaList]);
+
+	const handleScroll = () => {
+		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+			!isDoneQuerying && queryNextPageResults();
+		}
+	}
 
 	const queryNextPageResults = async () => {
 
@@ -30,7 +41,7 @@ const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
 		pageNumber++;
 	  	const nextPageQuery = await getMediaByName({ page: pageNumber, perPage: 20, sort: 'POPULARITY_DESC', searchString: searchString })
 
-		// return to avoid uneeded state update if query returns no results
+		// return to avoid unnecessary state update if query returns no results
 		if (nextPageQuery.media.length == 0) {
 			isDoneQuerying = true;
 			return;
@@ -38,20 +49,6 @@ const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
 
 		setPageResults((currentPageResults) => [...currentPageResults, ...nextPageQuery.media]);
 	}
-
-	// make query for next page when user scrolls to bottom of the page
-	const handleScroll = () => {
-		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-			!isDoneQuerying && queryNextPageResults();
-		}
-	}
-
-	// detect when user scrolls to the bottom of the page
-	useEffect(() => {
-		window.addEventListener('scroll', handleScroll);
-
-		return () => window.removeEventListener('scroll', handleScroll);
-	}, [mediaList]);
 
 	return (
 		<div className={ GridStyles.pageContent }>

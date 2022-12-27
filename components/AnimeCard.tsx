@@ -34,7 +34,8 @@ const getFormat = (format: string): string => {
 }
 
 const AnimeCard = ({ coverImageUrl, title, season, seasonYear, studio, format, episodes, genres }: Props)=> {
-	const isInViewport = (ref: RefObject<HTMLDivElement>): boolean => {
+
+	const useIsInViewport = (ref: RefObject<HTMLDivElement>): boolean => {
 		const [isIntersectingViewport, setIsIntersectingViewport] = useState(false);
 		
 		const observer = useMemo((): IntersectionObserver => {
@@ -68,14 +69,14 @@ const AnimeCard = ({ coverImageUrl, title, season, seasonYear, studio, format, e
 		} else {
 			setIsTooltipFit(true);
 		}
-	}
+	};
 
 	const animeCardRef = useRef<HTMLDivElement>(null);
 	const toolTipRef = useRef<HTMLDivElement>(null);
 
 	const [isTooltipFit, setIsTooltipFit] = useState(true);
 
-	const isAnimeCardInView = isInViewport(animeCardRef);
+	const isAnimeCardInView = useIsInViewport(animeCardRef);
 
 	useEffect(() => {
 		if (isAnimeCardInView) {

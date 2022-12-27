@@ -18,8 +18,15 @@ const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
 	let isDoneQuerying = false;
 
 	const [pageResults, setPageResults] = useState<Anime[]>(mediaList.media);
-	
+
 	useEffect(() => {
+
+		const handleScroll = () => {
+			if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+				!isDoneQuerying && queryNextPageResults();
+			}
+		}
+
 		// ensure pageResults state is not stale
 		setPageResults(mediaList.media);
 
@@ -28,12 +35,6 @@ const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
 
 		return () => window.removeEventListener('scroll', handleScroll);
 	}, [mediaList]);
-
-	const handleScroll = () => {
-		if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-			!isDoneQuerying && queryNextPageResults();
-		}
-	}
 
 	const queryNextPageResults = async () => {
 

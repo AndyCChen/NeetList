@@ -1,7 +1,7 @@
 import AnimeCard from '../components/AnimeCard'
 import { AnimeList, Anime } from '../interfaces/queryInterface'
 import { useMediaQuery } from '../hooks/useMediaQuery';
-import Link from 'next/link';
+import React from 'react';
 
 import MediaDisplayStyles from '../styles/MediaDisplay.module.css'
 
@@ -35,24 +35,23 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 					<p className ={ MediaDisplayStyles.seeAll }>See All</p>
 				</div>
 				<div className={ MediaDisplayStyles.animeBarContainer }>
-					{
-						animeList.media.map((anime: Anime, index: number) =>
-							<Link href={ `/media/${encodeURIComponent(anime.id)}` } key={ index }>
-								<a className={ MediaDisplayStyles.animeCard }>
-									<AnimeCard
-										coverImageUrl={ anime.coverImage.large }
-										title={ anime.title.english }
-										season={ anime.season }
-										seasonYear={ anime.seasonYear }
-										studio={ anime.studios.nodes[0].name }
-										format={ anime.format }
-										episodes={ anime.episodes }
-										genres={ anime.genres }
-									/>
-								</a>
-							</Link>
-						).slice(0, columnCount as number)
-					}
+				{
+					animeList.media.map((anime: Anime, index: number) =>
+						<React.Fragment key={ anime.id }>
+							<AnimeCard
+								id={ anime.id }
+								coverImageUrl={ anime.coverImage.large }
+								title={ anime.title.english }
+								season={ anime.season }
+								seasonYear={ anime.seasonYear }
+								studio={ anime.studios.nodes[0].name }
+								format={ anime.format }
+								episodes={ anime.episodes }
+								genres={ anime.genres }
+							/>
+						</React.Fragment>
+					).slice(0, columnCount as number)
+				}
 				</div>
 			</div>
 		</div>

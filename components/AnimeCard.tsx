@@ -1,9 +1,11 @@
 import Image from 'next/image'
+import Link from 'next/link';
 import { useEffect, useRef, useState, useMemo, RefObject } from 'react';
 
 import MediaDisplayStyles from '../styles/MediaDisplay.module.css'
 
 type Props = {
+	id: string,
 	coverImageUrl: string,
 	title: string,
 	season: string,
@@ -12,6 +14,7 @@ type Props = {
 	format: string,
 	episodes: string,
 	genres: string[],
+	isLastItem?: boolean,
 };
 
 const getFormat = (format: string): string => {
@@ -33,7 +36,7 @@ const getFormat = (format: string): string => {
 	};
 }
 
-const AnimeCard = ({ coverImageUrl, title, season, seasonYear, studio, format, episodes, genres }: Props)=> {
+const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, format, episodes, genres, isLastItem = false }: Props)=> {
 
 	const useIsInViewport = (ref: RefObject<HTMLDivElement>): boolean => {
 		const [isIntersectingViewport, setIsIntersectingViewport] = useState(false);
@@ -79,14 +82,20 @@ const AnimeCard = ({ coverImageUrl, title, season, seasonYear, studio, format, e
 	const isAnimeCardInView = useIsInViewport(animeCardRef);
 
 	useEffect(() => {
+		const queryEvent = new Event('queryNextPage');
+
 		if (isAnimeCardInView) {
 			window.addEventListener('resize', handleResize);
 		} else {
 			window.removeEventListener('resize', handleResize);
 		}
 
+		if (isAnimeCardInView && isLastItem) {
+			document.dispatchEvent(queryEvent);
+		}
+
 		return () => window.removeEventListener('resize', handleResize);
-	}, [isAnimeCardInView]);
+	}, [isAnimeCardInView, isLastItem]);
 
 	// run handleResize on initial render of anime card to check if toolTip overflows
 	useEffect(() => {
@@ -94,26 +103,28 @@ const AnimeCard = ({ coverImageUrl, title, season, seasonYear, studio, format, e
 	}, []);
 
 	return (
-		<>
-			<div ref={ animeCardRef }>
-				<div>
-					<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+		<Link href={ `/media/${encodeURIComponent(id)}` }>
+			<a className={ MediaDisplayStyles.animeCard }>
+				<div ref={ animeCardRef }>
+					<div>
+						<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+					</div>
+					<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
 				</div>
-				<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
-			</div>
-			<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
-				<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
-				<p className={ MediaDisplayStyles.studio }>{ studio }</p>
-				<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
-				<div className={ MediaDisplayStyles.genresContainer }>
-					{
-						genres.map((genre: string, index: number) =>
-							<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
-						)
-					}
+				<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
+					<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
+					<p className={ MediaDisplayStyles.studio }>{ studio }</p>
+					<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
+					<div className={ MediaDisplayStyles.genresContainer }>
+						{
+							genres.map((genre: string, index: number) =>
+								<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
+							)
+						}
+					</div>
 				</div>
-			</div>
-		</>
+			</a>
+		</Link>
 	)
 }
 

@@ -30,14 +30,14 @@ const AppBar = () => {
 		if (isPopupFadeIn && !showSignInState) {
 			setShowSignInState(true);
 		}
-	}, [isPopupFadeIn]);
+	}, [isPopupFadeIn, showSignInState]);
 
 	// hook to make dropMenu render only once and to stay rendered
 	useEffect(() => {
 		if (isDropMenuFadeIn && !showDropMenuState) {
 			setShowDropMenuState(true);
 		}
-	}, [isDropMenuFadeIn]);
+	}, [isDropMenuFadeIn, showDropMenuState]);
 
 	// when user logs out un-render dropmenu and set animation to fadeout
 	useEffect(() => {

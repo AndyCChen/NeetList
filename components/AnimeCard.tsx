@@ -82,8 +82,6 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 	const isAnimeCardInView = useIsInViewport(animeCardRef);
 
 	useEffect(() => {
-		const queryEvent = new Event('queryNextPage');
-
 		if (isAnimeCardInView) {
 			window.addEventListener('resize', handleResize);
 		} else {
@@ -91,6 +89,7 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 		}
 
 		if (isAnimeCardInView && isLastItem) {
+			const queryEvent = new Event('queryNextPage');
 			document.dispatchEvent(queryEvent);
 		}
 

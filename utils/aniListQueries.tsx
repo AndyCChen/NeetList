@@ -1,4 +1,4 @@
-import { AnimeList, Anime } from '../interfaces/queryInterface'
+import { AnimeList, AnimeInfo } from '../interfaces/queryInterface'
 
 type getMediaProps = {
 	page: number,
@@ -109,11 +109,10 @@ type getMediaByIDProps = {
 	id: number
 };
 
-export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<Anime> => {
+export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo> => {
 	const query = 
 		`query ($id: Int) {
 			Media (id: $id, type: ANIME) {
-				id,
 				bannerImage,
 				description (asHtml: false),
 				title {

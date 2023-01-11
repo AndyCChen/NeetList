@@ -41,7 +41,7 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 							<AnimeCard
 								id={ anime.id }
 								coverImageUrl={ anime.coverImage.large }
-								title={ anime.title.english }
+								title={ anime.title.english ? anime.title.english : anime.title.romaji }
 								season={ anime.season }
 								seasonYear={ anime.seasonYear }
 								studio={ anime.studios.nodes[0].name }

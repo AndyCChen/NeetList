@@ -88,6 +88,13 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
 	const mediaList = await getMediaByName({ page: 1, perPage: 20, sort: 'POPULARITY_DESC', searchString: searchString as string});
 
+	// return error 404 if request is failed
+   if (!mediaList) {
+      return {
+         notFound: true,
+      }
+   }
+
 	return {
 		props: {
 			searchString,

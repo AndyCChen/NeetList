@@ -1,0 +1,47 @@
+.headerImageContainer {
+   display: flex;
+}
+
+.headerContainer {
+   display: grid;
+   background-color: white;
+   height: 250px;
+}
+
+.headerText {
+   overflow: hidden;
+   display: inline-grid;
+   position: relative;
+}
+
+.headerText h1 {
+   font-size: 1.2rem;
+   margin: 0;
+   padding-top: 30px;
+   padding-bottom: 10px;
+   color: #2c2c2c;
+}
+
+.headerText p {
+   color: #4f4f4f;
+   margin: 0;
+}
+
+.readMore {
+   text-align: center;
+   color: transparent;
+   position: absolute;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   margin-left: auto;
+   margin-right: auto;
+   padding-top: 20px;
+   padding-bottom: 10px;
+   transition: 300ms;
+}
+
+.readMore:hover {
+   color: #2c2c2c;
+}
+

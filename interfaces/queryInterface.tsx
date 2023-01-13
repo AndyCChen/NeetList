@@ -28,6 +28,12 @@ export interface Anime {
    genres: string[],
 }
 
+export interface FuzzyDate {
+   year: number,
+   month: number,
+   day: number
+}
+
 export interface AnimeInfo {
    bannerImage: string,
    description: string,
@@ -47,4 +53,7 @@ export interface AnimeInfo {
    format: string,
    episodes: string,
    genres: string[],
+   startDate: FuzzyDate,
+   endDate: FuzzyDate,
+   status: string,
 }

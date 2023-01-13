@@ -133,6 +133,17 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo
 				format,
 				episodes,
 				genres,
+				startDate {
+					year,
+					month,
+					day,
+				},
+				endDate {
+					year,
+					month,
+					day,
+				},
+				status,
 			}
 		}`;
 

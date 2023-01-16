@@ -55,19 +55,71 @@
    margin: 15px;
 }
 
+.addButtonContainer {
+   display: flex;
+   color: white;
+   margin-top: 5px;
+}
+
 .addButton {
+   flex-grow: 1;
    cursor: pointer;
    text-align: center;
-   background-color: #418D89;
-   color: white;
    padding: 5px;
-   margin-top: 5px;
-   border-radius: 5px;
+   background-color: #418D89;
+   border-radius: 5px 0 0 5px; 
    transition: 300ms;
 }
 
-.addButton:hover {
+.addButtonOptions {
+   position: relative;
+   cursor: pointer;
+   padding: 5px;
    background-color: #52ADA8;
+   border-radius: 0 5px 5px 0;
+   user-select: none;
+}
+
+.optionsContainer {
+   filter: drop-shadow(5px 5px 4px rgba(0, 0, 0, 0.5));
+   width: 150px;
+   background-color: white;
+   border-radius: 5px;
+   position: absolute;
+   right: 0px;
+   opacity: 0;
+}
+
+.openOptions {
+   animation: optionsFadeIn 200ms  forwards;
+   
+}
+
+.closeOptions {
+   animation: optionsFadeOut 200ms  forwards;
+}
+
+@keyframes optionsFadeIn {
+   from {opacity: 0; bottom: -55px;}
+   to {opacity: 1; bottom: -65px;}
+}
+
+@keyframes optionsFadeOut {
+   from {opacity: 1; bottom: -65px;}
+   to {opacity: 0; bottom: -55px;}
+}
+
+.optionsContainer div {
+   color: #4f4f4f;
+   padding: 5px;
+   font-size: 0.9rem;
+   text-align: center;
+   border-radius: 5px;
+}
+
+.optionsContainer div:hover {
+   background-color: #418D89;
+   color: white;
 }
 
 .contentContainer {

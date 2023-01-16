@@ -1,12 +1,13 @@
 import { NextPage } from "next/types"
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, Fragment } from "react"
 
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
 import { AnimeInfo, FuzzyDate } from '../../interfaces/queryInterface'
 import MediaPageStyles from '../../styles/MediaPage.module.css'
+
 
 type Props = {
    media: AnimeInfo
@@ -68,6 +69,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
 
    const [isOverflow, setIsOverflow] = useState(false);
    const [isReadme, setIsReadme] = useState(false);
+   const [showAddOptions, setShowAddOptions] = useState(false);
 
    const headerContainerRef = useRef<HTMLDivElement>(null);
    const headerTitleRef = useRef<HTMLHeadingElement>(null);
@@ -89,9 +91,21 @@ const MediaPage: NextPage<Props> = ({ media }) => {
       handleResize();
    }, []);
 
-   const handleClick = () => {
+   const handleReadmeClick = () => {
       setIsOverflow(false);
       setIsReadme(true);
+   }
+
+   const handleAddToList = () => {
+      console.log('adding to list')
+   }
+
+   const handleSetAsWatching = () => {
+      console.log('setting as watching')
+   }
+
+   const handleSetAsPlanning = () => {
+      console.log('setting as planning')
    }
 
    return (
@@ -118,15 +132,22 @@ const MediaPage: NextPage<Props> = ({ media }) => {
                   layout='fixed'
                   draggable='false'
                />
-               <div className={ MediaPageStyles.addButton }>
-                  Add to List
+               <div className={ MediaPageStyles.addButtonContainer }>
+                  <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>Add to List</div>
+                  <div className={ MediaPageStyles.addButtonOptions } onClick={() => setShowAddOptions(!showAddOptions)}>
+                     <Image src='/addOptions.svg' height={15} width={15} layout='fixed' style={{color: 'white'}}/>
+                     <div className={ `${MediaPageStyles.optionsContainer} ${showAddOptions ? MediaPageStyles.openOptions : MediaPageStyles.closeOptions}` }>
+                        <div onClick={ handleSetAsWatching }>Set as Watching</div>
+                        <div onClick={ handleSetAsPlanning }>Set as Planning</div>
+                     </div>
+                  </div>
                </div>
             </div>
             <div className={ MediaPageStyles.headerText }>
                <h1 ref={ headerTitleRef }>{ media.title.english ? media.title.english : media.title.romaji }</h1>
                <p ref={ descriptionRef } dangerouslySetInnerHTML={{ __html: media.description } }/>
                {
-                  isOverflow && <span className={ MediaPageStyles.readMore } onClick={ handleClick }>Read More</span>
+                  isOverflow && <span className={ MediaPageStyles.readMore } onClick={ handleReadmeClick }>Read More</span>
                }
             </div>
          </div>
@@ -173,10 +194,10 @@ const MediaPage: NextPage<Props> = ({ media }) => {
                   <h4>Genres</h4>
                   <p>
                      {
-                        media.genres.map((genre: string) => 
-                           <>
+                        media.genres.map((genre: string, index: number) => 
+                           <Fragment key={ index }>
                               { genre }<br/>
-                           </>
+                           </Fragment>
                         )
                      }
                   </p>

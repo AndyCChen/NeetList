@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import { useAuth } from '../../context/UserAuthContext'
+import { supabase } from '../../utils/supaBase'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 
@@ -10,7 +10,10 @@ type Props = {
 }
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-	const { logout } = useAuth();
+
+	const logout = async () => {
+		await supabase.auth.signOut();
+	}
 
 	return (
 		<>

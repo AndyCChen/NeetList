@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import { useAuth } from '../../context/UserAuthContext'
+import { supabase } from '../../utils/supaBase';
 import Error from './Error'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
@@ -10,7 +10,6 @@ type Props = {
 }
 
 const SignInForm = ({ handleClick }: Props) => {
-	const { signIn, user } = useAuth();
 
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
@@ -40,10 +39,13 @@ const SignInForm = ({ handleClick }: Props) => {
 			return;
 		}
 
-		try {
-			await signIn(email, password);
-		} catch (error: any) {
-			setErrorMessage((error.code as string).slice(5));
+		const { error } = await supabase.auth.signInWithPassword({
+			email: email,
+			password: password,
+		});
+
+		if (error) {
+			setErrorMessage((error.message as string));
 			setShowError(true);
 		}
 

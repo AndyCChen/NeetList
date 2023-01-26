@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '../../utils/supaBase';
 import Error from './Error'
 
@@ -10,7 +10,6 @@ type Props = {
 }
 
 const SignInForm = ({ handleClick }: Props) => {
-
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 

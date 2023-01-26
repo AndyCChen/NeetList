@@ -10,8 +10,6 @@ type Props = {
 }
 
 const SignUpForm = ({ setShowSignUp }: Props) => {
-
-
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -51,22 +49,31 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 			setErrorMessage('Password confirmation does not match!');
 			setShowError(true);
 			return;
+		} else if (username.length > 15 ) {
+			setErrorMessage('Username must be under 15 characters');
+			setShowError(true);
+			return;
 		}
 
-		try {
-			const { error } = await supabase.auth.signUp({
-				email: email,
-				password: password,
-			});
-			console.log(error)
-		} catch (error: any) {
-			setErrorMessage((error.code as string).slice(5));
+		const { error } = await supabase.auth.signUp({
+			email: email,
+			password: password,
+			options: {
+				data: {
+					username: username
+				}
+			}
+		});
+
+		if (error) {
+			setErrorMessage(error.message);
 			setShowError(true);
+		} else {
+			
 		}
 
 		document.body.style.overflow = 'auto';
 	}
-
 
 	return (
 		<div className={ signInBoxStyles.signInFormContainer }>

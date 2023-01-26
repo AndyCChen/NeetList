@@ -1,20 +1,17 @@
 import type { AppProps } from 'next/app'
 import Layout from '../components/Layout'
-import { useUser } from '../hooks/useUser'
+import { UserAuthProvider } from '../context/UserAuthProvider'
 
 import '../styles/globals.css'
 
 function MyApp({ Component, pageProps }: AppProps) {
-
-	const { isLoading } = useUser();
-
 	return (
-			!isLoading &&
+		<UserAuthProvider>
 			<Layout>
 				<Component {...pageProps} />
 			</Layout>
+		</UserAuthProvider>	
 	)
-
 }
 
 export default MyApp

@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { supabase } from '../../utils/supaBase'
+import { useAuth } from '../../context/UserAuthProvider'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 
@@ -15,6 +16,8 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 		await supabase.auth.signOut();
 	}
 
+	const { user } = useAuth();
+
 	return (
 		<>
 			{props.showDropMenuState &&
@@ -23,7 +26,7 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 						<div className={ dropMenuStyles.userIcon}>
 							<Image src='/user.svg' alt='user icon' height={50} width={50} layout='intrinsic'/>
 						</div>
-						<p>NonAnimeWatcher</p>
+						<p>{ user?.user_metadata.username }</p>
 					</div>
 
 					<button className={ dropMenuStyles.menuButton}>

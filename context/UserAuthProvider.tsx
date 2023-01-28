@@ -15,10 +15,21 @@ export const UserAuthProvider = ({ children }: { children: React.ReactNode }) =>
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
+		const fetchSession = async () => {
+			const { data, error } = await supabase.auth.getSession();
+
+			if (!error) {
+				setUser(data.session?.user);
+			}
+		}
+
+		fetchSession();
+
 		const { data } = supabase.auth.onAuthStateChange((event, session) => {
 			if (!session) setUser(null);
 			else if (event == 'SIGNED_IN') setUser(session.user);
 			else if (event == 'SIGNED_OUT') setUser(null);
+			else if (event == 'USER_UPDATED') console.log('user update')
 		});
 
 		setIsLoading(false);

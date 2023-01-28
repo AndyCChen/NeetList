@@ -2,7 +2,7 @@ import { NextPage } from "next/types"
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Image from "next/image"
 import { useEffect, useRef, useState, Fragment } from "react"
-import { useUser } from "../../hooks/useUser"
+import { useAuth } from "../../context/UserAuthProvider"
 
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
@@ -55,7 +55,7 @@ const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string => {
 }
 
 const MediaPage: NextPage<Props> = ({ media }) => {
-   const { user } = useUser();
+   const { user } = useAuth();
 
    const height = useMediaQuery(
 		[

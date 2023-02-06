@@ -1,11 +1,8 @@
 .contentContainer {
-   max-width: 800px;
-   min-width: 400px;
-   margin-top: 20px;
+   max-width: 1125px;
    display: grid;
    grid-template-columns: 200px auto;
    column-gap: 20px;
-   margin-left: auto;
-   margin-right: auto;
+   margin: 20px auto 0 auto;
    padding: 0 10px 0 10px
 }

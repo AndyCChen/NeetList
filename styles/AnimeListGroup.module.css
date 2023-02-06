@@ -1,0 +1,41 @@
+.listName {
+   color: #4f4f4f;
+   font-size: 1.3rem;
+}
+
+.listContainer {
+   
+   background-color: white;
+   border-radius: 5px;
+   padding: 10px;
+}
+
+.listHeader {
+   display: grid;
+   grid-template-columns: minmax(auto, 650px) minmax(60px, auto) minmax(70px, auto);
+}
+
+.listHeader p {
+   color: black;
+   margin: 0;
+   padding: 10px;
+}
+
+.listHeader p:not(:first-child) {
+   text-align: center;
+}
+
+.listItemContainer {
+   display: grid;
+   grid-template-columns: minmax(auto, 650px) minmax(60px, auto) minmax(70px, auto);
+}
+
+.listItemContainer p:not(:first-child) {
+   text-align: center;
+}
+
+.listItemContainer p {
+   color: #4f4f4f;
+   margin: 0;
+   padding: 10px;
+}

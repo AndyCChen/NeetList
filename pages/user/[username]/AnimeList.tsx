@@ -3,13 +3,15 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 
 import AnimeListStyles from '../../../styles/AnimeList.module.css'
 import SideBar from '../../../components/animeList/SideBar'
+import AnimeListGroup from "../../../components/animeList/AnimeListGroup"
 
 const AnimeList: NextPage = ({  }) => {
 	return (
 		<div className={ AnimeListStyles.contentContainer }>
 			<SideBar/>
 			<div>
-				list stuff here
+				<AnimeListGroup/>
+				<AnimeListGroup/>
 			</div>
 		</div>
 	)

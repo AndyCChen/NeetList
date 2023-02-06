@@ -1,4 +1,5 @@
 .sideBar {
+   height: fit-content;
    padding: 10px;
    display: grid;
    grid-template-columns: auto;

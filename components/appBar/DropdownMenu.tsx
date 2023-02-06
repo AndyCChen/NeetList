@@ -1,7 +1,8 @@
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { supabase } from '../../utils/supaBase'
 import { useAuth } from '../../context/UserAuthProvider'
+import { useRouter } from 'next/router'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 
@@ -12,11 +13,17 @@ type Props = {
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 
+	const router = useRouter();
+	const { user } = useAuth();
+
 	const logout = async () => {
 		await supabase.auth.signOut();
+		router.push('/');
 	}
 
-	const { user } = useAuth();
+	const routeToAnimeList = () => {
+		router.push(`/user/${encodeURIComponent(user?.user_metadata.username)}/AnimeList`);
+	}
 
 	return (
 		<>
@@ -33,8 +40,8 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 						<p>Profile</p>
 					</button>
 
-					<button className={ dropMenuStyles.menuButton}>
-						<p>Watch List</p>
+					<button className={ dropMenuStyles.menuButton} onClick={routeToAnimeList}>
+						<p>Anime List</p>
 					</button>
 
 					<button className={ dropMenuStyles.menuButton} onClick={logout}>

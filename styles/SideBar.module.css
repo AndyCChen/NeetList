@@ -1,0 +1,32 @@
+.sideBar {
+   padding: 10px;
+   display: grid;
+   grid-template-columns: auto;
+   row-gap: 8px;
+}
+
+.sideBar p {
+   color: #4f4f4f;
+   font-size: 0.9rem;
+   margin: 0;
+}
+
+.sideBar div {
+   padding: 5px 10px 5px 0;
+   cursor: pointer;
+   display: flex;
+   justify-content: space-between;
+}
+
+.sideBar div:not(:first-child) {
+   padding-left: 10px;
+}
+
+.sideBar div p:not(:first-child) {
+   opacity: 0;
+   transition: 300ms;
+}
+
+.sideBar:hover div p:not(:first-child) {
+   opacity: 1;
+}

@@ -2,6 +2,8 @@ import type { AppProps } from 'next/app'
 import Layout from '../components/Layout'
 import { UserAuthProvider } from '../context/UserAuthProvider'
 
+import '../styles/globals.css'
+
 function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<UserAuthProvider>

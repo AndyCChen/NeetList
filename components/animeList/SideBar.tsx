@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from 'react'
+import { CSSProperties, useState, useEffect } from 'react'
 
 import SideBarStyles from '../../styles/SideBar.module.css'
 
@@ -10,6 +10,10 @@ const listSelectorStyle: CSSProperties = {
 const SideBar = () => {
 
 	const [listSelector, setListSelector] = useState(1);
+
+	useEffect(() => {
+		console.log(listSelector)
+	}, [listSelector]);
 
 	return (
 		<div className={ SideBarStyles.sideBar }>

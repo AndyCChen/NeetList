@@ -1,10 +1,9 @@
 .listName {
    color: #4f4f4f;
-   font-size: 1.3rem;
+   font-size: 1.4rem;
 }
 
 .listContainer {
-   
    background-color: white;
    border-radius: 5px;
    padding: 10px;
@@ -12,13 +11,16 @@
 
 .listHeader {
    display: grid;
-   grid-template-columns: minmax(auto, 650px) minmax(60px, auto) minmax(70px, auto);
+   grid-template-columns: minmax(180px, 650px) minmax(60px, auto) minmax(70px, auto);
 }
 
 .listHeader p {
    color: black;
-   margin: 0;
-   padding: 10px;
+   padding: 0;
+}
+
+.listHeader p:is(:first-child) {
+   padding: 0 0 0 10px;
 }
 
 .listHeader p:not(:first-child) {
@@ -27,15 +29,58 @@
 
 .listItemContainer {
    display: grid;
-   grid-template-columns: minmax(auto, 650px) minmax(60px, auto) minmax(70px, auto);
+   grid-template-columns: minmax(180px, 650px) minmax(60px, auto) minmax(70px, auto);
+   height: 50px;
 }
 
-.listItemContainer p:not(:first-child) {
+.listItemContainer div {
+   display: flex;
+}
+
+.listItemContainer div p {
+   flex-grow: 1;
+   cursor: pointer;
+   margin-left: 10px;
+}
+
+.listItemContainer div p:hover {
+   color: #418D89;
+   transition: 300ms;
+}
+
+.listItemContainer > p {
    text-align: center;
 }
 
 .listItemContainer p {
    color: #4f4f4f;
    margin: 0;
-   padding: 10px;
+   padding-top: 12px;
+}
+
+.image {
+   width: 45px;
+   height: 45px;
+   position: relative;
+}
+
+.iconOverlay {
+   cursor: pointer;
+   position: absolute;
+   height: 45px;
+   width: 45px;
+   background-color: #4f4f4f;
+   opacity: 0;
+   border-radius: 5px;
+   transition: 300ms;
+}
+
+.iconOverlay:hover  {
+   opacity: 0.9;
+}
+
+.iconWrapper {
+   display: flex;
+   flex-grow: 1;
+   justify-content: center;
 }

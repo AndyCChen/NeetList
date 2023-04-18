@@ -1,9 +1,13 @@
 import Image from 'next/image'
+import { useState } from 'react';
 
 import editIcon from '../../public/dots.svg';
 import AnimeListGroupStyles from '../../styles/AnimeListGroup.module.css'
+import EditMenu from './EditMenu';
 
 const AnimeListItem = () => {
+	const [toggleEdit, setToggleEdit] = useState(false);
+
 	return (
 		<div className={ AnimeListGroupStyles.listItemContainer }>
 			<div className={ AnimeListGroupStyles.titleContainer }>
@@ -14,7 +18,7 @@ const AnimeListItem = () => {
 						style={{borderRadius: '5px'}}
 					/>
 				</div>
-				<div className={ AnimeListGroupStyles.iconOverlay }>
+				<div className={ AnimeListGroupStyles.iconOverlay } onClick={() => setToggleEdit(!toggleEdit)}>
 					<div className={ AnimeListGroupStyles.iconWrapper}>
 						<Image 
 							src= { editIcon } 
@@ -28,6 +32,7 @@ const AnimeListItem = () => {
 			</div>
 			<p>1</p>
 			<p>2/13</p>
+			{toggleEdit && <EditMenu closeEdit={ () => setToggleEdit(false) }/>}
 		</div>
 	)
 }

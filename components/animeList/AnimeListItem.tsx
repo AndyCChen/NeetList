@@ -5,6 +5,14 @@ import editIcon from '../../public/dots.svg';
 import AnimeListGroupStyles from '../../styles/AnimeListGroup.module.css'
 import EditMenu from './EditMenu';
 
+type Props = {
+	category: string,
+	imageURL: string,
+	title: string,
+	score: number,
+	progress: number,
+}
+
 const AnimeListItem = () => {
 	const [toggleEdit, setToggleEdit] = useState(false);
 
@@ -32,7 +40,18 @@ const AnimeListItem = () => {
 			</div>
 			<p>1</p>
 			<p>2/13</p>
-			{toggleEdit && <EditMenu closeEdit={ () => setToggleEdit(false) }/>}
+			<div>
+				{
+					toggleEdit && 
+					<EditMenu 
+						closeEdit={ () => setToggleEdit(false) } 
+						title='Really bad show'
+						status='Watching'
+						progress={ 12 }
+						score={ 4 }
+					/>
+				}
+			</div>
 		</div>
 	)
 }

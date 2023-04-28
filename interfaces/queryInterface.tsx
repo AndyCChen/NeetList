@@ -57,3 +57,13 @@ export interface AnimeInfo {
    endDate: FuzzyDate,
    status: string,
 }
+
+export interface AnimeItem {
+   id: string,
+   category: string,
+}
+
+export interface AnimeListCategory {
+   category: string,
+   animeItemList: AnimeItem[],
+}

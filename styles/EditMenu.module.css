@@ -50,9 +50,61 @@
    top: 50%;
    left: 50%;
    transform: translate(-50%, -50%);
-   width: 200px;
-   height:180px;
+   max-width: 700px;
+   width: 100%;
+   
    background-color: white;
    border-radius: 5px;
    z-index: 4;
+   padding: 45px;
+}
+
+.title {
+   color: #4f4f4f;
+   font-size: 1.5rem;
+}
+
+.formContainer {
+   display: grid;
+   grid-template-columns: repeat(2, minmax(150px, 1fr));
+   column-gap: 10px;
+}
+
+.formContainer div input {
+   width: 100%;
+   height: 40px;
+   padding: 10px;
+   outline: none;
+   border: none;
+   border-radius: 5px;
+   background-color: #d7e3ea;
+}
+
+.formContainer div p {
+   margin-bottom: 10px;
+}
+
+.formButtons {
+   display: flex;
+   justify-content: flex-end;
+}
+
+.save {
+   cursor: pointer;
+   color: white;
+   width: 75px;
+   height: 30px;
+   background-color: #418D89;
+   border: none;
+   border-radius: 5px;
+   margin-right: 10px;
+}
+
+.delete {
+   cursor: pointer;
+   color: #242424;
+   width: 75px;
+   height: 30px;
+   border: none;
+   border-radius: 5px;
 }

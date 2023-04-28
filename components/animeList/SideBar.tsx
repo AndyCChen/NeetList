@@ -7,41 +7,41 @@ const listSelectorStyle: CSSProperties = {
 	borderRadius: '5px',
 }
 
-const SideBar = () => {
+type Props = {
+	listSelectorCallback: (value: string) => void,
+}
 
-	const [listSelector, setListSelector] = useState(1);
+const SideBar = ({ listSelectorCallback }: Props) => {
+	const [listSelector, setListSelector] = useState(0);
+
+	const categories = [
+		'All',
+		'Watching',
+		'Planning',
+		'Finished',
+		'Droppped',
+		'Paused',
+	];
 
 	useEffect(() => {
-		console.log(listSelector)
+		listSelectorCallback(categories[listSelector]);
 	}, [listSelector]);
+
+	const lists = categories.map((value, index) => {
+		return (
+			<>
+				<div style={ listSelector == index ? listSelectorStyle : {} } onClick={() => setListSelector(index)}>
+					<p>{ value }</p>
+					<p>{ 1 }</p>
+				</div>
+			</>
+		)
+	});
 
 	return (
 		<div className={ SideBarStyles.sideBar }>
 			<p>List</p>
-			<div style={ listSelector == 1 ? listSelectorStyle : {} } onClick={() => setListSelector(1)}>
-				<p>All</p>
-				<p>{ 1 }</p>
-			</div>
-			<div style={ listSelector == 2 ? listSelectorStyle : {} } onClick={() => setListSelector(2)}>
-				<p>Watching</p>
-				<p>{ 1 }</p>
-			</div>
-			<div style={ listSelector == 3 ? listSelectorStyle : {} } onClick={() => setListSelector(3)}>
-				<p>Planning</p>
-				<p>{ 1 }</p>
-			</div>
-			<div style={ listSelector == 4 ? listSelectorStyle : {} } onClick={() => setListSelector(4)}>
-				<p>Finished</p>
-				<p>{ 1 }</p>
-			</div>
-			<div style={ listSelector == 5 ? listSelectorStyle : {} } onClick={() => setListSelector(5)}>
-				<p>Dropped</p>
-				<p>{ 1 }</p>
-			</div>
-			<div style={ listSelector == 6 ? listSelectorStyle : {} }  onClick={() => setListSelector(6)}>
-				<p>Paused</p>
-				<p>{ 1 }</p>
-			</div>
+			{ lists }
 		</div>
 	)
 }

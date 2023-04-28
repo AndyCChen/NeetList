@@ -33,17 +33,17 @@
    height: 50px;
 }
 
-.listItemContainer div {
+.listItemContainer > div {
    display: flex;
 }
 
-.listItemContainer div p {
+.listItemContainer > div > p {
    flex-grow: 1;
    cursor: pointer;
    margin-left: 10px;
 }
 
-.listItemContainer div p:hover {
+.listItemContainer > div > p:hover {
    color: #418D89;
    transition: 300ms;
 }
@@ -73,6 +73,7 @@
    opacity: 0;
    border-radius: 5px;
    transition: 300ms;
+   display: flex;
 }
 
 .iconOverlay:hover  {

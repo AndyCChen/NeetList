@@ -36,7 +36,8 @@
    background-color: #474747;
    position: absolute;
    left: 50%;
-   transform: translate(-50%, 20%);
+   top: 50%;
+   transform: translate(-50%, 35%);
    z-index: 3;
    border-radius: 1rem;
    padding: 1.5rem;

@@ -23,6 +23,24 @@ const AnimeListGroup = ({ category }: Props) => {
 				<AnimeListItem/>
 				<AnimeListItem/>
 				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
+				<AnimeListItem/>
 			</div>
 		</div>
 	)

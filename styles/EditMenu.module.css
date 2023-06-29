@@ -46,13 +46,12 @@
 }
 
 .container {
-   position: absolute;
-   top: 50%;
+   position: fixed;
    left: 50%;
    transform: translate(-50%, -50%);
    max-width: 700px;
+   min-width: 500px;
    width: 100%;
-   
    background-color: white;
    border-radius: 5px;
    z-index: 4;
@@ -87,6 +86,7 @@
 .formButtons {
    display: flex;
    justify-content: flex-end;
+   margin-top: 10px;
 }
 
 .save {
@@ -103,6 +103,7 @@
 .delete {
    cursor: pointer;
    color: #242424;
+   background-color: #d7e3ea;
    width: 75px;
    height: 30px;
    border: none;

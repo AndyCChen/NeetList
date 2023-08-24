@@ -1,5 +1,5 @@
 import { CSSProperties, useState, useEffect } from 'react'
-
+import React from 'react'
 import SideBarStyles from '../../styles/SideBar.module.css'
 
 const listSelectorStyle: CSSProperties = {
@@ -29,12 +29,12 @@ const SideBar = ({ listSelectorCallback }: Props) => {
 
 	const lists = categories.map((value, index) => {
 		return (
-			<>
+			<React.Fragment key={ index }>
 				<div style={ listSelector == index ? listSelectorStyle : {} } onClick={() => setListSelector(index)}>
 					<p>{ value }</p>
 					<p>{ 1 }</p>
 				</div>
-			</>
+			</React.Fragment>
 		)
 	});
 

@@ -27,9 +27,9 @@ const AnimeList: NextPage = ({  }) => {
 
 	const [listSelector, setListSelector] = useState('All');
 
-	const lists = categories.map((value, index) => {
+/* 	const lists = categories.map((value, index) => {
 		
-	})
+	}) */
 
 	useEffect(() => {
 		console.log(listSelector)

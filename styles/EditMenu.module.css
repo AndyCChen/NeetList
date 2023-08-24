@@ -69,6 +69,10 @@
    column-gap: 10px;
 }
 
+.formContainer > div:not(:first-child) > div{
+   width: 100%;
+}
+
 .formContainer div input {
    width: 100%;
    height: 40px;
@@ -108,4 +112,45 @@
    height: 30px;
    border: none;
    border-radius: 5px;
+}
+
+.statusDropdown {
+   position: absolute;
+   z-index: 1;
+   background-color: #d7e3ea;
+   border-radius: 5px;
+   box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.3);
+   display: grid;
+   grid-template-columns: auto;
+}
+
+.statusDropdown button {
+   border-style: none;
+   background-color: transparent;
+   padding: 10px 30px 10px 30px;
+   border-radius: 5px;
+   transition: 300ms;
+}
+
+.statusDropdown button:hover {
+   border-style: none;
+   background-color: #acc5d3;
+}
+
+.closeDropdown {
+   animation: dropDownFadeOut 200ms forwards;
+}
+
+.openDropdown {
+   animation: dropDownFadeIn 200ms forwards;
+}
+
+@keyframes dropDownFadeIn {
+   from {opacity: 0; top: 30%}
+   to {opacity: 1; top: 40%}
+}
+
+@keyframes dropDownFadeOut {
+   from {opacity: 1; top: 40%;}
+   to {opacity: 0; top: 30%;}
 }

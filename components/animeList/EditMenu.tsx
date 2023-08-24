@@ -1,4 +1,6 @@
-import { FormEventHandler, useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback, RefObject, ChangeEvent } from 'react'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css';
 import EditMenuStyles from '../../styles/EditMenu.module.css'
 
 type props = {
@@ -33,6 +35,59 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
       event.preventDefault();
    }
 
+   const [showStatus, setShowStatus] = useState(status);
+   const [toggleDropdown, setToggleDropdown] = useState(false);
+   const [isDropdownClosed, setIsDropdownClosed] = useState(false);
+   const [startDate, setStartDate] = useState(new Date());
+   const [finshDate, setFinishDate] = useState(new Date());
+   const [episodeProgress, setEpisodeProgress] = useState(progress);
+
+   const statusDropdownRef = useRef(null);
+
+   const handleClick = useCallback((event: MouseEvent) => {
+      if (!(statusDropdownRef as RefObject<HTMLDivElement>).current?.contains(event.target as Element)) {
+         setIsDropdownClosed(true);
+      }
+   }, []);
+
+   const onEpisodeProgressChanged = (event: ChangeEvent<HTMLInputElement>) => {
+      let inputValue = event.target.value as unknown as number;
+      console.log(isNaN(inputValue))
+      if (!(inputValue < 0)) {
+         setEpisodeProgress(inputValue);
+      } else {
+         setEpisodeProgress(0);
+         
+      }
+   }
+
+   const onStatusFieldClicked = () => {
+      setIsDropdownClosed(false);
+      
+      if (!toggleDropdown) {
+         setToggleDropdown(true);
+      }
+   }
+
+   useEffect(() => {
+      let timeout: NodeJS.Timeout;
+
+      if (isDropdownClosed) {
+         timeout = setTimeout(() => setToggleDropdown(false), 200);
+      }
+
+      return () => clearTimeout(timeout);
+
+   }, [isDropdownClosed])
+
+   useEffect(() => {
+      if (toggleDropdown) {
+         document.addEventListener('click', handleClick, true)
+      } else {
+         document.removeEventListener('click', handleClick, true)
+      }
+   }, [toggleDropdown])
+
    return (
       <>
          <div 
@@ -47,23 +102,43 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
             <div className={ EditMenuStyles.formContainer }>
                <div>
                   <p>Status</p>
-                  <input type='text' value={ status } readOnly/>
+                  <input type='text' value={ showStatus } onClick={ onStatusFieldClicked } readOnly />
+                  {
+                     toggleDropdown &&  
+                     <div className={ `${EditMenuStyles.statusDropdown} ${isDropdownClosed ? EditMenuStyles.closeDropdown : EditMenuStyles.openDropdown}` } ref={ statusDropdownRef }>
+                        <button onClick={ () => setShowStatus('Watching') }>Watching</button>
+                        <button onClick={ () => setShowStatus('Planning') }>Planning</button>
+                        <button onClick={ () => setShowStatus('Finished') }>Finished</button>
+                        <button onClick={ () => setShowStatus('Dropped') }>Dropped</button>
+                        <button onClick={ () => setShowStatus('Paused') }>Paused</button>
+                     </div>
+                  }
                </div>
                <div>
                   <p>Score</p>
-                  <input/>
+                  <div>
+                     <input/>
+                  </div>
                </div>
                <div>
                   <p>Start Date</p>
-                  <input/>
+                  <DatePicker
+                     showIcon
+                     selected={ startDate }
+                     onChange={ (date: Date) => setStartDate(date) }
+                  />
                </div>
                <div>
                   <p>Finish Date</p>
-                  <input/>
+                  <DatePicker
+                     showIcon
+                     selected={ finshDate }
+                     onChange={ (date: Date) => setStartDate(date) }
+                  />
                </div>
                <div>
                   <p>Episode Progress</p>
-                  <input/>
+                  <input type='number'  min={ 0 } value={ episodeProgress } onChange={ onEpisodeProgressChanged }/>
                </div>
             </div>
             <div className={ EditMenuStyles.formButtons }>

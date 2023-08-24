@@ -18,7 +18,6 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 
 	const logout = async () => {
 		await supabase.auth.signOut();
-		router.push('/');
 	}
 
 	const routeToAnimeList = () => {

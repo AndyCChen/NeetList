@@ -1,6 +1,6 @@
 import { NextPage } from "next/types"
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { useEffect, useRef, useState, Fragment } from "react"
 import { useAuth } from "../../context/UserAuthProvider"
 
@@ -132,7 +132,8 @@ const MediaPage: NextPage<Props> = ({ media }) => {
             <div className={ MediaPageStyles.headerImageContainer }>
                <Image
                   src={ media.bannerImage }
-                  height={ height }
+                  alt={ 'banner image' }
+                  height={ height as number}
                   width={ 1900 }
                   objectFit='cover'
                   layout='fixed'
@@ -143,6 +144,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
          <div className={ MediaPageStyles.headerContainer } ref={ headerContainerRef } style={{height: isReadme ? 'auto' : '250px'}}>
             <div className={ MediaPageStyles.coverImageContainer }>
                <Image
+                  alt={ 'thumbnail' }
                   src={ media.coverImage.large }
                   height={ 280 }
                   width={ 200 }
@@ -152,7 +154,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
                <div className={ MediaPageStyles.addButtonContainer }>
                   <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>Add to List</div>
                   <div className={ MediaPageStyles.addButtonOptions } onClick={() => setShowAddOptions(!showAddOptions)}>
-                     <Image src='/addOptions.svg' height={15} width={15} layout='fixed' style={{color: 'white'}}/>
+                     <Image src='/addOptions.svg' alt={ 'icon' } height={15} width={15} layout='fixed' style={{color: 'white'}}/>
                      <div className={ `${MediaPageStyles.optionsContainer} ${showAddOptions ? MediaPageStyles.openOptions : MediaPageStyles.closeOptions}` }>
                         <div onClick={ handleSetAsWatching }>Set as Watching</div>
                         <div onClick={ handleSetAsPlanning }>Set as Planning</div>

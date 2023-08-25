@@ -1,4 +1,5 @@
-import Image from 'next/image'
+//import Image from 'next/image'
+import Image from 'next/legacy/image'
 import Link from 'next/link';
 import { useEffect, useRef, useState, useMemo, RefObject } from 'react';
 
@@ -102,27 +103,25 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 	}, []);
 
 	return (
-		<Link href={ `/media/${encodeURIComponent(id)}` }>
-			<a className={ MediaDisplayStyles.animeCard }>
-				<div ref={ animeCardRef }>
-					<div>
-						<Image src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
-					</div>
-					<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
+		<Link className={ MediaDisplayStyles.animeCard } href={ `/media/${encodeURIComponent(id)}` }>
+			<div ref={ animeCardRef }>
+				<div>
+					<Image alt={ 'Thumbnail' } src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
 				</div>
-				<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
-					<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
-					<p className={ MediaDisplayStyles.studio }>{ studio }</p>
-					<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
-					<div className={ MediaDisplayStyles.genresContainer }>
-						{
-							genres.map((genre: string, index: number) =>
-								<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
-							)
-						}
-					</div>
+				<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
+			</div>
+			<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
+				<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
+				<p className={ MediaDisplayStyles.studio }>{ studio }</p>
+				<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
+				<div className={ MediaDisplayStyles.genresContainer }>
+					{
+						genres.map((genre: string, index: number) =>
+							<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
+						)
+					}
 				</div>
-			</a>
+			</div>
 		</Link>
 	)
 }

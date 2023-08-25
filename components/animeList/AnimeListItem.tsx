@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import { useState } from 'react';
 
 import editIcon from '../../public/dots.svg';
@@ -21,6 +21,7 @@ const AnimeListItem = () => {
 			<div className={ AnimeListGroupStyles.titleContainer }>
 				<div className={ AnimeListGroupStyles.image }>
 					<Image
+						alt={ 'Thumbnail' }
 						src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx16498-C6FPmWm59CyP.jpg"
 						layout="fill"
 						style={{borderRadius: '5px'}}

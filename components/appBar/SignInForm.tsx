@@ -1,5 +1,5 @@
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import Image from 'next/legacy/image'
+import { useState } from 'react'
 import { supabase } from '../../utils/supaBase';
 import Error from './Error'
 

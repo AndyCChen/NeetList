@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import { useCarousel } from '../hooks/useCarousel';
 import { Anime } from '../interfaces/queryInterface';
 import { useMediaQuery } from '../hooks/useMediaQuery';
@@ -58,8 +58,9 @@ const TrendingBar = ({ animeList }: Props) => {
 							</div>
 						</div>
 						<Image
+							alt={ 'Thumbnail' }
 							src={ animeList[animeList.length - 1].bannerImage }
-							height={ height }
+							height={ height as number }
 							width={1900}
 							objectFit='cover'
 							layout='responsive'
@@ -70,16 +71,15 @@ const TrendingBar = ({ animeList }: Props) => {
 						animeList.map((anime: Anime, key: number) =>
 							<div className={ TrendingBarStyles.carouselItem} key={key}>
 								<div className={ TrendingBarStyles.carouselTextOverlay }>
-									<Link href={ `/media/${encodeURIComponent(anime.id)}` }>
-										<a className={ TrendingBarStyles.textContainer } draggable='false'>
-											<h1>{ anime.title.english }</h1>
-											<p>{ parseDescription(anime.description) }</p>
-										</a>
+									<Link className={ TrendingBarStyles.textContainer } href={ `/media/${encodeURIComponent(anime.id)}` }>
+										<h1>{ anime.title.english }</h1>
+										<p>{ parseDescription(anime.description) }</p>
 									</Link>
 								</div>
 								<Image
+									alt={ 'Thumbnail' }
 									src={ anime.bannerImage }
-									height={ height }
+									height={ height as number }
 									width={ 1900 }
 									objectFit='cover'
 									layout='responsive'
@@ -96,8 +96,9 @@ const TrendingBar = ({ animeList }: Props) => {
 							</div>
 						</div>
 						<Image
+							alt={ 'Thumbnail' }
 							src={ animeList[0].bannerImage }
-							height={ height }
+							height={ height as number }
 							width={ 1900 }
 							objectFit='cover'
 							layout='responsive'

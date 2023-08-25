@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Image from 'next/legacy/image'
 import React, { RefObject, useEffect, useRef, useState } from 'react'
 import SearchBox from './SearchBox'
 import NavItem from './NavItem'
@@ -102,10 +102,8 @@ const AppBar = () => {
 
 	return (
 		<div className={ appBarStyles.container }>
-			<Link href='/'>
-				<a className={ appBarStyles.logo }>
-					<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
-				</a>
+			<Link className={ appBarStyles.logo } href='/'>
+				<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
 			</Link>
 
 			<SearchBox />

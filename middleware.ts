@@ -1,21 +1,15 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs';
+import { createMiddlewareClient } from "@supabase/auth-helpers-nextjs";
+import { NextResponse } from "next/server";
 
-export async function middleware(req: NextRequest ) {
+import { NextRequest } from "next/server";
+
+const supabaseUrl = process.env.NEXT_PUBLIC_PROJECT_URL as string;
+const supabaseKey = process.env.NEXT_PUBLIC_API_KEY as string;
+
+export async function middleware(req: NextRequest) {
    const res = NextResponse.next();
-   const supabase = createMiddlewareClient({ req, res });
-
-   const { data: { user }} = await supabase.auth.getUser();
-
-   // if user is not signed in, redirect to home page if not already at home page
-   if (!user) {
-      return NextResponse.redirect(new URL('/', req.url));
-   }
+   const supabase = createMiddlewareClient({ req, res }, { supabaseUrl, supabaseKey });
+   await supabase.auth.getSession();
 
    return res;
-}
-
-export const config = {
-   matcher: '/user/:path',
 }

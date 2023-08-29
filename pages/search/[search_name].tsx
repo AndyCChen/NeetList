@@ -15,6 +15,29 @@ type Props = {
 }
 
 const SearchPage: NextPage<Props> = ({ searchString, mediaList }) => {
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		setIsLoading(false);
+	}, []);
+	
+	if (!isLoading) {
+		return (
+			<SearchPageBody searchString={ searchString } mediaList={ mediaList }/>
+		)
+	} else {
+		return (
+			<div></div>
+		)
+	}
+}
+
+type searchPageBodyProps = {
+	searchString: string,
+	mediaList: AnimeList,
+}
+
+const SearchPageBody = ({ searchString, mediaList }: searchPageBodyProps) => {
 
 	let isDoneQuerying = false;
 	let pageNumber = 1;

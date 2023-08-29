@@ -4,6 +4,7 @@ import { AnimeList, Anime } from '../interfaces/queryInterface'
 import { getMedia } from '../utils/aniListQueries'
 import TrendingBar from '../components/TrendingBar'
 import MediaDisplayBar from '../components/MediaDisplayBar';
+import { useEffect, useState } from 'react'
 
 type Props = {
 	trendingList: AnimeList,
@@ -13,29 +14,40 @@ type Props = {
 }
 
 const Home: NextPage<Props> = ({ trendingList, popularList, popularCurrentSeasonList, upcomingNextSeasonList }) => {
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		setIsLoading(false);
+	}, []);
+
 	return (
 		<>
 			<Head>
 				<title>NeetList</title>
 			</Head>
-			<TrendingBar 
-				animeList={
-					trendingList.media.map((anime: Anime) => anime)
-						.filter((anime: Anime) => anime.bannerImage).slice(0, 8)
-				 }
-			/>
-			<MediaDisplayBar
-				title='POPULAR THIS SEASON'
-				animeList={ popularCurrentSeasonList }
-			/>
-			<MediaDisplayBar
-				title='All TIME POPULAR'
-				animeList={ popularList }
-			/>
-			<MediaDisplayBar
-				title='UPCOMING NEXT SEASON'
-				animeList={ upcomingNextSeasonList }
-			/>
+			{
+				!isLoading &&	
+				<>
+					<TrendingBar
+						animeList={
+							trendingList.media.map((anime: Anime) => anime)
+								.filter((anime: Anime) => anime.bannerImage).slice(0, 8)
+						}
+					/>
+					<MediaDisplayBar
+						title='POPULAR THIS SEASON'
+						animeList={ popularCurrentSeasonList }
+					/>
+					<MediaDisplayBar
+						title='All TIME POPULAR'
+						animeList={ popularList }
+					/>
+					<MediaDisplayBar
+						title='UPCOMING NEXT SEASON'
+						animeList={ upcomingNextSeasonList }
+					/>
+				</>
+			}	
 		</>
 	)
 }

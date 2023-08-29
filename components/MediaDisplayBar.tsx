@@ -50,7 +50,7 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 								genres={ anime.genres }
 							/>
 						</React.Fragment>
-					).slice(0, columnCount as number)
+					).slice(0, columnCount)
 				}
 				</div>
 			</div>

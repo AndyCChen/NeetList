@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 
 	// hook for returning a specified value from a array based on matching media queries
-	export const useMediaQuery = (queries: string[], valueList: string[] | number[], defaultValue: string | number): string | number => {
+	export const useMediaQuery = (queries: string[], valueList: number[] | number[], defaultValue: number): number => {
 		// array of media queries
 		const mediaQueryList = queries.map((query: string) => window.matchMedia(query));
 
 		// get the corresponding height of the matching query
-		const getValue = (): string | number => {
+		const getValue = (): number => {
 			// find index of first matching query if it exists
 			const index = mediaQueryList.findIndex((mediaQuery: MediaQueryList) => mediaQuery.matches);
 

@@ -55,19 +55,41 @@ const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string => {
 }
 
 const MediaPage: NextPage<Props> = ({ media }) => {
+   const [isLoading, setIsLoading] = useState(true);
+
+   useEffect(() => {
+      setIsLoading(false);
+   }, []);
+
+   if (!isLoading) {
+      return (
+         <MediaPageBody media={ media }/>
+      )
+   } else {
+      return (
+         <div></div>
+      )
+   }
+}
+
+type MediaPageBodyProps = {
+   media: AnimeInfo,
+}
+
+const MediaPageBody = ({ media }: MediaPageBodyProps) => {
    const { user } = useAuth();
 
    const height = useMediaQuery(
-		[
-			'only screen and (max-width: 800px)',
-			'only screen and (max-width: 1200px)'
-		],
-		[
-			'200', 
-			'300',
-		],
-		'300'
-	);
+      [
+         'only screen and (max-width: 800px)',
+         'only screen and (max-width: 1200px)'
+      ],
+      [
+         200, 
+         300,
+      ],
+      300
+   );
 
    const [isOverflow, setIsOverflow] = useState(false);
    const [isReadme, setIsReadme] = useState(false);
@@ -133,7 +155,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
                <Image
                   src={ media.bannerImage }
                   alt={ 'banner image' }
-                  height={ height as number}
+                  height={ height }
                   width={ 1900 }
                   objectFit='cover'
                   layout='fixed'

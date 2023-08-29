@@ -5,7 +5,6 @@ import { UserAuthContextInterface } from '../interfaces/userAuthInterface'
 
 const UserAuthContext = createContext<UserAuthContextInterface>({
 	user: null,
-	isLoading: true,
 });
 
 export const useAuth = () => useContext(UserAuthContext);
@@ -13,6 +12,7 @@ export const useAuth = () => useContext(UserAuthContext);
 export const UserAuthProvider = ({ children }: { children: React.ReactNode }) => {
 	const [user, setUser] = useState<User | null | undefined>();
 	const [isLoading, setIsLoading] = useState(true);
+	console.log('reset')
 
 	useEffect(() => {
 		const fetchSession = async () => {
@@ -40,8 +40,8 @@ export const UserAuthProvider = ({ children }: { children: React.ReactNode }) =>
 	}, []);
 
 	return (
-		<UserAuthContext.Provider value={{ user, isLoading }}>
-			{ !isLoading && children }
+		<UserAuthContext.Provider value={{ user }}>
+			{ children }
 		</UserAuthContext.Provider>
 	)
 }

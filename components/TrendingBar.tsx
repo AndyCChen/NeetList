@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/legacy/image';
 import { useCarousel } from '../hooks/useCarousel';
 import { Anime } from '../interfaces/queryInterface';
@@ -25,88 +25,87 @@ const TrendingBar = ({ animeList }: Props) => {
 			'only screen and (max-width: 1200px)'
 		],
 		[
-			'800', 
-			'700',
-			'600', 
-			'500'
-		],
-		'400'
-	);
+				800, 
+				700,
+				600, 
+				500
+			],
+			400
+		);
 
 	const parseDescription = (description: string): string => {
 		let tempDoc = document.createElement('DIV');
 		tempDoc.innerHTML = description;
-
 		return tempDoc.textContent || tempDoc.innerText || '';
 	};
 
 	return (
-			<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
-				<div className={ TrendingBarStyles.itemIndicatorContainer }>
-					{
-						animeList.map((_, index: number) =>
-							<div className={ TrendingBarStyles.itemIndicator } style={{backgroundColor: activeIndex === index ? '#418D89' : 'white'}} key={index}></div>
-						)
-					}
+		<div ref={carouselContainerRef} className={ TrendingBarStyles.carouselContainer }>
+			<div className={ TrendingBarStyles.itemIndicatorContainer }>
+				{
+					animeList.map((_, index: number) =>
+						<div className={ TrendingBarStyles.itemIndicator } style={{backgroundColor: activeIndex === index ? '#418D89' : 'white'}} key={index}></div>
+					)
+				}
+			</div>
+			<div className={ TrendingBarStyles.carouselInner } style={styles}>
+				<div className={ TrendingBarStyles.carouselItem }>
+					<div className={ TrendingBarStyles.carouselTextOverlay }>
+						<div className={ TrendingBarStyles.textContainer }>
+							<h1>{ animeList[animeList.length - 1].title.english }</h1>
+							<p>{ parseDescription(animeList[animeList.length - 1].description) }</p>
+						</div>
+					</div>
+					<Image
+						alt={ 'Thumbnail' }
+						src={ animeList[animeList.length - 1].bannerImage }
+						height={ height }
+						width={1900}
+						objectFit='cover'
+						layout='responsive'
+						draggable='false'
+					/>
 				</div>
-				<div className={ TrendingBarStyles.carouselInner } style={styles}>
-					<div className={ TrendingBarStyles.carouselItem }>
-						<div className={ TrendingBarStyles.carouselTextOverlay }>
-							<div className={ TrendingBarStyles.textContainer }>
-								<h1>{ animeList[animeList.length - 1].title.english }</h1>
-								<p>{ parseDescription(animeList[animeList.length - 1].description) }</p>
+				{
+					animeList.map((anime: Anime, key: number) =>
+						<div className={ TrendingBarStyles.carouselItem} key={key}>
+							<div className={ TrendingBarStyles.carouselTextOverlay }>
+								<Link className={ TrendingBarStyles.textContainer } href={ `/media/${encodeURIComponent(anime.id)}` }>
+									<h1>{ anime.title.english }</h1>
+									<p>{ parseDescription(anime.description) }</p>
+								</Link>
 							</div>
+							<Image
+								alt={ 'Thumbnail' }
+								src={ anime.bannerImage }
+								height={ height }
+								width={ 1900 }
+								objectFit='cover'
+								layout='responsive'
+								draggable='false'
+							/>
 						</div>
-						<Image
-							alt={ 'Thumbnail' }
-							src={ animeList[animeList.length - 1].bannerImage }
-							height={ height as number }
-							width={1900}
-							objectFit='cover'
-							layout='responsive'
-							draggable='false'
-						/>
-					</div>
-					{
-						animeList.map((anime: Anime, key: number) =>
-							<div className={ TrendingBarStyles.carouselItem} key={key}>
-								<div className={ TrendingBarStyles.carouselTextOverlay }>
-									<Link className={ TrendingBarStyles.textContainer } href={ `/media/${encodeURIComponent(anime.id)}` }>
-										<h1>{ anime.title.english }</h1>
-										<p>{ parseDescription(anime.description) }</p>
-									</Link>
-								</div>
-								<Image
-									alt={ 'Thumbnail' }
-									src={ anime.bannerImage }
-									height={ height as number }
-									width={ 1900 }
-									objectFit='cover'
-									layout='responsive'
-									draggable='false'
-								/>
-							</div>
-						)
-					}
-					<div className={ TrendingBarStyles.carouselItem}>
-						<div className={ TrendingBarStyles.carouselTextOverlay }>
-							<div className={ TrendingBarStyles.textContainer }>
-								<h1>{ animeList[0].title.english }</h1>
-								<p>{ parseDescription(animeList[0].description) }</p>
-							</div>
+					)
+				}
+				<div className={ TrendingBarStyles.carouselItem}>
+					<div className={ TrendingBarStyles.carouselTextOverlay }>
+						<div className={ TrendingBarStyles.textContainer }>
+							<h1>{ animeList[0].title.english }</h1>
+							<p>{ parseDescription(animeList[0].description) }</p>
 						</div>
-						<Image
-							alt={ 'Thumbnail' }
-							src={ animeList[0].bannerImage }
-							height={ height as number }
-							width={ 1900 }
-							objectFit='cover'
-							layout='responsive'
-							draggable='false'
-						/>
 					</div>
+					<Image
+						alt={ 'Thumbnail' }
+						src={ animeList[0].bannerImage }
+						height={ height }
+						width={ 1900 }
+						objectFit='cover'
+						layout='responsive'
+						draggable='false'
+					/>
 				</div>
 			</div>
+		</div>
 	)
 }
 

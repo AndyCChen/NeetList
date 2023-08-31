@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/legacy/image';
-import { supabase } from '../../utils/supaBase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Error from './Error';
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
@@ -12,6 +12,8 @@ type Props = {
 const SignUpForm = ({ setShowSignUp }: Props) => {
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+
+	const supabase = createClientComponentClient();
 
 	const _setShowError = () => {
 		setShowError(!showError);
@@ -61,7 +63,8 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 			options: {
 				data: {
 					username: username
-				}
+				},
+				emailRedirectTo: `${location.origin}/auth/callback`,
 			}
 		});
 

@@ -2,10 +2,10 @@ import { NextPage } from "next/types"
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { useEffect, useState } from "react"
 
-import AnimeListStyles from '../../../styles/AnimeList.module.css'
-import SideBar from '../../../components/animeList/SideBar'
-import AnimeListGroup from "../../../components/animeList/AnimeListGroup"
-import { AnimeItem } from "../../../interfaces/queryInterface"
+import AnimeListStyles from '../../styles/AnimeList.module.css'
+import SideBar from "../../components/animeList/SideBar"
+import AnimeListGroup from "../../components/animeList/AnimeListGroup"
+import { AnimeItem } from "../../interfaces/queryInterface"
 
 type Props = {
 	animeItem: AnimeItem[],

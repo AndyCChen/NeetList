@@ -2,7 +2,7 @@ import { NextPage } from "next/types"
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Image from "next/legacy/image"
 import { useEffect, useRef, useState, Fragment } from "react"
-import { useAuth } from "../../context/UserAuthProvider"
+import { useUser } from "@supabase/auth-helpers-react"
 
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
@@ -77,7 +77,7 @@ type MediaPageBodyProps = {
 }
 
 const MediaPageBody = ({ media }: MediaPageBodyProps) => {
-   const { user } = useAuth();
+   const user = useUser();
 
    const height = useMediaQuery(
       [

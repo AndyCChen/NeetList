@@ -1,8 +1,8 @@
 import Image from 'next/legacy/image'
 import React from 'react'
-import { supabase } from '../../utils/supaBase'
-import { useAuth } from '../../context/UserAuthProvider'
+import { useUser } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 
@@ -12,16 +12,18 @@ type Props = {
 }
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-
 	const router = useRouter();
-	const { user } = useAuth();
+	const user = useUser();
+
+	const supabase = createClientComponentClient();
 
 	const logout = async () => {
-		await supabase.auth.signOut();
+		await supabase.auth.signOut()
+		router.push('/');
 	}
 
 	const routeToAnimeList = () => {
-		router.push(`/user/${encodeURIComponent(user?.user_metadata.username)}/AnimeList`);
+		router.push(`/animelist/${encodeURIComponent(user?.user_metadata.username)}`);
 	}
 
 	return (
@@ -34,18 +36,17 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 						</div>
 						<p>{ user?.user_metadata.username }</p>
 					</div>
-
 					<button className={ dropMenuStyles.menuButton}>
 						<p>Profile</p>
 					</button>
-
 					<button className={ dropMenuStyles.menuButton} onClick={routeToAnimeList}>
 						<p>Anime List</p>
 					</button>
-
-					<button className={ dropMenuStyles.menuButton} onClick={logout}>
-						<p>Logout</p>
-					</button>
+					<form action="/api/auth/logout" method="post">
+						<button className={ dropMenuStyles.menuButton}>
+							<p>Logout</p>
+						</button>
+					</form>
 				</div>
 			}
 		</>

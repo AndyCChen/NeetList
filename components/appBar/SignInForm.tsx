@@ -1,6 +1,6 @@
 import Image from 'next/legacy/image'
 import { useState } from 'react'
-import { supabase } from '../../utils/supaBase';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Error from './Error'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
@@ -12,6 +12,8 @@ type Props = {
 const SignInForm = ({ handleClick }: Props) => {
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+
+	const supabase = createClientComponentClient();
 
 	const _setShowError = () => {
 		setShowError(!showError);

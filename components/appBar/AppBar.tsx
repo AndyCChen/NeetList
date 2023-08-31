@@ -5,13 +5,13 @@ import NavItem from './NavItem'
 import SignInPopUp from './SignInPopUp'
 import DropdownMenu from './DropdownMenu'
 import Link from 'next/link'
-import { useAuth } from '../../context/UserAuthProvider'
+import { useUser } from '@supabase/auth-helpers-react'
 
 import appBarStyles from '../../styles/AppBar.module.css'
 
 const AppBar = () => {
 
-	const { user } = useAuth();
+	const user = useUser();
 
 	// true: play fade in animation, else play fade out animation for signin popup
 	const [isPopupFadeIn, setPopupFadeIn] = useState(false);

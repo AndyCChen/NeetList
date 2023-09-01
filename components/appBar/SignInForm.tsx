@@ -1,9 +1,9 @@
 import Image from 'next/legacy/image'
 import { useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import Error from './Error'
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
+import { useRouter } from 'next/router'
 
 type Props = {
 	handleClick: () => void,
@@ -12,8 +12,7 @@ type Props = {
 const SignInForm = ({ handleClick }: Props) => {
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
-
-	const supabase = createClientComponentClient();
+	const router = useRouter();
 
 	const _setShowError = () => {
 		setShowError(!showError);
@@ -31,7 +30,7 @@ const SignInForm = ({ handleClick }: Props) => {
 	}
 
 	// user sign in info submit handler
-	const _handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+	const _handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (email.length === 0 || password.length === 0) {
@@ -40,14 +39,20 @@ const SignInForm = ({ handleClick }: Props) => {
 			return;
 		}
 
-		const { error } = await supabase.auth.signInWithPassword({
-			email: email,
-			password: password,
+		const formdata = new FormData(event.currentTarget);
+
+		const loginResponse = await fetch('/api/auth/login', {
+			method: 'POST',
+			body: formdata,
 		});
 
-		if (error) {
-			setErrorMessage((error.message as string));
+		const res = await loginResponse.json();
+
+		if (res.error) {
+			setErrorMessage(res.error.message as string);
 			setShowError(true);
+		} else {
+			router.reload();
 		}
 
 		document.body.style.overflow =  'auto';
@@ -64,12 +69,13 @@ const SignInForm = ({ handleClick }: Props) => {
 
 			{showError && <Error errorMessage={ errorMessage } setShowError={_setShowError}/>}
 
-			<input className={ signInBoxStyles.inputField } type='email' placeholder='Email' onChange={_setUsername}/>
-			<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword}/>
-
-			<button className={ signInBoxStyles.submit } onClick={_handleSubmit}>
-				<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='intrinsic' />
-			</button>
+			<form className={ signInBoxStyles.form }  onSubmit={ _handleSubmit }>
+				<input className={ signInBoxStyles.inputField } type='email' placeholder='Email' onChange={_setUsername} name='email' />
+				<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword} name='password' />
+				<button className={ signInBoxStyles.submit } type='submit'>
+					<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='intrinsic' />
+				</button>
+			</form>
 
 			<p style={{ color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center', marginBottom: '0' }}>
 				Don&apos;t have an account?

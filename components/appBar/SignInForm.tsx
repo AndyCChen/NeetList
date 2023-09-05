@@ -70,8 +70,17 @@ const SignInForm = ({ handleClick }: Props) => {
 			{showError && <Error errorMessage={ errorMessage } setShowError={_setShowError}/>}
 
 			<form className={ signInBoxStyles.form }  onSubmit={ _handleSubmit }>
-				<input className={ signInBoxStyles.inputField } type='email' placeholder='Email' onChange={_setUsername} name='email' />
-				<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword} name='password' />
+				<input 
+					className={ signInBoxStyles.inputField } 
+					type='email' placeholder='Email' 
+					onChange={_setUsername} 
+					name='email' 
+				/>
+				<input 
+					className={ signInBoxStyles.inputField } 
+					type='password' placeholder='Password' 
+					onChange={_setPassword} name='password' 
+				/>
 				<button className={ signInBoxStyles.submit } type='submit'>
 					<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='intrinsic' />
 				</button>

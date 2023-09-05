@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Image from 'next/legacy/image';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import Error from './Error';
+import { useRouter } from 'next/router';
 
 import signInBoxStyles from '../../styles/SignInBox.module.css'
 
@@ -10,6 +11,8 @@ type Props = {
 }
 
 const SignUpForm = ({ setShowSignUp }: Props) => {
+	const router = useRouter();
+
 	const [showError, setShowError] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 
@@ -40,7 +43,7 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 		setConfirmPassword(event.currentTarget.value);
 	}
 
-	const _handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
+	const _handleSubmit = async (event: React.MouseEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
 		if (email.length === 0 || username.length === 0 || password.length === 0 || confirmPassword.length === 0) {
@@ -57,23 +60,23 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 			return;
 		}
 
-		const { error } = await supabase.auth.signUp({
-			email: email,
-			password: password,
-			options: {
-				data: {
-					username: username
-				},
-				emailRedirectTo: `${location.origin}/auth/callback`,
-			}
+		const formData = new FormData(event.currentTarget);
+
+		const signupResponse = await fetch('/api/auth/signup', {
+			method: 'POST',
+			body: formData,
 		});
 
-		if (error) {
-			setErrorMessage(error.message);
+		const res = await signupResponse.json();
+		console.log(location.origin)
+		console.log(res);
+
+		if (res.error) {
+			setErrorMessage(res.error.message);
 			setShowError(true);
 		} else {
-			
-		}
+			router.reload();
+		} 
 
 		document.body.style.overflow = 'auto';
 	}
@@ -89,14 +92,38 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 
 			{showError && <Error errorMessage={ errorMessage } setShowError={_setShowError}/>}
 
-			<input className={ signInBoxStyles.inputField } type='email' placeholder='Email' onChange={_setEmail}/>
-			<input className={ signInBoxStyles.inputField } type='text' placeholder='Username' onChange={_setUsername}/>
-			<input className={ signInBoxStyles.inputField } type='password' placeholder='Password' onChange={_setPassword}/>
-			<input className={ signInBoxStyles.inputField } type='password' placeholder='Password confirmation' onChange={_setConfirmPassword}/>
-
-			<button className={ signInBoxStyles.submit } onClick={_handleSubmit}>
-				<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='fixed' />
-			</button>
+			<form className={ signInBoxStyles.form } onSubmit={ _handleSubmit }>
+				<input 
+					className={ signInBoxStyles.inputField } 
+					type='email' placeholder='Email' 
+					onChange={_setEmail} 
+					name='email'
+				/>
+				<input 
+					className={ signInBoxStyles.inputField } 
+					type='text' 
+					placeholder='Username' 
+					onChange={_setUsername} 
+					name='username'
+				/>
+				<input 
+					className={ signInBoxStyles.inputField } 
+					type='password' 
+					placeholder='Password' 
+					onChange={_setPassword} 
+					name='password'
+				/>
+				<input 
+					className={ signInBoxStyles.inputField } 
+					type='password' 
+					placeholder='Password confirmation' 
+					onChange={_setConfirmPassword} 
+					name='confirmPassword'
+				/>
+				<button className={ signInBoxStyles.submit } type='submit'>
+					<Image src='/arrow-right.svg' alt='submit icon' height={40} width={40} layout='fixed' />
+				</button>
+			</form>
 
 			<p style={{color: 'white', opacity: '0.8', fontSize: '0.9rem', textAlign: 'center', marginBottom: '0' }}>
 				Already have an account?

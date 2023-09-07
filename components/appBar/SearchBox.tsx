@@ -6,6 +6,7 @@ import appBarStyles from '../../styles/AppBar.module.css'
 
 const SearchBox = () => {
 	const [searchString, setSearchString] = useState('');
+	let isSearchBoxUsed = false;
 
 	// route to a new page to display search results after a set delay
 	// delay duration resets each time the user enters a new character into search bar
@@ -13,10 +14,13 @@ const SearchBox = () => {
 		const routeToSearchPage = (searchString: string) => {
 			if (searchString.length != 0) {
 				Router.push(`/search/${encodeURIComponent(searchString)}`);
+				isSearchBoxUsed = true;
 			} 
 			// route back to home page if search input is empty
 			else {
-				Router.push('/');
+				if (isSearchBoxUsed) {
+					Router.push('/');
+				}
 			}
 		};
 

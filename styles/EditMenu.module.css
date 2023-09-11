@@ -73,7 +73,8 @@
    width: 100%;
 }
 
-.formContainer div input {
+.formContainer div input,
+.scoreInputContainer {
    width: 100%;
    height: 40px;
    padding: 10px;
@@ -81,6 +82,34 @@
    border: none;
    border-radius: 5px;
    background-color: #d7e3ea;
+}
+
+.scoreInputContainer input {
+   display: none;
+}
+
+.scoreInput {
+   float: left;
+}
+
+.scoreInput > label{
+   padding-right: 5px;
+   color: grey;
+   float: right;
+}
+
+.scoreInput > input:checked ~ label,
+.scoreInput > label:hover ~ label {
+   color: #418D89
+}
+
+.scoreInput > label {
+   transition: all .4s ease-in-out;
+}
+
+.scoreInput > label:hover {
+   color: #418D89;
+   transform: scale(1.2);
 }
 
 .formContainer div p {

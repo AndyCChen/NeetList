@@ -19,7 +19,7 @@ const SideBar = ({ listSelectorCallback }: Props) => {
 		'Watching',
 		'Planning',
 		'Finished',
-		'Droppped',
+		'Dropped',
 		'Paused',
 	];
 

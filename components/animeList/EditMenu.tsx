@@ -150,6 +150,7 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
                            <input name='score' type='radio' id='3_star' value='3' checked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='3_star'>★</label>
                            <input name='score' type='radio' id='2_star' value='2' checked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='2_star'>★</label>
                            <input name='score' type='radio' id='1_star' value='1' checked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='1_star'>★</label>
+                           <input name='score' type='radio' id='0_star' value='0' checked={ showScore === '0'} style={{ display: 'none' }}/>
                         </div>
                   </div>
                </div>

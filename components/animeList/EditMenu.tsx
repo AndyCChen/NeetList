@@ -7,7 +7,7 @@ type props = {
    closeEdit: () => void,
    title: string,
    status: string,
-   score: number,
+   score: string,
    progress: number,
    
 }
@@ -20,6 +20,7 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
    const [startDate, setStartDate] = useState(new Date());
    const [finishDate, setFinishDate] = useState(new Date());
    const [episodeProgress, setEpisodeProgress] = useState(progress);
+   const [showScore, setShowScore] = useState(score);
 
    const statusDropdownRef = useRef(null);
 
@@ -74,6 +75,16 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
       
       if (!toggleDropdown) {
          setToggleDropdown(true);
+      }
+   }
+
+   const onScoreChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setShowScore(event.currentTarget.value);
+   }
+
+   const onScoreClicked = (event: React.MouseEvent<HTMLInputElement>) => {
+      if (event.currentTarget.value === showScore) {
+         setShowScore('0');
       }
    }
 
@@ -134,11 +145,11 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
                   <p>Score</p>
                   <div className={ EditMenuStyles.scoreInputContainer }>
                         <div className={  EditMenuStyles.scoreInput }>
-                           <input name='score' type='radio' id='5_star' value='5' checked={ true }/><label htmlFor='5_star'>★</label>
-                           <input name='score' type='radio' id='4_star' value='4'/><label htmlFor='4_star'>★</label>
-                           <input name='score' type='radio' id='3_star' value='3'/><label htmlFor='3_star'>★</label>
-                           <input name='score' type='radio' id='2_star' value='2'/><label htmlFor='2_star'>★</label>
-                           <input name='score' type='radio' id='1_star' value='1'/><label htmlFor='1_star'>★</label>
+                           <input name='score' type='radio' id='5_star' value='5' checked={ showScore === '5' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='5_star'>★</label>
+                           <input name='score' type='radio' id='4_star' value='4' checked={ showScore === '4' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='4_star'>★</label>
+                           <input name='score' type='radio' id='3_star' value='3' checked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='3_star'>★</label>
+                           <input name='score' type='radio' id='2_star' value='2' checked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='2_star'>★</label>
+                           <input name='score' type='radio' id='1_star' value='1' checked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='1_star'>★</label>
                         </div>
                   </div>
                </div>

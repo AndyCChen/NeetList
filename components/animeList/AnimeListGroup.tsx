@@ -1,14 +1,14 @@
-
-
+import { AnimeItem } from '../../interfaces/queryInterface'
 import  AnimeListGroupStyles from '../../styles/AnimeListGroup.module.css'
 import AnimeListItem from './AnimeListItem'
-import { AnimeItem } from '../../interfaces/queryInterface'
 
 type Props = {
 	category: string,
+	animeItemList: AnimeItem[];
 }
 
-const AnimeListGroup = ({ category }: Props) => {
+const AnimeListGroup = ({ category, animeItemList }: Props) => {
+	
 	return (
 		<div>
 			<p className={ AnimeListGroupStyles.listName }>
@@ -20,25 +20,6 @@ const AnimeListGroup = ({ category }: Props) => {
 					<p>Score</p>
 					<p>Progress</p>
 				</div>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
-				<AnimeListItem/>
 				<AnimeListItem/>
 				<AnimeListItem/>
 			</div>

@@ -7,11 +7,21 @@ const listSelectorStyle: CSSProperties = {
 	borderRadius: '5px',
 }
 
-type Props = {
-	listSelectorCallback: (value: string) => void,
+type ListCount = {
+	'All' : number,
+	'Watching': number,
+	'Planning': number,
+	'Finished': number,
+	'Dropped': number,
+	'Paused': number,
 }
 
-const SideBar = ({ listSelectorCallback }: Props) => {
+type Props = {
+	listSelectorCallback: (value: string) => void,
+	listCount: ListCount,
+}
+
+const SideBar = ({ listSelectorCallback, listCount }: Props) => {
 	const [listSelector, setListSelector] = useState(0);
 
 	const categories = [
@@ -29,10 +39,10 @@ const SideBar = ({ listSelectorCallback }: Props) => {
 
 	const lists = categories.map((value, index) => {
 		return (
-			<React.Fragment key={ index }>
+			<React.Fragment key={ value }>
 				<div style={ listSelector == index ? listSelectorStyle : {} } onClick={() => setListSelector(index)}>
 					<p>{ value }</p>
-					<p>{ 1 }</p>
+					<p>{ listCount[value as keyof ListCount] }</p>
 				</div>
 			</React.Fragment>
 		)

@@ -15,13 +15,6 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 	const router = useRouter();
 	const user = useUser();
 
-	const supabase = createClientComponentClient();
-
-	const logout = async () => {
-		await supabase.auth.signOut()
-		router.push('/');
-	}
-
 	const routeToAnimeList = () => {
 		router.push(`/animelist/${encodeURIComponent(user?.user_metadata.username)}`);
 	}

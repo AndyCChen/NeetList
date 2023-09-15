@@ -50,6 +50,7 @@ const AnimeListItem = () => {
 						status='Watching'
 						progress={ 12 }
 						score={ 4 }
+						
 					/>
 				}
 			</div>

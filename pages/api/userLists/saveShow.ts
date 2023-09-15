@@ -22,8 +22,8 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
          }
       });
    });
-
+   
    res.send(
-      data
+      req.query
    );
 }

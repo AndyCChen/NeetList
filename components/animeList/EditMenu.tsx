@@ -9,6 +9,7 @@ type props = {
    status: string,
    score: number,
    progress: number,
+   
 }
 
 const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
@@ -37,16 +38,19 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
    const handleSave = async (event: React.MouseEvent<HTMLFormElement>) => {
       event.preventDefault();
 
+      if (!episodeProgress) {
+         alert('Invalid episode progress');
+         return;
+      }
+
       if (startDate > finishDate) {
          alert('Invalid start date!')
          return;
       }
 
-      
-
       const formData = new FormData(event.currentTarget);
-      
-      const saveResponse = await fetch('/api/userLists/saveShow', {
+      const id = '202038';
+      const saveResponse = await fetch(`/api/userLists/saveShow?id=${id}`, {
          method: 'POST',
          body: formData,
       });
@@ -58,12 +62,10 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
 
    const onEpisodeProgressChanged = (event: ChangeEvent<HTMLInputElement>) => {
       let inputValue = event.target.value as unknown as number;
-      console.log(isNaN(inputValue))
       if (!(inputValue < 0)) {
          setEpisodeProgress(inputValue);
       } else {
          setEpisodeProgress(0);
-         
       }
    }
 
@@ -132,7 +134,7 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
                   <p>Score</p>
                   <div className={ EditMenuStyles.scoreInputContainer }>
                         <div className={  EditMenuStyles.scoreInput }>
-                           <input name='score' type='radio' id='5_star' value='5'/><label htmlFor='5_star'>★</label>
+                           <input name='score' type='radio' id='5_star' value='5' checked={ true }/><label htmlFor='5_star'>★</label>
                            <input name='score' type='radio' id='4_star' value='4'/><label htmlFor='4_star'>★</label>
                            <input name='score' type='radio' id='3_star' value='3'/><label htmlFor='3_star'>★</label>
                            <input name='score' type='radio' id='2_star' value='2'/><label htmlFor='2_star'>★</label>

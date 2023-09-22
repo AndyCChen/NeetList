@@ -3,10 +3,12 @@ import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import Image from "next/legacy/image"
 import { useEffect, useRef, useState, Fragment } from "react"
 import { useUser } from "@supabase/auth-helpers-react"
+import EditMenu from "../../components/animeList/EditMenu"
 
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
 import { AnimeInfo, FuzzyDate } from '../../interfaces/queryInterface'
+import { JSONResponse, AnimeData } from '../../interfaces/fetchUserShowTypes'
 import MediaPageStyles from '../../styles/MediaPage.module.css'
 
 
@@ -72,11 +74,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
    }
 }
 
-type MediaPageBodyProps = {
-   media: AnimeInfo,
-}
-
-const MediaPageBody = ({ media }: MediaPageBodyProps) => {
+const MediaPageBody = ({ media }: Props) => {
    const user = useUser();
 
    const height = useMediaQuery(
@@ -91,9 +89,11 @@ const MediaPageBody = ({ media }: MediaPageBodyProps) => {
       300
    );
 
+   const [toggleEdit, setToggleEdit] = useState(false);
    const [isOverflow, setIsOverflow] = useState(false);
    const [isReadme, setIsReadme] = useState(false);
    const [showAddOptions, setShowAddOptions] = useState(false);
+   const [anime, setAnime] = useState<AnimeData | null>(null);
 
    const headerContainerRef = useRef<HTMLDivElement>(null);
    const headerTitleRef = useRef<HTMLHeadingElement>(null);
@@ -120,31 +120,36 @@ const MediaPageBody = ({ media }: MediaPageBodyProps) => {
       setIsReadme(true);
    }
 
-   const handleAddToList = () => {
+   const handleAddToList = async () => {
       if (!user) {
          alert('Must Login');
          return;
       }
-
-      console.log('adding to list')
+      setToggleEdit(true);
    }
 
-   const handleSetAsWatching = () => {
+   const handleSetShow = async (status: string) => {
       if (!user) {
          alert('Must Login');
          return;
       }
 
-      console.log('setting as watching')
-   }
+      const setResponse = await fetch(`/api/userLists/setShow?status=${status}&id=${ media.id }`, {
+         method: 'POST',
+      });
 
-   const handleSetAsPlanning = () => {
-      if (!user) {
-         alert('Must Login');
-         return;
+      const { 
+         data: { Anime },
+         error
+       }: JSONResponse = await setResponse.json();
+
+      if (error) {
+         console.log(error);
+         alert('There was an error!');
+      } else {
+         console.log(Anime);
+         setAnime(Anime);
       }
-      
-      console.log('setting as planning')
    }
 
    return (
@@ -174,12 +179,12 @@ const MediaPageBody = ({ media }: MediaPageBodyProps) => {
                   draggable='false'
                />
                <div className={ MediaPageStyles.addButtonContainer }>
-                  <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>Add to List</div>
+                  <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>{ anime ? anime.category : 'Add to List' }</div>
                   <div className={ MediaPageStyles.addButtonOptions } onClick={() => setShowAddOptions(!showAddOptions)}>
                      <Image src='/addOptions.svg' alt={ 'icon' } height={15} width={15} layout='fixed' style={{color: 'white'}}/>
                      <div className={ `${MediaPageStyles.optionsContainer} ${showAddOptions ? MediaPageStyles.openOptions : MediaPageStyles.closeOptions}` }>
-                        <div onClick={ handleSetAsWatching }>Set as Watching</div>
-                        <div onClick={ handleSetAsPlanning }>Set as Planning</div>
+                        <div onClick={ () => handleSetShow('Watching') }>Set as Watching</div>
+                        <div onClick={ () => handleSetShow('Planning') }>Set as Planning</div>
                      </div>
                   </div>
                </div>
@@ -246,6 +251,16 @@ const MediaPageBody = ({ media }: MediaPageBodyProps) => {
             </div>
             
          </div>
+         {
+            toggleEdit &&
+            <EditMenu 
+               closeEdit={ () => setToggleEdit(!toggleEdit) }
+               title={ media.title.english ? media.title.english : media.title.romaji }
+               status='Planning'
+               score='0'
+               progress={ 0 }
+            />
+         }
       </div>
    )
 }
@@ -258,6 +273,12 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
    }
 
    const media = await getMediaByID({ id: id as unknown as number });
+
+   const response = fetch(`/api/userLists/fetchShow?id=${id}`, {
+      method: 'POST'
+   });
+
+
 
    // return error 404 if request is failed
    if (!media) {

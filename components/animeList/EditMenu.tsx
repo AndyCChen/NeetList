@@ -9,7 +9,6 @@ type props = {
    status: string,
    score: string,
    progress: number,
-   
 }
 
 const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
@@ -145,12 +144,17 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
                   <p>Score</p>
                   <div className={ EditMenuStyles.scoreInputContainer }>
                         <div className={  EditMenuStyles.scoreInput }>
-                           <input name='score' type='radio' id='5_star' value='5' defaultChecked={ showScore === '5' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='5_star'>★</label>
-                           <input name='score' type='radio' id='4_star' value='4' defaultChecked={ showScore === '4' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='4_star'>★</label>
-                           <input name='score' type='radio' id='3_star' value='3' defaultChecked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='3_star'>★</label>
-                           <input name='score' type='radio' id='2_star' value='2' defaultChecked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='2_star'>★</label>
-                           <input name='score' type='radio' id='1_star' value='1' defaultChecked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked }/><label htmlFor='1_star'>★</label>
-                           <input name='score' type='radio' id='0_star' value='0' defaultChecked={ showScore === '0'} style={{ display: 'none' }}/>
+                           <input name='score' type='radio' id='5_star' value='5' checked={ showScore === '5' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                              <label htmlFor='5_star'>★</label>
+                           <input name='score' type='radio' id='4_star' value='4' checked={ showScore === '4' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                              <label htmlFor='4_star'>★</label>
+                           <input name='score' type='radio' id='3_star' value='3' checked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                              <label htmlFor='3_star'>★</label>
+                           <input name='score' type='radio' id='2_star' value='2' checked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                              <label htmlFor='2_star'>★</label>
+                           <input name='score' type='radio' id='1_star' value='1' checked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                              <label htmlFor='1_star'>★</label>
+                           <input name='score' type='radio' id='0_star' value='0' checked={ showScore === '0'} style={{ display: 'none' }} readOnly/>
                         </div>
                   </div>
                </div>

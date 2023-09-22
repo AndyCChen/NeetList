@@ -18,7 +18,7 @@ export interface Database {
           id: number
           score: number
           start_date: string | null
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           anime_id: string
@@ -28,7 +28,7 @@ export interface Database {
           id?: number
           score?: number
           start_date?: string | null
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           anime_id?: string
@@ -38,7 +38,7 @@ export interface Database {
           id?: number
           score?: number
           start_date?: string | null
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {

@@ -128,7 +128,8 @@ const AnimeList: NextPage = ({  }) => {
 								<AnimeListGroup 
 									key={ category }
 									category={ category } 
-									animeItemList={ animeItemList.filter((value: AnimeItem) => value.category === category) }
+									animeItemList={ animeItemList.filter((value: AnimeItem) => 
+										value.category.localeCompare(category, undefined, { sensitivity: 'accent' })) }
 								/>
 							)
 						}

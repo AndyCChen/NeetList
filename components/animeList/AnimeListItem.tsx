@@ -49,8 +49,7 @@ const AnimeListItem = () => {
 						title='Really bad show'
 						status='Watching'
 						progress={ 12 }
-						score={ '1' }
-						
+						score={ '5' }
 					/>
 				}
 			</div>

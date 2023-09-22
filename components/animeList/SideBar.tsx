@@ -40,7 +40,7 @@ const SideBar = ({ listSelectorCallback, listCount }: Props) => {
 	const lists = categories.map((value, index) => {
 		return (
 			<React.Fragment key={ value }>
-				<div style={ listSelector == index ? listSelectorStyle : {} } onClick={() => setListSelector(index)}>
+				<div style={ listSelector === index ? listSelectorStyle : {} } onClick={ () => setListSelector(index) }>
 					<p>{ value }</p>
 					<p>{ listCount[value as keyof ListCount] }</p>
 				</div>

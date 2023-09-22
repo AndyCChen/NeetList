@@ -113,6 +113,7 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo
 	const query = 
 		`query ($id: Int) {
 			Media (id: $id, type: ANIME) {
+				id,
 				bannerImage,
 				description (asHtml: false),
 				title {

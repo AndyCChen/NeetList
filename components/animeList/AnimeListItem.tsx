@@ -45,11 +45,14 @@ const AnimeListItem = () => {
 				{
 					toggleEdit && 
 					<EditMenu 
+						id='202038'
 						closeEdit={ () => setToggleEdit(false) } 
 						title='Really bad show'
 						status='Watching'
 						progress={ 12 }
 						score={ '5' }
+						startingDate={ new Date() }
+						finishingDate={ new Date() }
 					/>
 				}
 			</div>

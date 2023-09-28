@@ -1,6 +1,8 @@
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Formidable } from 'formidable';
+import { Database } from "../../../interfaces/supabase";
+import {JSONResponse, AnimeData } from '../../../interfaces/userListTypes'
 
 export const config = {
    api: {
@@ -8,10 +10,20 @@ export const config = {
    }
 }
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-   const supabase = createPagesServerClient({ req, res });
+type formData = {
+   fields: {
+      showStatus: string[],
+      score: string[],
+      startDate: string[],
+      endDate: string[],
+      episodeProgress: string[],
+   }
+}
 
-   const data = await new Promise((resolve, reject) => {
+export default async function POST(req: NextApiRequest, res: NextApiResponse<JSONResponse>) {
+   const supabase = createPagesServerClient<Database>({ req, res });
+
+   const form = await new Promise((resolve, reject) => {
       const form = new Formidable();
       
       form.parse(req, (err, fields, files) => {
@@ -22,8 +34,35 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
          }
       });
    });
+
+   const {
+      data: { user }
+   } = await supabase.auth.getUser();
+
+   const id = req.query.id as string;
+
+   const { data, error } = await supabase
+      .from('shows')
+      .upsert(
+         {
+            user_id: user?.id,
+            anime_id: id,
+            category: (form as formData).fields.showStatus[0],
+            score: (form as formData).fields.score[0] as unknown as number,
+            start_date: (form as formData).fields.startDate[0],
+            finish_date: (form as formData).fields.endDate[0],
+            episode_progress: (form as formData).fields.episodeProgress[0] as unknown as number,
+         },
+         {
+            onConflict: 'user_id, anime_id'
+         }
+      )
+      .select();
    
-   res.send(
-      req.query
-   );
+   res.status(200).json({
+      data: {
+         Anime: data?.[0] as AnimeData
+      },
+      error
+   })
 }

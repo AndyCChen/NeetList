@@ -1,7 +1,7 @@
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { Database } from '../../../interfaces/supabase'
-import {JSONResponse, AnimeData } from '../../../interfaces/fetchUserShowTypes'
+import {JSONResponse, AnimeData } from '../../../interfaces/userListTypes'
 
 export default async function POST(req: NextApiRequest, res: NextApiResponse<JSONResponse>) {
    const supabase = createPagesServerClient<Database>({ req, res });

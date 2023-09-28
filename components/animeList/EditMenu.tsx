@@ -2,24 +2,30 @@ import { useEffect, useState, useRef, useCallback, RefObject, ChangeEvent } from
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import EditMenuStyles from '../../styles/EditMenu.module.css'
+import { AnimeData, JSONResponse } from '../../interfaces/userListTypes';
 
 type props = {
+   id: string,
    closeEdit: () => void,
    title: string,
-   status: string,
-   score: string,
-   progress: number,
+   status: string | null | undefined,
+   score: string | null | undefined,
+   progress: number | null | undefined,
+   startingDate?: Date | null,
+   finishingDate?: Date | null,
+   callback?: (Anime: AnimeData | null) => void,
 }
 
-const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
+const EditMenu = ({ id, closeEdit, title, status, score, progress, startingDate, finishingDate, callback }: props) => {
    const [isEditMenuClosed, setIsEditMenuClosed] = useState(false);
-   const [showStatus, setShowStatus] = useState(status);
    const [toggleDropdown, setToggleDropdown] = useState(false);
    const [isDropdownClosed, setIsDropdownClosed] = useState(false);
-   const [startDate, setStartDate] = useState(new Date());
-   const [finishDate, setFinishDate] = useState(new Date());
-   const [episodeProgress, setEpisodeProgress] = useState(progress);
-   const [showScore, setShowScore] = useState(score);
+
+   const [showStatus, setShowStatus] = useState(status ? status : 'Planning');
+   const [startDate, setStartDate] = useState(startingDate ? startingDate : null);
+   const [finishDate, setFinishDate] = useState(finishingDate ? finishingDate : null);
+   const [episodeProgress, setEpisodeProgress] = useState(progress ? progress : 0);
+   const [showScore, setShowScore] = useState(score ? score : '0');
 
    const statusDropdownRef = useRef(null);
 
@@ -38,25 +44,43 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
    const handleSave = async (event: React.MouseEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      if (!episodeProgress) {
-         alert('Invalid episode progress');
-         return;
+      if (episodeProgress.toString() === '') {
+         setEpisodeProgress(0);
       }
 
-      if (startDate > finishDate) {
-         alert('Invalid start date!')
-         return;
+      if (startDate && finishDate) {
+         if (startDate > finishDate) {
+            console.log(startDate)
+            console.log('finishDate')
+            alert('Invalid start or finish date!')
+            return;
+         } 
       }
 
       const formData = new FormData(event.currentTarget);
-      const id = '202038';
       const saveResponse = await fetch(`/api/userLists/saveShow?id=${id}`, {
          method: 'POST',
          body: formData,
       });
+
+      const {
+         data: { Anime },
+         error
+      }: JSONResponse = await saveResponse.json();
+      
+      if (error) {
+         alert('Error, failed to save show!');
+         console.log(error);
+      } else {
+         alert('Show added!');
+         console.log(Anime);
+         if (callback) {
+            callback(Anime);
+         }
+      }
    }
 
-   const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
+   const handleDelete = async (event: React.MouseEvent<HTMLButtonElement>) => {
       event.preventDefault();
    }
 
@@ -99,11 +123,11 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
    }, [isDropdownClosed])
 
    const handleClick = useCallback((event: MouseEvent) => {
+      event.preventDefault();
+
       if (!(statusDropdownRef as RefObject<HTMLDivElement>).current?.contains(event.target as Element)) {
          setIsDropdownClosed(true);
       }
-
-      console.log('clicked!')
    }, []);
 
    useEffect(() => {
@@ -148,13 +172,13 @@ const EditMenu = ({ closeEdit, title, status, score, progress }: props) => {
                               <label htmlFor='5_star'>★</label>
                            <input name='score' type='radio' id='4_star' value='4' checked={ showScore === '4' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
                               <label htmlFor='4_star'>★</label>
-                           <input name='score' type='radio' id='3_star' value='3' checked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                           <input name='score' type='radio' id='3_star' value='3' checked={ showScore == '3' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
                               <label htmlFor='3_star'>★</label>
                            <input name='score' type='radio' id='2_star' value='2' checked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
                               <label htmlFor='2_star'>★</label>
                            <input name='score' type='radio' id='1_star' value='1' checked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
                               <label htmlFor='1_star'>★</label>
-                           <input name='score' type='radio' id='0_star' value='0' checked={ showScore === '0'} style={{ display: 'none' }} readOnly/>
+                           <input name='score' type='radio' id='0_star' value='0' checked={ showScore === '0' } style={{ display: 'none' }} readOnly/>
                         </div>
                   </div>
                </div>

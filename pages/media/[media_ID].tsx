@@ -8,12 +8,15 @@ import EditMenu from "../../components/animeList/EditMenu"
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
 import { AnimeInfo, FuzzyDate } from '../../interfaces/queryInterface'
-import { JSONResponse, AnimeData } from '../../interfaces/fetchUserShowTypes'
+import { JSONResponse, AnimeData } from '../../interfaces/userListTypes'
 import MediaPageStyles from '../../styles/MediaPage.module.css'
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "../../interfaces/supabase"
 
 
 type Props = {
-   media: AnimeInfo
+   media: AnimeInfo,
+   userShow: AnimeData[] | null,
 }
 
 const parseStatus = (status: string) => {
@@ -56,7 +59,7 @@ const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string => {
    return m + ' ' + d + ', ' + y;
 }
 
-const MediaPage: NextPage<Props> = ({ media }) => {
+const MediaPage: NextPage<Props> = ({ media, userShow }) => {
    const [isLoading, setIsLoading] = useState(true);
 
    useEffect(() => {
@@ -65,7 +68,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
 
    if (!isLoading) {
       return (
-         <MediaPageBody media={ media }/>
+         <MediaPageBody media={ media } userShow={ userShow }/>
       )
    } else {
       return (
@@ -74,7 +77,7 @@ const MediaPage: NextPage<Props> = ({ media }) => {
    }
 }
 
-const MediaPageBody = ({ media }: Props) => {
+const MediaPageBody = ({ media, userShow }: Props) => {
    const user = useUser();
 
    const height = useMediaQuery(
@@ -93,7 +96,7 @@ const MediaPageBody = ({ media }: Props) => {
    const [isOverflow, setIsOverflow] = useState(false);
    const [isReadme, setIsReadme] = useState(false);
    const [showAddOptions, setShowAddOptions] = useState(false);
-   const [anime, setAnime] = useState<AnimeData | null>(null);
+   const [anime, setAnime] = useState<AnimeData | null>(userShow ? userShow[0] : null);
 
    const headerContainerRef = useRef<HTMLDivElement>(null);
    const headerTitleRef = useRef<HTMLHeadingElement>(null);
@@ -147,6 +150,7 @@ const MediaPageBody = ({ media }: Props) => {
          console.log(error);
          alert('There was an error!');
       } else {
+         alert('Show added!')
          console.log(Anime);
          setAnime(Anime);
       }
@@ -254,11 +258,15 @@ const MediaPageBody = ({ media }: Props) => {
          {
             toggleEdit &&
             <EditMenu 
+               id= { media.id }
                closeEdit={ () => setToggleEdit(!toggleEdit) }
                title={ media.title.english ? media.title.english : media.title.romaji }
-               status='Planning'
-               score='0'
-               progress={ 0 }
+               status= { anime?.category }
+               score= { anime?.score ? anime.score.toString() : '0'}
+               progress={ anime?.episode_progress }
+               startingDate={ anime?.start_date ? new Date(anime.start_date) : null }
+               finishingDate={ anime?.finish_date ? new Date(anime.finish_date) : null }
+               callback={ (show) => setAnime(show) }
             />
          }
       </div>
@@ -274,18 +282,36 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
    const media = await getMediaByID({ id: id as unknown as number });
 
-   const response = fetch(`/api/userLists/fetchShow?id=${id}`, {
-      method: 'POST'
-   });
-
-
-
    // return error 404 if request is failed
    if (!media) {
       return {
          notFound: true,
       }
    }
+
+   const supabase = createPagesServerClient<Database>(context);
+
+   const {
+      data: { user }
+   } = await supabase.auth.getUser();
+
+   // check if show is added in user's list by fetching from database
+  if (user) {
+      const { data: userShow, error } = await supabase
+         .from('shows')
+         .select()
+         .match({
+            'user_id': user.id,
+            'anime_id': id
+         });
+      
+      return {
+         props: {
+            media,
+            userShow,
+         }
+      }
+  }
 
    return {
       props: {

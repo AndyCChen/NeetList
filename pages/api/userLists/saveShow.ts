@@ -40,6 +40,12 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
    } = await supabase.auth.getUser();
 
    const id = req.query.id as string;
+   const category = (form as formData).fields.showStatus[0];
+   const score = (form as formData).fields.score[0] as unknown as number;
+   const start_date = (form as formData).fields.startDate[0];
+   const finish_date = (form as formData).fields.endDate[0];
+   const episode_progress = (form as formData).fields.episodeProgress[0] as unknown as number;
+
 
    const { data, error } = await supabase
       .from('shows')
@@ -47,11 +53,11 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
          {
             user_id: user?.id,
             anime_id: id,
-            category: (form as formData).fields.showStatus[0],
-            score: (form as formData).fields.score[0] as unknown as number,
-            start_date: (form as formData).fields.startDate[0],
-            finish_date: (form as formData).fields.endDate[0],
-            episode_progress: (form as formData).fields.episodeProgress[0] as unknown as number,
+            category: category,
+            score: score,
+            start_date: start_date ? start_date : null,
+            finish_date: finish_date ? finish_date : null,
+            episode_progress: episode_progress,
          },
          {
             onConflict: 'user_id, anime_id'

@@ -23,3 +23,6 @@ create policy "Users can insert their own shows" on shows
 
 create policy  "Users can update their own shows" on shows
   for update using(auth.uid() = user_id);
+
+create policy "Users can only delete their own shows" on shows
+  for delete using(auth.uid() = user_id);

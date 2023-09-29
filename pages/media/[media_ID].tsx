@@ -92,7 +92,6 @@ const MediaPageBody = ({ media, userShow }: Props) => {
       300
    );
 
-   const [toggleEdit, setToggleEdit] = useState(false);
    const [isOverflow, setIsOverflow] = useState(false);
    const [isReadme, setIsReadme] = useState(false);
    const [showAddOptions, setShowAddOptions] = useState(false);
@@ -128,7 +127,6 @@ const MediaPageBody = ({ media, userShow }: Props) => {
          alert('Must Login');
          return;
       }
-      setToggleEdit(true);
    }
 
    const handleSetShow = async (status: string) => {
@@ -183,7 +181,15 @@ const MediaPageBody = ({ media, userShow }: Props) => {
                   draggable='false'
                />
                <div className={ MediaPageStyles.addButtonContainer }>
-                  <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>{ anime ? anime.category : 'Add to List' }</div>
+                  <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>
+                     { anime ? anime.category : 'Add to List' }
+                     <EditMenu 
+                        id= { media.id }
+                        onSaveCallback={ (show) => setAnime(show) }
+                        title={ media.title.english ? media.title.english : media.title.romaji ? media.title.romaji : media.title.native }
+                        anime={ anime }
+                     />
+                  </div>
                   <div className={ MediaPageStyles.addButtonOptions } onClick={() => setShowAddOptions(!showAddOptions)}>
                      <Image src='/addOptions.svg' alt={ 'icon' } height={15} width={15} layout='fixed' style={{color: 'white'}}/>
                      <div className={ `${MediaPageStyles.optionsContainer} ${showAddOptions ? MediaPageStyles.openOptions : MediaPageStyles.closeOptions}` }>
@@ -255,20 +261,6 @@ const MediaPageBody = ({ media, userShow }: Props) => {
             </div>
             
          </div>
-         {
-            toggleEdit &&
-            <EditMenu 
-               id= { media.id }
-               closeEdit={ () => setToggleEdit(!toggleEdit) }
-               title={ media.title.english ? media.title.english : media.title.romaji }
-               status= { anime?.category }
-               score= { anime?.score ? anime.score.toString() : '0'}
-               progress={ anime?.episode_progress }
-               startingDate={ anime?.start_date ? new Date(anime.start_date) : null }
-               finishingDate={ anime?.finish_date ? new Date(anime.finish_date) : null }
-               callback={ (show) => setAnime(show) }
-            />
-         }
       </div>
    )
 }

@@ -43,7 +43,7 @@ const AnimeListItem = () => {
 			<p>2/13</p>
 			<div>
 				{
-					toggleEdit && 
+					/* toggleEdit && 
 					<EditMenu 
 						id='202038'
 						closeEdit={ () => setToggleEdit(false) } 
@@ -53,7 +53,7 @@ const AnimeListItem = () => {
 						score={ '5' }
 						startingDate={ new Date() }
 						finishingDate={ new Date() }
-					/>
+					/> */
 				}
 			</div>
 		</div>

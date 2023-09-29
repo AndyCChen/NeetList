@@ -63,7 +63,7 @@
 
 .addButton {
    flex-grow: 1;
-   cursor: pointer;
+   position: relative;
    text-align: center;
    padding: 5px;
    background-color: #418D89;

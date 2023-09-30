@@ -163,83 +163,83 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
    return (
       <div className={ EditMenuStyles.editWrapper } onClick={() => { setEdit(true) }}>
          {
-         toggleEdit &&
-         <form onSubmit={ handleSave }>
-            <div
-               className={`
-                  ${EditMenuStyles.menuBackground}
-                  ${isEditMenuClosed ? EditMenuStyles.closeMenuBackground : EditMenuStyles.openMenuBackground}
-               `}
-               onClick={ () => setIsEditMenuClosed(true) }
-            />
-            <div className={ `${EditMenuStyles.container} ${isEditMenuClosed ? EditMenuStyles.closeMenu : EditMenuStyles.openMenu}` }>
-               <div className={ EditMenuStyles.title }>{ title }</div>
-               <div className={ EditMenuStyles.formContainer }>
-                  <div>
-                     <p>Status</p>
-                     <input name='showStatus' type='text' value={ category } onClick={ onStatusFieldClicked } readOnly />
-                     {
-                        toggleDropdown &&
-                        <div onClick={ () => setIsDropdownClosed(true) } className={ `${EditMenuStyles.statusDropdown} ${isDropdownClosed ? EditMenuStyles.closeDropdown : EditMenuStyles.openDropdown}` } ref={ statusDropdownRef }>
-                           <button onClick={ () => setCategory('Watching') }>Watching</button>
-                           <button onClick={ () => setCategory('Planning') }>Planning</button>
-                           <button onClick={ () => setCategory('Finished') }>Finished</button>
-                           <button onClick={ () => setCategory('Dropped') }>Dropped</button>
-                           <button onClick={ () => setCategory('Paused') }>Paused</button>
-                        </div>
-                     }
-                  </div>
-                  <div>
-                     <p>Score</p>
-                     <div className={ EditMenuStyles.scoreInputContainer }>
-                           <div className={  EditMenuStyles.scoreInput }>
-                              <input name='score' type='radio' id='5_star' value='5' checked={ showScore === '5' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
-                                 <label htmlFor='5_star'>★</label>
-                              <input name='score' type='radio' id='4_star' value='4' checked={ showScore === '4' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
-                                 <label htmlFor='4_star'>★</label>
-                              <input name='score' type='radio' id='3_star' value='3' checked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
-                                 <label htmlFor='3_star'>★</label>
-                              <input name='score' type='radio' id='2_star' value='2' checked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
-                                 <label htmlFor='2_star'>★</label>
-                              <input name='score' type='radio' id='1_star' value='1' checked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
-                                 <label htmlFor='1_star'>★</label>
-                              <input name='score' type='radio' id='0_star' value='0' checked={ showScore === '0' } style={{ display: 'none' }} readOnly/>
+            toggleEdit &&
+            <form onSubmit={ handleSave }>
+               <div
+                  className={`
+                     ${EditMenuStyles.menuBackground}
+                     ${isEditMenuClosed ? EditMenuStyles.closeMenuBackground : EditMenuStyles.openMenuBackground}
+                  `}
+                  onClick={ () => setIsEditMenuClosed(true) }
+               />
+               <div className={ `${EditMenuStyles.container} ${isEditMenuClosed ? EditMenuStyles.closeMenu : EditMenuStyles.openMenu}` }>
+                  <div className={ EditMenuStyles.title }>{ title }</div>
+                  <div className={ EditMenuStyles.formContainer }>
+                     <div>
+                        <p>Status</p>
+                        <input name='showStatus' type='text' value={ category } onClick={ onStatusFieldClicked } readOnly />
+                        {
+                           toggleDropdown &&
+                           <div onClick={ () => setIsDropdownClosed(true) } className={ `${EditMenuStyles.statusDropdown} ${isDropdownClosed ? EditMenuStyles.closeDropdown : EditMenuStyles.openDropdown}` } ref={ statusDropdownRef }>
+                              <button onClick={ () => setCategory('Watching') }>Watching</button>
+                              <button onClick={ () => setCategory('Planning') }>Planning</button>
+                              <button onClick={ () => setCategory('Finished') }>Finished</button>
+                              <button onClick={ () => setCategory('Dropped') }>Dropped</button>
+                              <button onClick={ () => setCategory('Paused') }>Paused</button>
                            </div>
+                        }
+                     </div>
+                     <div>
+                        <p>Score</p>
+                        <div className={ EditMenuStyles.scoreInputContainer }>
+                              <div className={  EditMenuStyles.scoreInput }>
+                                 <input name='score' type='radio' id='5_star' value='5' checked={ showScore === '5' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                                    <label htmlFor='5_star'>★</label>
+                                 <input name='score' type='radio' id='4_star' value='4' checked={ showScore === '4' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                                    <label htmlFor='4_star'>★</label>
+                                 <input name='score' type='radio' id='3_star' value='3' checked={ showScore === '3' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                                    <label htmlFor='3_star'>★</label>
+                                 <input name='score' type='radio' id='2_star' value='2' checked={ showScore === '2' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                                    <label htmlFor='2_star'>★</label>
+                                 <input name='score' type='radio' id='1_star' value='1' checked={ showScore === '1' } onChange={ onScoreChange } onClick={ onScoreClicked } readOnly/>
+                                    <label htmlFor='1_star'>★</label>
+                                 <input name='score' type='radio' id='0_star' value='0' checked={ showScore === '0' } style={{ display: 'none' }} readOnly/>
+                              </div>
+                        </div>
+                     </div>
+                     <div>
+                        <p>Start Date</p>
+                        <DatePicker
+                           name='startDate'
+                           showIcon
+                           selected={ startDate }
+                           onChange={ (date: Date) => setStartDate(date) }
+                        />
+                     </div>
+                     <div>
+                        <p>Finish Date</p>
+                        <DatePicker
+                           name='endDate'
+                           showIcon
+                           selected={ finishDate }
+                           onChange={ (date: Date) => setFinishDate(date) }
+                        />
+                     </div>
+                     <div>
+                        <p>Episode Progress</p>
+                        <input name='episodeProgress' type='number'  min={ 0 } value={ episodeProgress } onChange={ onEpisodeProgressChanged }/>
                      </div>
                   </div>
-                  <div>
-                     <p>Start Date</p>
-                     <DatePicker
-                        name='startDate'
-                        showIcon
-                        selected={ startDate }
-                        onChange={ (date: Date) => setStartDate(date) }
-                     />
-                  </div>
-                  <div>
-                     <p>Finish Date</p>
-                     <DatePicker
-                        name='endDate'
-                        showIcon
-                        selected={ finishDate }
-                        onChange={ (date: Date) => setFinishDate(date) }
-                     />
-                  </div>
-                  <div>
-                     <p>Episode Progress</p>
-                     <input name='episodeProgress' type='number'  min={ 0 } value={ episodeProgress } onChange={ onEpisodeProgressChanged }/>
+                  <div className={ EditMenuStyles.formButtons }>
+                     <button className={ EditMenuStyles.save } type='submit'>
+                        Save
+                     </button>
+                     <button className={ EditMenuStyles.delete } onClick={ handleDelete }>
+                        Delete
+                     </button>
                   </div>
                </div>
-               <div className={ EditMenuStyles.formButtons }>
-                  <button className={ EditMenuStyles.save } type='submit'>
-                     Save
-                  </button>
-                  <button className={ EditMenuStyles.delete } onClick={ handleDelete }>
-                     Delete
-                  </button>
-               </div>
-            </div>
-         </form>
+            </form>
          }
       </div>
    )

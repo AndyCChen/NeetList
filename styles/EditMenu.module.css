@@ -78,6 +78,11 @@
    column-gap: 10px;
 }
 
+.formContainer > div > p {
+   color: black;
+   text-align: left;
+}
+
 .formContainer > div:not(:first-child) > div{
    width: 100%;
 }

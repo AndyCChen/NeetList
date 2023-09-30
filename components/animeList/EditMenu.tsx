@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import EditMenuStyles from '../../styles/EditMenu.module.css'
 import { AnimeData, JSONResponse } from '../../interfaces/userListTypes';
-import { relative } from 'path';
+import { useUser } from '@supabase/auth-helpers-react';
 
 type props = {
    id: string,
@@ -14,6 +14,8 @@ type props = {
 }
 
 const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
+   const user = useUser();
+
    const [toggleEdit, setEdit] = useState(false)
    const [isEditMenuClosed, setIsEditMenuClosed] = useState(false);
 
@@ -169,7 +171,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
    return (
       <div className={ EditMenuStyles.editWrapper } onClick={() => { setEdit(true) }}>
          {
-            toggleEdit &&
+            (toggleEdit && user) &&
             <form onSubmit={ handleSave }>
                <div
                   className={`

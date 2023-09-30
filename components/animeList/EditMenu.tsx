@@ -240,9 +240,12 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
                      <button className={ EditMenuStyles.save } type='submit'>
                         Save
                      </button>
-                     <button className={ EditMenuStyles.delete } onClick={ handleDelete }>
-                        Delete
-                     </button>
+                     {
+                        anime &&
+                        <button className={ EditMenuStyles.delete } onClick={ handleDelete }>
+                           Delete
+                        </button>
+                     }
                   </div>
                </div>
             </form>

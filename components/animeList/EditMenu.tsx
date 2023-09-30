@@ -103,6 +103,12 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
          }
 
          setIsEditMenuClosed(true);
+
+         setCategory('Planning');
+         setStartDate(null);
+         setFinishDate(null);
+         setEpisodeProgress(0);
+         setScore('0');
       }
    }
 

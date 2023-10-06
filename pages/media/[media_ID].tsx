@@ -79,7 +79,7 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
 
 const MediaPageBody = ({ media, userShow }: Props) => {
    const user = useUser();
-
+   
    const height = useMediaQuery(
       [
          'only screen and (max-width: 800px)',
@@ -122,13 +122,6 @@ const MediaPageBody = ({ media, userShow }: Props) => {
       setIsReadme(true);
    }
 
-   const handleAddToList = async () => {
-      if (!user) {
-         alert('Must Login');
-         return;
-      }
-   }
-
    const handleSetShow = async (status: string) => {
       if (!user) {
          alert('Must Login');
@@ -137,6 +130,16 @@ const MediaPageBody = ({ media, userShow }: Props) => {
 
       const setResponse = await fetch(`/api/userLists/setShow?status=${status}&id=${ media.id }`, {
          method: 'POST',
+         headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+         body: JSON.stringify({
+            status: status,
+            id: media.id,
+            imageURL: media.coverImage.medium,
+            title: media.title.english ? media.title.english : (media.title.romaji ? media.title.romaji : media.title.native),
+         })
       });
 
       const { 
@@ -149,7 +152,6 @@ const MediaPageBody = ({ media, userShow }: Props) => {
          alert('There was an error!');
       } else {
          alert('Show added!')
-         console.log(Anime);
          setAnime(Anime);
       }
    }
@@ -181,7 +183,7 @@ const MediaPageBody = ({ media, userShow }: Props) => {
                   draggable='false'
                />
                <div className={ MediaPageStyles.addButtonContainer }>
-                  <div className={ MediaPageStyles.addButton } onClick={ handleAddToList }>
+                  <div className={ MediaPageStyles.addButton } onClick={ () => !user && alert('Must login!') }>
                      { anime ? anime.category : 'Add to List' }
                      <EditMenu 
                         id= { media.id }
@@ -287,27 +289,34 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
       data: { user }
    } = await supabase.auth.getUser();
 
-   // check if show is added in user's list by fetching from database
-  if (user) {
-      const { data: userShow, error } = await supabase
-         .from('shows')
-         .select()
-         .match({
-            'user_id': user.id,
-            'anime_id': id
-         });
-      
+   if (!user) {
       return {
          props: {
-            media,
-            userShow,
+            media: media,
+            userShow: null,
          }
       }
-  }
+   }
 
+   // check if show is added in user's list by fetching from database
+   const { data: userShow, error } = await supabase
+      .from('shows')
+      .select()
+      .match({
+         'user_id': user.id,
+         'anime_id': id
+      });
+
+   if (error) {
+      return {
+         notFound: true
+      }
+   }
+   
    return {
       props: {
-         media,
+         media: media,
+         userShow: userShow.length !== 0 ? userShow : null,
       }
    }
 }

@@ -172,7 +172,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
       <div className={ EditMenuStyles.editWrapper } onClick={() => { setEdit(true) }}>
          {
             (toggleEdit && user) &&
-            <form onSubmit={ handleSave }>
+            <form onSubmit={ handleSave } autoComplete='off'>
                <div
                   className={`
                      ${EditMenuStyles.menuBackground}

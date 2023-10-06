@@ -16,9 +16,11 @@ export interface Database {
           episode_progress: number
           finish_date: string | null
           id: number
+          imageurl: string | null
           score: number
           start_date: string | null
-          user_id: string | null
+          title: string | null
+          user_id: string
         }
         Insert: {
           anime_id: string
@@ -26,9 +28,11 @@ export interface Database {
           episode_progress?: number
           finish_date?: string | null
           id?: number
+          imageurl?: string | null
           score?: number
           start_date?: string | null
-          user_id?: string | null
+          title?: string | null
+          user_id: string
         }
         Update: {
           anime_id?: string
@@ -36,9 +40,11 @@ export interface Database {
           episode_progress?: number
           finish_date?: string | null
           id?: number
+          imageurl?: string | null
           score?: number
           start_date?: string | null
-          user_id?: string | null
+          title?: string | null
+          user_id?: string
         }
         Relationships: [
           {

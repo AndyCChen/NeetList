@@ -8,12 +8,14 @@ export type AnimeData = {
    id: number
    score: number
    start_date: string | null
-   user_id: string
+   user_id: string,
+   imageurl: string | null,
+   title: string | null
 }
 
 export type JSONResponse = {
    data: {
       Anime: AnimeData | null
    },
-   error: PostgrestError | null
+   error: PostgrestError | null | { message: string }
 }

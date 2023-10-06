@@ -41,6 +41,7 @@ export interface AnimeInfo {
    },
    coverImage: {
       large: string,
+      medium: string,
    },
    season: string,
    seasonYear: number,

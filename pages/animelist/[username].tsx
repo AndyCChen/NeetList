@@ -6,12 +6,16 @@ import AnimeListStyles from '../../styles/AnimeList.module.css'
 import SideBar from "../../components/animeList/SideBar"
 import AnimeListGroup from "../../components/animeList/AnimeListGroup"
 import { AnimeItem } from "../../interfaces/queryInterface"
+import { createPagesServerClient } from "@supabase/auth-helpers-nextjs"
+import { Database } from "../../interfaces/supabase"
+import { AnimeData } from "../../interfaces/userListTypes"
 
-type Props = {
-	animeItem: AnimeItem[],
+type props = {
+	userList: AnimeData[] | null
 }
 
-const AnimeList: NextPage = ({  }) => {
+const AnimeList: NextPage<props> = ({ userList }) => {
+	console.log(userList)
 	const [listSelector, setListSelector] = useState('All');
 	const [listCount, setListCount] = useState({
 		'All' : 0,
@@ -141,15 +145,37 @@ const AnimeList: NextPage = ({  }) => {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-	let username;
+	const supabase = createPagesServerClient<Database>(context);
 
-	if (context.params) {
-		username = context.params.username;
+	const { 
+		data: { user } 
+	} = await supabase.auth.getUser();
+
+	if (!user) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false
+			}
+		}
 	}
+
+	const { data, error} = await supabase
+		.from('shows')
+		.select()
+		.eq('user_id', user.id);
+
+	if (error) {
+		return {
+			notFound: true
+		}
+	}
+
+	
 
 	return {
 		props: {
-			username,
+			userList: data.length === 0 ? null : data
 		}
 	}
 }

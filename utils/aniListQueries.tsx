@@ -123,6 +123,7 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo
 				},
 				coverImage {
 					large,
+					medium,
 				},
 				season,
 				seasonYear,

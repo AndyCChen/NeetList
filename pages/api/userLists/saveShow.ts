@@ -4,13 +4,7 @@ import { Formidable } from 'formidable';
 import { Database } from "../../../interfaces/supabase";
 import {JSONResponse, AnimeData } from '../../../interfaces/userListTypes'
 
-export const config = {
-   api: {
-      bodyParser: false
-   }
-}
-
-type formData = {
+interface ParsedFormData {
    fields: {
       showStatus: string[],
       score: string[],
@@ -20,8 +14,42 @@ type formData = {
    }
 }
 
+interface FormData {
+   showStatus: string,
+   score: number,
+   startDate: string | null,
+   endDate: string | null,
+   episodeProgress: number,
+}
+
+interface SaveShowQueryParams {
+   id: string,
+}
+
+const isSaveShowQueryParams = (queryParams: any): boolean => {
+   return (queryParams as SaveShowQueryParams).id !== undefined;
+}
+
+const isParsedFormData = (formData: any): boolean => {
+   return (formData as ParsedFormData).fields.showStatus[0] !== undefined &&
+   (formData as ParsedFormData).fields.score[0] as unknown as number !== undefined &&
+   (formData as ParsedFormData).fields.startDate[0] !== undefined &&
+   (formData as ParsedFormData).fields.endDate[0] !== undefined &&
+   (formData as ParsedFormData).fields.episodeProgress[0] as unknown as number !== undefined
+}
+
 export default async function POST(req: NextApiRequest, res: NextApiResponse<JSONResponse>) {
    const supabase = createPagesServerClient<Database>({ req, res });
+   /* if (!isSaveShowQueryParams(req.query)) {
+      res.status(404).json({
+         data: {
+            Anime: null,
+         },
+         error: { message: 'Bad request url!' },
+      })
+
+      return;
+   } */
 
    const form = await new Promise((resolve, reject) => {
       const form = new Formidable();
@@ -35,29 +63,53 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
       });
    });
 
+   if (!isParsedFormData(form)) {
+      res.status(404).json({
+         data: {
+            Anime: null
+         },
+         error: { message: 'An error occured while processing the form!' },
+      })
+
+      return;
+   }
+
+   const { fields: parsedForm } = form as ParsedFormData;
+   
+   const formData: FormData = {
+      showStatus: parsedForm.showStatus.join(''),
+      score: parsedForm.score.join('') as unknown as number,
+      startDate: parsedForm.startDate.join(''),
+      endDate: parsedForm.endDate.join(''),
+      episodeProgress: parsedForm.episodeProgress.join('') as unknown as number,
+   }
+
    const {
       data: { user }
    } = await supabase.auth.getUser();
 
-   const id = req.query.id as string;
-   const category = (form as formData).fields.showStatus[0];
-   const score = (form as formData).fields.score[0] as unknown as number;
-   const start_date = (form as formData).fields.startDate[0];
-   const finish_date = (form as formData).fields.endDate[0];
-   const episode_progress = (form as formData).fields.episodeProgress[0] as unknown as number;
+   if (!user) {
+      res.status(404).json({
+         data: {
+            Anime: null
+         },
+         error: { message: 'User not authenticated!' },
+      })
 
-
+      return;
+   }
+   console.log(formData)
    const { data, error } = await supabase
       .from('shows')
       .upsert(
          {
-            user_id: user?.id,
-            anime_id: id,
-            category: category,
-            score: score,
-            start_date: start_date ? start_date : null,
-            finish_date: finish_date ? finish_date : null,
-            episode_progress: episode_progress,
+            user_id: user.id,
+            anime_id: req.query.id as string,
+            category: formData.showStatus,
+            score: formData.score,
+            start_date: formData.startDate ? formData.startDate : null,
+            finish_date: formData.endDate ? formData.endDate : null,
+            episode_progress: formData.episodeProgress,
          },
          {
             onConflict: 'user_id, anime_id'
@@ -69,6 +121,12 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
       data: {
          Anime: data?.[0] as AnimeData
       },
-      error
+      error: error
    })
+}
+
+export const config = {
+   api: {
+      bodyParser: false
+   }
 }

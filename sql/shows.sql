@@ -9,6 +9,8 @@ create table shows (
   start_date date default null,
   finish_date date default null,
   episode_progress integer not null default 0,
+  imageURL text,
+  title text,
   unique(user_id, anime_id)
 );
 

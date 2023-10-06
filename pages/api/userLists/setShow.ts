@@ -32,7 +32,6 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
    }
 
    const body = req.body as RequestBody;
-   console.log(body);
 
    const {
       data: { user }

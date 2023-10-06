@@ -38,14 +38,16 @@ const SideBar = ({ listSelectorCallback, listCount }: Props) => {
 	}, [listSelector]);
 
 	const lists = categories.map((value, index) => {
-		return (
-			<React.Fragment key={ value }>
-				<div style={ listSelector === index ? listSelectorStyle : {} } onClick={ () => setListSelector(index) }>
-					<p>{ value }</p>
-					<p>{ listCount[value as keyof ListCount] }</p>
-				</div>
-			</React.Fragment>
-		)
+		if (listCount[value as keyof ListCount] !== 0) {
+			return (
+				<React.Fragment key={ value }>
+					<div style={ listSelector === index ? listSelectorStyle : {} } onClick={ () => setListSelector(index) }>
+						<p>{ value }</p>
+						<p>{ listCount[value as keyof ListCount] }</p>
+					</div>
+				</React.Fragment>
+			)
+		}
 	});
 
 	return (

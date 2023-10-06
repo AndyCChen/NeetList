@@ -5,13 +5,21 @@ import { useEffect, useState } from "react"
 import AnimeListStyles from '../../styles/AnimeList.module.css'
 import SideBar from "../../components/animeList/SideBar"
 import AnimeListGroup from "../../components/animeList/AnimeListGroup"
-import { AnimeItem } from "../../interfaces/queryInterface"
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "../../interfaces/supabase"
 import { AnimeData } from "../../interfaces/userListTypes"
 
 type props = {
 	userList: AnimeData[] | null
+}
+
+type ListCount = {
+	'All' : number,
+	'Watching': number,
+	'Planning': number,
+	'Finished': number,
+	'Dropped': number,
+	'Paused': number,
 }
 
 const AnimeList: NextPage<props> = ({ userList }) => {
@@ -25,49 +33,6 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 		'Dropped' : 0,
 		'Paused' : 0,
 	});
-
-	const animeItemList: AnimeItem[] = [
-		{
-			id: '16498',
-			category: 'Watching'
-		},
-		{
-			id: '20958',
-			category: 'Planning'
-		},
-		{
-			id: '99147',
-			category: 'Planning'
-		},
-		{
-			id: '110277',
-			category: 'Planning'
-		},
-		{
-			id: '104578',
-			category: 'Finished'
-		},
-		{
-			id: '131681',
-			category: 'Finished'
-		},
-		{
-			id: '110445',
-			category: 'Dropped'
-		},
-		{
-			id: '100456',
-			category: 'Dropped'
-		},
-		{
-			id: '20691',
-			category: 'Paused'
-		},
-		{
-			id: '99634',
-			category: 'Paused'
-		},
-	]
 
 	const categories = [
 		'Watching',
@@ -85,20 +50,22 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 		let dropped = 0;
 		let paused = 0;
 
-		animeItemList.forEach((value: AnimeItem) => {
-			if (value.category === 'Watching') 
-				watching++;
-			else if (value.category === 'Planning') 
-				planning++;
-			else if (value.category === 'Finished') 
-				finished++;
-			else if (value.category === 'Dropped') 
-				dropped++;
-			else if (value.category === 'Paused') 
-				paused++;
+		if (userList) {
+			userList.forEach((value: AnimeData) => {
+				if (value.category === 'Watching') 
+					watching++;
+				else if (value.category === 'Planning') 
+					planning++;
+				else if (value.category === 'Finished') 
+					finished++;
+				else if (value.category === 'Dropped') 
+					dropped++;
+				else if (value.category === 'Paused') 
+					paused++;
 
-			all++;
-		});
+				all++;
+			});
+		}
 
 		const updatedListCount = {
 			'All' : all,
@@ -112,34 +79,57 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 		setListCount(updatedListCount);
 	}, []);
 
+	const renderAllCategories = (animeList: AnimeData[]):JSX.Element => {
+		return(
+			<>
+			{
+				categories.map((category: string) => {
+					if (listCount[category as keyof ListCount] !== 0) {
+						return(
+							<AnimeListGroup
+								key={ category }
+								category={ category }
+								animeList={ animeList.filter((value: AnimeData) =>
+									value.category.localeCompare(category, undefined, { sensitivity: 'accent' }) === 0
+								)}
+							/>
+						)
+					}
+				})
+			}
+			</>
+		)
+	}
+
+	const renderSelectedCategories = (animeList: AnimeData[], category: string):JSX.Element => {
+		return(
+			<>
+			{
+				<AnimeListGroup
+					category={ category }
+					animeList={ animeList.filter((value: AnimeData) => value.category === category) }
+				/>
+			}
+			</>
+		)
+	}
+
 	return (
 		<div className={ AnimeListStyles.contentContainer }>
 			<SideBar 
 				listSelectorCallback={ (value: string) => setListSelector(value) }
 				listCount={ listCount }
 			/>
-			<div>
+			{
+				!userList ?
+				<div className={ AnimeListStyles.noLists }>No shows add yet!</div>
+				:
+				<div>
 				{
-					listSelector !== 'All' ?
-					<AnimeListGroup
-						category={ listSelector } 
-						animeItemList={ animeItemList.filter((value: AnimeItem) => value.category === listSelector) }
-					/>
-					:
-					<>
-						{
-							categories.map((category: string) => 
-								<AnimeListGroup 
-									key={ category }
-									category={ category } 
-									animeItemList={ animeItemList.filter((value: AnimeItem) => 
-										value.category.localeCompare(category, undefined, { sensitivity: 'accent' })) }
-								/>
-							)
-						}
-					</>
+					listSelector !== 'All' ? renderSelectedCategories(userList, listSelector) : renderAllCategories(userList)
 				}
-			</div>
+				</div>
+			}
 		</div>
 	)
 }
@@ -153,10 +143,7 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 
 	if (!user) {
 		return {
-			redirect: {
-				destination: '/',
-				permanent: false
-			}
+			notFound: true,
 		}
 	}
 
@@ -170,8 +157,6 @@ export const getServerSideProps: GetServerSideProps = async (context: GetServerS
 			notFound: true
 		}
 	}
-
-	
 
 	return {
 		props: {

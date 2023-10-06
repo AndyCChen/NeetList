@@ -85,3 +85,10 @@
    flex-grow: 1;
    justify-content: center;
 }
+
+.title {
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
+   width: 1px;
+}

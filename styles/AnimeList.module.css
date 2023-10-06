@@ -6,3 +6,10 @@
    margin: 20px auto 0 auto;
    padding: 0 10px 0 10px
 }
+
+.noLists {
+   color: #4f4f4f;
+   text-align: center;
+   width: auto;
+   padding-top: 25px;
+}

@@ -1,33 +1,33 @@
 import Image from 'next/legacy/image'
-import { useState } from 'react';
 
 import editIcon from '../../public/dots.svg';
 import AnimeListGroupStyles from '../../styles/AnimeListGroup.module.css'
 import EditMenu from './EditMenu';
+import { AnimeData } from '../../interfaces/userListTypes';
+import Link from 'next/link';
 
 type Props = {
-	category: string,
-	imageURL: string,
-	title: string,
-	score: number,
-	progress: number,
+	anime: AnimeData
 }
 
-const AnimeListItem = () => {
-	const [toggleEdit, setToggleEdit] = useState(false);
-
+const AnimeListItem = ({ anime }: Props) => {
 	return (
 		<div className={ AnimeListGroupStyles.listItemContainer }>
 			<div className={ AnimeListGroupStyles.titleContainer }>
 				<div className={ AnimeListGroupStyles.image }>
+				{
+					anime.imageurl ?
 					<Image
 						alt={ 'Thumbnail' }
-						src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx16498-C6FPmWm59CyP.jpg"
+						src={ anime.imageurl }
 						layout="fill"
 						style={{borderRadius: '5px'}}
 					/>
+					:
+					<div/>
+				}
 				</div>
-				<div className={ AnimeListGroupStyles.iconOverlay } onClick={() => setToggleEdit(!toggleEdit)}>
+				<div className={ AnimeListGroupStyles.iconOverlay }>
 					<div className={ AnimeListGroupStyles.iconWrapper}>
 						<Image 
 							src= { editIcon } 
@@ -37,10 +37,10 @@ const AnimeListItem = () => {
 						/>
 					</div>
 				</div>
-				<p>Title</p>
+				<p className={ AnimeListGroupStyles.title }>{ anime.title }</p>
 			</div>
-			<p>1</p>
-			<p>2/13</p>
+			<p>{ anime.score }</p>
+			<p>{ anime.episode_progress }</p>
 			<div>
 				{
 					/* toggleEdit && 

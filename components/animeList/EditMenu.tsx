@@ -13,6 +13,11 @@ type props = {
    toggleEditMenu?: boolean,
 }
 
+const getParsedDate = (date: string): Date => {
+   return new Date(date.replace(/-/g, '\/'));
+   
+}
+
 const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
    const user = useUser();
 
@@ -23,8 +28,8 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
    const [isDropdownClosed, setIsDropdownClosed] = useState(false);
 
    const [category, setCategory] = useState(anime ? anime.category : 'Planning');
-   const [startDate, setStartDate] = useState(anime?.start_date ? new Date(anime.start_date) : null);
-   const [finishDate, setFinishDate] = useState(anime?.finish_date ? new Date(anime.finish_date) : null);
+   const [startDate, setStartDate] = useState(anime?.start_date ? getParsedDate(anime.start_date) : null);
+   const [finishDate, setFinishDate] = useState(anime?.finish_date ? getParsedDate(anime.finish_date) : null);
    const [episodeProgress, setEpisodeProgress] = useState(anime?.episode_progress ? anime.episode_progress : 0);
    const [showScore, setScore] = useState(anime?.score ? anime.score.toString() : '0');
 
@@ -221,7 +226,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
                            name='startDate'
                            showIcon
                            selected={ startDate }
-                           onChange={ (date: Date) => setStartDate(date) }
+                           onChange={ (date: Date) => setStartDate(date)}
                         />
                      </div>
                      <div>
@@ -230,7 +235,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
                            name='endDate'
                            showIcon
                            selected={ finishDate }
-                           onChange={ (date: Date) => setFinishDate(date) }
+                           onChange={ (date: Date) => setFinishDate(date)}
                         />
                      </div>
                      <div>

@@ -11,6 +11,8 @@ interface ParsedFormData {
       startDate: string[],
       endDate: string[],
       episodeProgress: string[],
+      title: string[],
+      imageURL: string[],
    }
 }
 
@@ -20,6 +22,8 @@ interface FormData {
    startDate: string | null,
    endDate: string | null,
    episodeProgress: number,
+   title: string,
+   imageURL: string,
 }
 
 interface SaveShowQueryParams {
@@ -35,12 +39,15 @@ const isParsedFormData = (formData: any): boolean => {
    (formData as ParsedFormData).fields.score[0] as unknown as number !== undefined &&
    (formData as ParsedFormData).fields.startDate[0] !== undefined &&
    (formData as ParsedFormData).fields.endDate[0] !== undefined &&
-   (formData as ParsedFormData).fields.episodeProgress[0] as unknown as number !== undefined
+   (formData as ParsedFormData).fields.episodeProgress[0] as unknown as number !== undefined &&
+   (formData as ParsedFormData).fields.title[0] as string !== undefined &&
+   (formData as ParsedFormData).fields.imageURL[0] as string !== undefined;
 }
 
 export default async function POST(req: NextApiRequest, res: NextApiResponse<JSONResponse>) {
    const supabase = createPagesServerClient<Database>({ req, res });
-   /* if (!isSaveShowQueryParams(req.query)) {
+
+   if (!isSaveShowQueryParams(req.query)) {
       res.status(404).json({
          data: {
             Anime: null,
@@ -49,7 +56,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
       })
 
       return;
-   } */
+   }
 
    const form = await new Promise((resolve, reject) => {
       const form = new Formidable();
@@ -82,6 +89,8 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
       startDate: parsedForm.startDate.join(''),
       endDate: parsedForm.endDate.join(''),
       episodeProgress: parsedForm.episodeProgress.join('') as unknown as number,
+      title: parsedForm.title.join(''),
+      imageURL: parsedForm.imageURL.join(''),
    }
 
    const {
@@ -110,6 +119,8 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
             start_date: formData.startDate ? formData.startDate : null,
             finish_date: formData.endDate ? formData.endDate : null,
             episode_progress: formData.episodeProgress,
+            title: formData.title,
+            imageurl: formData.imageURL
          },
          {
             onConflict: 'user_id, anime_id'

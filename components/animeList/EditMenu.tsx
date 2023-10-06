@@ -7,7 +7,8 @@ import { useUser } from '@supabase/auth-helpers-react';
 
 type props = {
    id: string,
-   title: string
+   title: string,
+   imageURL: string,
    anime: AnimeData | null,
    onSaveCallback?: (Anime: AnimeData | null) => void,
    toggleEditMenu?: boolean,
@@ -18,7 +19,7 @@ const getParsedDate = (date: string): Date => {
    
 }
 
-const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
+const EditMenu = ({ id, onSaveCallback, anime, title, imageURL }: props) => {
    const user = useUser();
 
    const [toggleEdit, setEdit] = useState(false)
@@ -242,6 +243,8 @@ const EditMenu = ({ id, onSaveCallback, anime, title }: props) => {
                         <p>Episode Progress</p>
                         <input name='episodeProgress' type='number'  min={ 0 } value={ episodeProgress } onChange={ onEpisodeProgressChanged }/>
                      </div>
+                     <input style={{ display: 'none' }} name= 'title' value={ title } readOnly/>
+                     <input style={{ display: 'none' }} name= 'imageURL' value={ imageURL } readOnly/>
                   </div>
                   <div className={ EditMenuStyles.formButtons }>
                      <button className={ EditMenuStyles.save } type='submit'>

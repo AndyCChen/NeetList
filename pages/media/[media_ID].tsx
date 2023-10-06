@@ -189,6 +189,7 @@ const MediaPageBody = ({ media, userShow }: Props) => {
                         id= { media.id }
                         onSaveCallback={ (show) => setAnime(show) }
                         title={ media.title.english ? media.title.english : media.title.romaji ? media.title.romaji : media.title.native }
+                        imageURL={ media.coverImage.medium }
                         anime={ anime }
                      />
                   </div>

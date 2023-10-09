@@ -35,27 +35,18 @@ const AnimeListItem = ({ anime }: Props) => {
 							width={20}
 							height={20}
 						/>
+						<EditMenu 
+							id={ anime.anime_id } 
+							title={ anime.title as string } 
+							imageURL={ anime.imageurl as string } 
+							anime={ anime }							
+						/>
 					</div>
 				</div>
-				<p className={ AnimeListGroupStyles.title }>{ anime.title }</p>
+				<Link href={ `/media/${encodeURIComponent(anime.anime_id)}` } className={ AnimeListGroupStyles.title }>{ anime.title }</Link>
 			</div>
 			<p>{ anime.score }</p>
 			<p>{ anime.episode_progress }</p>
-			<div>
-				{
-					/* toggleEdit && 
-					<EditMenu 
-						id='202038'
-						closeEdit={ () => setToggleEdit(false) } 
-						title='Really bad show'
-						status='Watching'
-						progress={ 12 }
-						score={ '5' }
-						startingDate={ new Date() }
-						finishingDate={ new Date() }
-					/> */
-				}
-			</div>
 		</div>
 	)
 }

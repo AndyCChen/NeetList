@@ -37,17 +37,6 @@
    display: flex;
 }
 
-.listItemContainer > div > p {
-   flex-grow: 1;
-   cursor: pointer;
-   margin-left: 10px;
-}
-
-.listItemContainer > div > p:hover {
-   color: #418D89;
-   transition: 300ms;
-}
-
 .listItemContainer > p {
    text-align: center;
 }
@@ -65,7 +54,6 @@
 }
 
 .iconOverlay {
-   cursor: pointer;
    position: absolute;
    height: 45px;
    width: 45px;
@@ -91,4 +79,15 @@
    white-space: nowrap;
    overflow: hidden;
    width: 1px;
+   flex-grow: 1;
+   cursor: pointer;
+   padding-left: 10px;
+   margin-top: auto;
+   margin-bottom: auto;
 }
+
+.title:hover {
+   color: #418D89;
+   transition: 300ms;
+}
+

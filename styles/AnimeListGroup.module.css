@@ -53,6 +53,16 @@
    position: relative;
 }
 
+.editContainer {
+   position: absolute;
+   height: 45px;
+   width: 45px;
+}
+
+ .editContainer:hover + .iconOverlay {
+   opacity: 0.9;
+} 
+
 .iconOverlay {
    position: absolute;
    height: 45px;
@@ -62,16 +72,9 @@
    border-radius: 5px;
    transition: 300ms;
    display: flex;
-}
-
-.iconOverlay:hover  {
-   opacity: 0.9;
-}
-
-.iconWrapper {
-   display: flex;
    flex-grow: 1;
    justify-content: center;
+   align-items: center;
 }
 
 .title {

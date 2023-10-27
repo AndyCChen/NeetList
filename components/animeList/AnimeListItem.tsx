@@ -24,24 +24,24 @@ const AnimeListItem = ({ anime }: Props) => {
 						style={{borderRadius: '5px'}}
 					/>
 					:
-					<div/>
+					<div/> // empty div if image is null
 				}
 				</div>
+				<div className={ AnimeListGroupStyles.editContainer }>
+					<EditMenu
+							id={ anime.anime_id }
+							title={ anime.title as string }
+							imageURL={ anime.imageurl as string }
+							anime={ anime }
+					/>
+				</div>
 				<div className={ AnimeListGroupStyles.iconOverlay }>
-					<div className={ AnimeListGroupStyles.iconWrapper}>
-						<Image 
-							src= { editIcon } 
-							alt='edit show'
-							width={20}
-							height={20}
-						/>
-						<EditMenu 
-							id={ anime.anime_id } 
-							title={ anime.title as string } 
-							imageURL={ anime.imageurl as string } 
-							anime={ anime }							
-						/>
-					</div>
+					<Image
+						src= { editIcon }
+						alt='edit show'
+						width={20}
+						height={20}
+					/>
 				</div>
 				<Link href={ `/media/${encodeURIComponent(anime.anime_id)}` } className={ AnimeListGroupStyles.title }>{ anime.title }</Link>
 			</div>

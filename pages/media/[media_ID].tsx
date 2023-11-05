@@ -211,7 +211,7 @@ const MediaPageBody = ({ media, userShow }: Props) => {
             </div>
          </div>
          <div className={ MediaPageStyles.contentContainer }>
-            <div className={ MediaPageStyles.sideBar }>
+            <div className={ MediaPageStyles.sideBar } style={{ marginTop: isReadme ? 'auto' : '110px' }}>
                <div>
                   <h4>Format</h4>
                   <p>{ media.format }</p>

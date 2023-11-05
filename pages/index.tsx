@@ -67,11 +67,23 @@ const getSeason = ({getNextSeason = false }: { getNextSeason?: boolean }): strin
 	}
 }
 
+const getYear = (season: string) => {
+	const month = new Date().getMonth();
+
+	if  (month >= 9 && season == 'WINTER') {
+		return new Date().getFullYear() + 1;
+	}
+}
+
 export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
 	const trendingList = await getMedia({ page: 1, perPage: 20, sort: 'TRENDING_DESC' });
 	const popularList = await getMedia({ page: 1, perPage: 6, sort: 'POPULARITY_DESC' });
 	const popularCurrentSeasonList = await getMedia({ page:1, perPage: 6, sort: 'POPULARITY_DESC', season: getSeason({ }) });
-	const upcomingNextSeasonList = await getMedia({ page: 1, perPage: 6, sort: 'POPULARITY_DESC', season: getSeason({ getNextSeason: true }) });
+
+	const season = getSeason({ getNextSeason: true});
+	const year = getYear(season);
+
+	const upcomingNextSeasonList = await getMedia({ page: 1, perPage: 6, sort: 'POPULARITY_DESC', season: season, year: year });
 
 	return {
 		props: {

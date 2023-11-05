@@ -187,7 +187,9 @@ const MediaPageBody = ({ media, userShow }: Props) => {
                      { anime ? anime.category : 'Add to List' }
                      <EditMenu 
                         id= { media.id }
-                        onSaveCallback={ (show) => setAnime(show) }
+                        onSaveCallback={ ({ anime, deleteShow }) => { 
+                           if (anime && !deleteShow) setAnime(anime);
+                         }}
                         title={ media.title.english ? media.title.english : media.title.romaji ? media.title.romaji : media.title.native }
                         imageURL={ media.coverImage.medium }
                         anime={ anime }

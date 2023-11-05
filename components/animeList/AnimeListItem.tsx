@@ -8,18 +8,19 @@ import Link from 'next/link';
 
 type Props = {
 	anime: AnimeData,
-	index: number,
-	onDeleteCallBack: (index: number) => void,
+	onDeleteCallBack: (show_id: string) => void,
 }
 
-const AnimeListItem = ({ anime, index, onDeleteCallBack }: Props) => {
+const AnimeListItem = ({ anime, onDeleteCallBack }: Props) => {
 	const [show, setShow] = useState(anime);
 
-	const handleShowChange = (anime: AnimeData | null) => {
+	const handleShowChange = ({ anime, deleteShow }: { anime: AnimeData | null, deleteShow: boolean }) => {
 		if (anime) {
-			setShow(anime);
-		} else {
-			onDeleteCallBack(index);
+			if (deleteShow) {
+				onDeleteCallBack(anime.anime_id);
+			} else {
+				setShow(anime);
+			}
 		}
 	}
 

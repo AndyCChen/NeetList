@@ -34,6 +34,13 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 		'Paused' : 0,
 	});
 
+	const [showList, setShowList] = useState(userList);
+
+	const deleteShowAt = (show_id: string) => {
+		const filteredListGroup = showList?.filter((value, showIndex) => value.anime_id !== show_id);
+		setShowList(filteredListGroup ? ( filteredListGroup.length === 0 ? null : filteredListGroup ) : null)
+	}
+
 	const categories = [
 		'Watching',
 		'Planning',
@@ -50,8 +57,8 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 		let dropped = 0;
 		let paused = 0;
 
-		if (userList) {
-			userList.forEach((value: AnimeData) => {
+		if (showList) {
+			showList.forEach((value: AnimeData) => {
 				if (value.category === 'Watching') 
 					watching++;
 				else if (value.category === 'Planning') 
@@ -77,7 +84,7 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 		}
 
 		setListCount(updatedListCount);
-	}, []);
+	}, [showList]);
 
 	const renderAllCategories = (animeList: AnimeData[]):JSX.Element => {
 		return(
@@ -92,6 +99,7 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 								animeList={ animeList.filter((value: AnimeData) =>
 									value.category.localeCompare(category, undefined, { sensitivity: 'accent' }) === 0
 								)}
+								deleteShowAt={ deleteShowAt }
 							/>
 						)
 					}
@@ -108,6 +116,7 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 				<AnimeListGroup
 					category={ category }
 					animeList={ animeList.filter((value: AnimeData) => value.category === category) }
+					deleteShowAt={ deleteShowAt }
 				/>
 			}
 			</>
@@ -121,12 +130,12 @@ const AnimeList: NextPage<props> = ({ userList }) => {
 				listCount={ listCount }
 			/>
 			{
-				!userList ?
-				<div className={ AnimeListStyles.noLists }>No shows add yet!</div>
+				!showList ?
+				<div className={ AnimeListStyles.noLists }>No shows added yet!</div>
 				:
 				<div>
 				{
-					listSelector !== 'All' ? renderSelectedCategories(userList, listSelector) : renderAllCategories(userList)
+					listSelector !== 'All' ? renderSelectedCategories(showList, listSelector) : renderAllCategories(showList)
 				}
 				</div>
 			}

@@ -10,7 +10,7 @@ type props = {
    title: string,
    imageURL: string,
    anime: AnimeData | null,
-   onSaveCallback?: (Anime: AnimeData | null) => void,
+   onSaveCallback?: ({ anime, deleteShow }: { anime: AnimeData | null, deleteShow: boolean }) => void,
 }
 
 const getParsedDate = (date: string): Date => {
@@ -84,7 +84,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title, imageURL }: props) => {
          alert('Show added!');
 
          if (onSaveCallback) {
-            onSaveCallback(Anime);
+            onSaveCallback({ anime: Anime, deleteShow: false});
          }
       }
    }
@@ -106,7 +106,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title, imageURL }: props) => {
          alert('Show deleted!');
 
          if (onSaveCallback) {
-            onSaveCallback(null);
+            onSaveCallback({ anime: Anime, deleteShow: true});
          }
 
          setIsEditMenuClosed(true);

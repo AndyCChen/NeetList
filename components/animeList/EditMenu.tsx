@@ -11,7 +11,6 @@ type props = {
    imageURL: string,
    anime: AnimeData | null,
    onSaveCallback?: (Anime: AnimeData | null) => void,
-   toggleEditMenu?: boolean,
 }
 
 const getParsedDate = (date: string): Date => {

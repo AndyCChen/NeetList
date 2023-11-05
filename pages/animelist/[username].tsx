@@ -23,8 +23,8 @@ type ListCount = {
 }
 
 const AnimeList: NextPage<props> = ({ userList }) => {
-	console.log(userList)
 	const [listSelector, setListSelector] = useState('All');
+
 	const [listCount, setListCount] = useState({
 		'All' : 0,
 		'Watching' : 0,

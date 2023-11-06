@@ -1,25 +1,27 @@
 import Image from 'next/legacy/image'
 import Router from 'next/router'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 
 import appBarStyles from '../../styles/AppBar.module.css'
 
 const SearchBox = () => {
 	const [searchString, setSearchString] = useState('');
-	let isSearchBoxUsed = false;
+	const isSearchBoxUsed = useRef(false);
 
 	// route to a new page to display search results after a set delay
 	// delay duration resets each time the user enters a new character into search bar
 	useEffect(() => {
+
 		const routeToSearchPage = (searchString: string) => {
 			if (searchString.length != 0) {
 				Router.push(`/search/${encodeURIComponent(searchString)}`);
-				isSearchBoxUsed = true;
+				isSearchBoxUsed.current = true;
 			} 
 			// route back to home page if search input is empty
 			else {
-				if (isSearchBoxUsed) {
+				if (isSearchBoxUsed.current) {		
 					Router.push('/');
+					console.log(isSearchBoxUsed)
 				}
 			}
 		};

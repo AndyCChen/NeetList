@@ -1,7 +1,7 @@
 //import Image from 'next/image'
 import Image from 'next/legacy/image'
 import Link from 'next/link';
-import { useEffect, useRef, useState, useMemo, RefObject } from 'react';
+import { useEffect, useRef, useState, RefObject } from 'react';
 
 import MediaDisplayStyles from '../styles/MediaDisplay.module.css'
 
@@ -41,16 +41,18 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 
 	const useIsInViewport = (ref: RefObject<HTMLDivElement>): boolean => {
 		const [isIntersectingViewport, setIsIntersectingViewport] = useState(false);
-		
-		const observer = useMemo((): IntersectionObserver => {
-			return new IntersectionObserver(([entry]) => setIsIntersectingViewport(entry.isIntersecting));
+
+		const observer = useRef<IntersectionObserver>();
+
+		useEffect(() => {
+			observer.current = new IntersectionObserver(([entry]) => setIsIntersectingViewport(entry.isIntersecting));
 		}, []);
 
 		useEffect(() => {
-			observer.observe(ref.current as Element);
+			observer.current?.observe(ref.current as Element);
 
 			return () => {
-				observer.disconnect();
+				observer.current?.disconnect();
 			}
 		}, [ref, observer]);
 

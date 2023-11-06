@@ -8,13 +8,13 @@ type getMediaProps = {
 	year?: number,
 };
 
-/*
-	page: value to determine which page of values to query as results are paginated
-	perPage: value to specify how many items per page
-	sort: how the results are sorted by, for example by trending or popularity
-	season: filter results by seasons, default is undefined, if undefined the query is made without the season argument
-	year: filter results by year, default is set to current year
-*/
+/**
+ * @page value to determine which page of values to query as results are paginated
+ * @perPage value to specify how many items per page
+ * @sort how the results are sorted by, for example by trending or popularity
+ * @season filter results by seasons, default is undefined, if undefined the query is made without the season argument
+ * @year filter results by year, default is set to current year
+ * */ 
 export const getMedia = async ({ page, perPage, sort, season, year = new Date().getFullYear() }: getMediaProps): Promise<AnimeList> => {
 	let query: string;
 
@@ -176,38 +176,75 @@ type getMediaByNameProps = {
 	page: number,
 	perPage: number,
 	sort: string,
-	searchString: string,
+	searchString?: string,
 }
 
+/**
+ * fetches a list of shows based on name or sort category
+ * @param searchString If not provided, query is executed based on sort parameter 
+ */
 export const getMediaByName = async ({ page, perPage, sort, searchString }: getMediaByNameProps): Promise<AnimeList> => {
-	const query = 
-		`query ($page: Int, $perPage: Int, $sort: [MediaSort], $search: String) {
-			Page (page: $page, perPage: $perPage) {
-				media (sort: $sort, search: $search, type: ANIME) {
-					id,
-					bannerImage,
-					description (asHtml: false),
-					title {
-						romaji,
-						english,
-						native,
-					},
-					coverImage {
-						large,
-					},
-					season,
-					seasonYear,
-					studios (isMain: true) {
-						nodes {
-							name
-						}
-					},
-					format,
-					episodes,
-					genres,
+	let query: string;
+
+	if (searchString) {
+		query = 
+			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $search: String) {
+				Page (page: $page, perPage: $perPage) {
+					media (sort: $sort, search: $search, type: ANIME) {
+						id,
+						bannerImage,
+						description (asHtml: false),
+						title {
+							romaji,
+							english,
+							native,
+						},
+						coverImage {
+							large,
+						},
+						season,
+						seasonYear,
+						studios (isMain: true) {
+							nodes {
+								name
+							}
+						},
+						format,
+						episodes,
+						genres,
+					}
 				}
-			}
-		}`;
+			}`;
+	} else {
+		query =
+			`query ($page: Int, $perPage: Int, $sort: [MediaSort]) {
+				Page (page: $page, perPage: $perPage) {
+					media (sort: $sort, type: ANIME) {
+						id,
+						bannerImage,
+						description (asHtml: false),
+						title {
+							romaji,
+							english,
+							native,
+						},
+						coverImage {
+							large,
+						},
+						season,
+						seasonYear,
+						studios (isMain: true) {
+							nodes {
+								name
+							}
+						},
+						format,
+						episodes,
+						genres,
+					}
+				}
+			}`;
+	}	
 
 		const variables = {
 			page: page,

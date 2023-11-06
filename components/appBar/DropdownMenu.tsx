@@ -2,7 +2,6 @@ import Image from 'next/legacy/image'
 import React from 'react'
 import { useUser } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 

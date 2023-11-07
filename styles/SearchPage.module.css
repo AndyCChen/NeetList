@@ -1,3 +1,11 @@
+.header {
+   color: #4f4f4f;
+   max-width: 1300px;
+   width: 100%;
+   padding: 0px 20px 0px 20px;
+   margin-bottom: 0px;
+}
+
 .pageContent {
    display: flex;
    flex-direction: column;

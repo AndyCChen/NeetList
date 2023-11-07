@@ -107,7 +107,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse<JSO
 
       return;
    }
-   console.log(formData)
+
    const { data, error } = await supabase
       .from('shows')
       .upsert(

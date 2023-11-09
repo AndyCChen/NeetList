@@ -6,6 +6,7 @@ type getMediaProps = {
 	sort: string,
 	season?: string,
 	year?: number,
+	isAdult?: boolean
 };
 
 /**
@@ -15,14 +16,14 @@ type getMediaProps = {
  * @season filter results by seasons, default is undefined, if undefined the query is made without the season argument
  * @year filter results by year, default is set to current year
  * */ 
-export const getMedia = async ({ page, perPage, sort, season, year = new Date().getFullYear() }: getMediaProps): Promise<AnimeList> => {
+export const getMedia = async ({ page, perPage, sort, season, year = new Date().getFullYear(), isAdult = false }: getMediaProps): Promise<AnimeList> => {
 	let query: string;
 
 	if (season !== undefined) {
 		query = 
-			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $season: MediaSeason, $year: Int) {
+			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $season: MediaSeason, $year: Int, $isAdult: Boolean) {
 				Page (page: $page, perPage: $perPage) {
-					media (sort: $sort, type: ANIME, season: $season, seasonYear: $year) {
+					media (sort: $sort, type: ANIME, season: $season, seasonYear: $year, isAdult: $isAdult) {
 						id,
 						bannerImage,
 						description (asHtml: false),
@@ -49,9 +50,9 @@ export const getMedia = async ({ page, perPage, sort, season, year = new Date().
 			}`;
 	} else {
 		query = 
-			`query ($page: Int, $perPage: Int, $sort: [MediaSort]) {
+			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $isAdult: Boolean) {
 				Page (page: $page, perPage: $perPage) {
-					media (sort: $sort, type: ANIME) {
+					media (sort: $sort, type: ANIME, isAdult: $isAdult) {
 						id,
 						bannerImage,
 						description (asHtml: false),
@@ -84,6 +85,7 @@ export const getMedia = async ({ page, perPage, sort, season, year = new Date().
 		sort: sort,
 		season: season,
 		year: year,
+		isAdult: isAdult
 	};
 
 	const url = 'https://graphql.anilist.co';
@@ -177,20 +179,21 @@ type getMediaByNameProps = {
 	perPage: number,
 	sort: string,
 	searchString?: string,
+	isAdult?: boolean
 }
 
 /**
  * fetches a list of shows based on name or sort category
  * @param searchString If not provided, query is executed based on sort parameter 
  */
-export const getMediaByName = async ({ page, perPage, sort, searchString }: getMediaByNameProps): Promise<AnimeList> => {
+export const getMediaByName = async ({ page, perPage, sort, searchString, isAdult = false }: getMediaByNameProps): Promise<AnimeList> => {
 	let query: string;
 
 	if (searchString) {
 		query = 
-			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $search: String) {
+			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $search: String, $isAdult: Boolean) {
 				Page (page: $page, perPage: $perPage) {
-					media (sort: $sort, search: $search, type: ANIME) {
+					media (sort: $sort, search: $search, type: ANIME, isAdult: $isAdult) {
 						id,
 						bannerImage,
 						description (asHtml: false),
@@ -217,9 +220,9 @@ export const getMediaByName = async ({ page, perPage, sort, searchString }: getM
 			}`;
 	} else {
 		query =
-			`query ($page: Int, $perPage: Int, $sort: [MediaSort]) {
+			`query ($page: Int, $perPage: Int, $sort: [MediaSort], $isAdult: Boolean) {
 				Page (page: $page, perPage: $perPage) {
-					media (sort: $sort, type: ANIME) {
+					media (sort: $sort, type: ANIME, isAdult: $isAdult) {
 						id,
 						bannerImage,
 						description (asHtml: false),
@@ -250,7 +253,8 @@ export const getMediaByName = async ({ page, perPage, sort, searchString }: getM
 			page: page,
 			perPage: perPage,
 			sort: sort,
-			search: searchString
+			search: searchString,
+			isAdult: isAdult
 		};
 	
 		const url = 'https://graphql.anilist.co';

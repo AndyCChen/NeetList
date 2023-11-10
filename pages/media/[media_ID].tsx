@@ -60,24 +60,6 @@ const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string => {
 }
 
 const MediaPage: NextPage<Props> = ({ media, userShow }) => {
-   const [isLoading, setIsLoading] = useState(true);
-
-   useEffect(() => {
-      setIsLoading(false);
-   }, []);
-
-   if (!isLoading) {
-      return (
-         <MediaPageBody media={ media } userShow={ userShow }/>
-      )
-   } else {
-      return (
-         <div></div>
-      )
-   }
-}
-
-const MediaPageBody = ({ media, userShow }: Props) => {
    const user = useUser();
    
    const height = useMediaQuery(

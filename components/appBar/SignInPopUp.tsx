@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image from 'next/legacy/image';
 import SignInForm from './SignInForm';
 import SignUpForm from './SignUpForm';
@@ -10,29 +10,33 @@ type Props = {
 	showSignInState: boolean,
 }
 
-const SignInPopUp = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-
+const SignInPopUp = React.forwardRef<HTMLDivElement, Props>(({ playFadeIn, showSignInState }: Props, ref) => {
 	const [showSignUp, setShowSignUp] = useState(false);
+	const signInHeight = useRef<number | undefined>();
+	const signUpHeight = useRef<number | undefined>();
 
-	const _setShowSignUp = () => {
+	const onToggle = () => {
 		setShowSignUp(!showSignUp);
 	}
 
 	return (
 		<>
 			{ /* don't render signin div when the page is first loaded to prevent fade out animation from playing */ }
-			{ props.showSignInState && 
+			{ showSignInState && 
 				<>
 					{ /* semi transparent black background div rendered behind the signin popup */}
-					<div className={ `${ signInBoxStyles.signInContainerBackground } ${ props.playFadeIn ? signInBoxStyles.openBackground : signInBoxStyles.closeBackground }` }/>
+					<div className={ `${ signInBoxStyles.signInContainerBackground } ${ playFadeIn ? signInBoxStyles.openBackground : signInBoxStyles.closeBackground }` }/>
 					<div 
 						ref={ ref } 
-						className={ `${ signInBoxStyles.signInContainer }  ${ props.playFadeIn ? signInBoxStyles.openModal : signInBoxStyles.closeModal }` }	
+						className={ `
+							${ signInBoxStyles.signInContainer }  
+							${ playFadeIn ? signInBoxStyles.openModal : signInBoxStyles.closeModal }` 
+						}	
 					>
 						<div className={ signInBoxStyles.signInImage }>
 							<Image src='/NeetList.svg' alt='NeetList' height={65} width={120} layout='fixed' />
 						</div>
-						{showSignUp ? <SignUpForm setShowSignUp={_setShowSignUp}/> : <SignInForm handleClick={_setShowSignUp}/>}
+						{showSignUp ? <SignUpForm setShowSignUp={onToggle}/> : <SignInForm handleClick={onToggle}/>}
 					</div>
 				</>
 			}

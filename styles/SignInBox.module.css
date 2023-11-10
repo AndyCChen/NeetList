@@ -39,7 +39,7 @@
    transform: translate(-50%, -50%);
    z-index: 4;
    border-radius: 1rem;
-   padding: 1.5rem;
+   
 }
 
 /* fade in/out animations for signin popup */
@@ -67,6 +67,8 @@
    flex-direction: column;
    flex-grow: 1;
    height: 100%;
+   overflow: hidden;
+   padding: 1.5rem;
 }
 
 .signInImage {
@@ -152,9 +154,7 @@
 */
 @media only screen and (max-width: 700px) {
    .signInContainer {
-      flex-grow: 1;
       width: 100vw;
-      height: auto;
    }
 }
 
@@ -164,7 +164,6 @@
 @media only screen and (min-width: 700px) {
    .signInContainer {
       width: 34.375rem;
-      height: auto;
    }
 }
 

@@ -28,9 +28,9 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 						</div>
 						<p>{ user?.user_metadata.username }</p>
 					</div>
-					<button className={ dropMenuStyles.menuButton}>
+					{/* <button className={ dropMenuStyles.menuButton}>
 						<p>Profile</p>
-					</button>
+					</button> */}
 					<button className={ dropMenuStyles.menuButton} onClick={routeToAnimeList}>
 						<p>Anime List</p>
 					</button>

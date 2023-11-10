@@ -104,11 +104,21 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 		handleResize();
 	}, []);
 
+	const [isImageLoaded, setLoaded] = useState(false);
+
 	return (
 		<Link className={ MediaDisplayStyles.animeCard } href={ `/media/${encodeURIComponent(id)}` }>
-			<div ref={ animeCardRef }>
+			<div ref={ animeCardRef } className={ MediaDisplayStyles.animeCardInner } style={{ transform: `scale(${isImageLoaded ? '1' : '0'})`}}>
 				<div>
-					<Image alt={ 'Thumbnail' } src={ coverImageUrl } layout='responsive' height={300} width={200} style={{ borderRadius: '8px' }}/>
+					<Image 
+						alt={ 'Thumbnail' } 
+						src={ coverImageUrl } 
+						layout='responsive' 
+						height={300} 
+						width={200} 
+						style={{ borderRadius: '8px' }}
+						onLoad={() => { setLoaded(true) }}
+					/>
 				</div>
 				<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
 			</div>

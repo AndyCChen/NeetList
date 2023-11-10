@@ -49,6 +49,11 @@
 	color: #418D89;
 }
 
+.animeCardInner {
+	transform: scale(0);
+	transition: 300ms;
+}
+
 .animeTitle {
 	display: -webkit-box;
 	-webkit-line-clamp: 2;

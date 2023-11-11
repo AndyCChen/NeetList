@@ -68,8 +68,6 @@ const SignUpForm = ({ setShowSignUp }: Props) => {
 		});
 
 		const res = await signupResponse.json();
-		console.log(location.origin)
-		console.log(res);
 
 		if (res.error) {
 			setErrorMessage(res.error.message);

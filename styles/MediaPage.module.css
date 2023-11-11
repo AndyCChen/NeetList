@@ -6,6 +6,7 @@
    background-color: white;
    display: flex;
    justify-content: center;
+   max-width: 1;
 }
 
 .headerText {
@@ -131,7 +132,8 @@
    max-width: 1250px;
    width: 100%;
    margin: auto;
-   padding: 15px
+   padding: 15px;
+   column-gap: 1rem;
 }
 
 .sideBar {
@@ -141,6 +143,7 @@
    background-color: white;
    border-radius: 5px;
    padding: 8px;
+   height: fit-content;
 }
 
 .sideBar div h4 {
@@ -153,4 +156,49 @@
    color: #4f4f4f;
    margin: 5px 0 0 0;
    font-size: 0.8rem;
+}
+
+.contentBarHeader {
+   color: #2c2c2c;
+   font-size: 16px;
+   margin-top: 0px;
+}
+
+.contentBody {
+
+}
+
+.contentBar {
+   display: grid;
+   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+   column-gap: 5px;
+   row-gap: 5px;
+}
+
+.contentBarGridItem {
+   display: flex;
+   justify-content: space-between;
+   border-radius: 5px;
+   background-color: white;
+   height: 75px;
+}
+
+.characterInfo {
+   width: 60%;
+   display: flex;
+   flex-direction: column;
+   height: 100%;
+   font-size: 12px;
+   color: #4f4f4f;
+   overflow: hidden;
+   text-align: right;
+   justify-content: space-between;
+   padding: 10px;
+}
+
+.characterInfo p {
+   margin: 0;
+   text-overflow: ellipsis;
+   white-space: nowrap;
+   overflow: hidden;
 }

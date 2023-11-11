@@ -148,6 +148,19 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo
 					day,
 				},
 				status,
+				characters (sort: RELEVANCE, perPage: 9) {
+					edges {
+						role,
+						node {
+							name {
+								full
+							},
+							image {
+								large
+							}
+						}
+					} 
+				}
 			}
 		}`;
 

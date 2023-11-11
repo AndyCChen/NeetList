@@ -54,6 +54,19 @@ export interface AnimeInfo {
    startDate: FuzzyDate,
    endDate: FuzzyDate,
    status: string,
+   characters: {
+      edges: {
+         role: string,
+         node: {
+            image: {
+               large: string
+            },
+            name: {
+               full: string
+            }
+         }
+      } []
+   }
 }
 
 export interface AnimeItem {

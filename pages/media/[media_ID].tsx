@@ -12,6 +12,7 @@ import { JSONResponse, AnimeData } from '../../interfaces/userListTypes'
 import MediaPageStyles from '../../styles/MediaPage.module.css'
 import { createPagesServerClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "../../interfaces/supabase"
+import { ParsedUrlQuery } from "querystring"
 
 
 type Props = {
@@ -61,7 +62,7 @@ const parseFuzzyDate = ({ year, month, day }: FuzzyDate): string => {
 
 const MediaPage: NextPage<Props> = ({ media, userShow }) => {
    const user = useUser();
-   
+
    const height = useMediaQuery(
       [
          'only screen and (max-width: 800px)',
@@ -195,7 +196,7 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
             </div>
          </div>
          <div className={ MediaPageStyles.contentContainer }>
-            <div className={ MediaPageStyles.sideBar } style={{ marginTop: isReadme ? 'auto' : '110px' }}>
+            <div className={ MediaPageStyles.sideBar } style={{ marginTop: isReadme ? '0px' : '110px' }}>
                <div>
                   <h4>Format</h4>
                   <p>{ media.format }</p>
@@ -246,20 +247,48 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
                   </p>
                </div>
             </div>
-            
+            <div className={ MediaPageStyles.contentBody }>
+               <h1 className={ MediaPageStyles.contentBarHeader }>Characters</h1>
+               <div className={ MediaPageStyles.contentBar }>
+					{
+						media.characters.edges.map((character) =>
+							<div className={ MediaPageStyles.contentBarGridItem}>
+								<Image
+									style={{ borderRadius: '5px'}}
+									src={ character.node.image.large }
+									alt='character image'
+									height={75}
+									width={55}
+								/>
+								<div className={ MediaPageStyles.characterInfo }>
+									<p>{character.node.name.full}</p>
+									<p>{character.role}</p>
+								</div>
+							</div>
+						)
+					}
+               </div>
+
+            </div>
          </div>
       </div>
    )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context: GetServerSidePropsContext) => {
-   let id;
-
-   if (context.params) {
-      id = context.params.media_ID;
+export const getServerSideProps: GetServerSideProps<Props> = async (context: GetServerSidePropsContext) => {
+   const checkParams = (urlParameters: ParsedUrlQuery): boolean => {
+      return urlParameters.media_ID as unknown as number !== undefined;
    }
 
-   const media = await getMediaByID({ id: id as unknown as number });
+   if (!context.params || !checkParams(context.params)) {
+      return {
+         notFound: true,
+      }
+   }
+
+   const id = context.params.media_ID as unknown as number;
+
+   const media = await getMediaByID({ id: id });
 
    // return error 404 if request is failed
    if (!media) {

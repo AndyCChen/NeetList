@@ -4,6 +4,8 @@ import Image from "next/legacy/image"
 import { useEffect, useRef, useState, Fragment } from "react"
 import { useUser } from "@supabase/auth-helpers-react"
 import EditMenu from "../../components/animeList/EditMenu"
+import Link from "next/link"
+import { useRouter } from "next/router"
 
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
@@ -16,6 +18,7 @@ import { ParsedUrlQuery } from "querystring"
 
 
 type Props = {
+   key: string,
    media: AnimeInfo,
    userShow: AnimeData[] | null,
 }
@@ -100,6 +103,8 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
       handleResize();
    }, []);
 
+   
+
    const handleReadmeClick = () => {
       setIsOverflow(false);
       setIsReadme(true);
@@ -138,7 +143,7 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
          setAnime(Anime);
       }
    }
-
+   
    return (
       <div>
          {
@@ -171,7 +176,10 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
                      <EditMenu 
                         id= { media.id }
                         onSaveCallback={ ({ anime, deleteShow }) => { 
-                           if (anime && !deleteShow) setAnime(anime);
+                           if (anime && !deleteShow) 
+                              setAnime(anime);
+                           else 
+                              setAnime(null);
                          }}
                         title={ media.title.english ? media.title.english : media.title.romaji ? media.title.romaji : media.title.native }
                         imageURL={ media.coverImage.medium }
@@ -196,7 +204,7 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
             </div>
          </div>
          <div className={ MediaPageStyles.contentContainer }>
-            <div className={ MediaPageStyles.sideBar } style={{ marginTop: isReadme ? '0px' : '110px' }}>
+            <div className={ MediaPageStyles.sideBar } style={{ marginTop: isReadme ? '15px' : '110px' }}>
                <div>
                   <h4>Format</h4>
                   <p>{ media.format }</p>
@@ -248,27 +256,51 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
                </div>
             </div>
             <div className={ MediaPageStyles.contentBody }>
-               <h1 className={ MediaPageStyles.contentBarHeader }>Characters</h1>
-               <div className={ MediaPageStyles.contentBar }>
-					{
-						media.characters.edges.map((character) =>
-							<div className={ MediaPageStyles.contentBarGridItem}>
-								<Image
-									style={{ borderRadius: '5px'}}
-									src={ character.node.image.large }
-									alt='character image'
-									height={75}
-									width={55}
-								/>
-								<div className={ MediaPageStyles.characterInfo }>
-									<p>{character.node.name.full}</p>
-									<p>{character.role}</p>
-								</div>
-							</div>
-						)
-					}
+               <div>
+                  <h1 className={ MediaPageStyles.barHeader }>Characters</h1>
+                  <div className={ MediaPageStyles.contentBar }>
+                     {
+                        media.characters.edges.map(({ node: { name, image }, role }) =>
+                           <div className={ MediaPageStyles.contentBarGridItem} key={ name.full }>
+                              <Image
+                                 style={{ borderRadius: '5px'}}
+                                 src={ image.large }
+                                 alt='character image'
+                                 height={75}
+                                 width={55}
+                              />
+                              <div className={ MediaPageStyles.characterInfo }>
+                                 <p>{ name.full }</p>
+                                 <p>{ role }</p>
+                              </div>
+                           </div>
+                        )
+                     }
+                  </div>
                </div>
-
+               <div>
+                  <h1 className={ MediaPageStyles.barHeader }>Recommended</h1>
+                  <div className={ MediaPageStyles.recommendedBar }>
+                  {
+                     media.recommendations.nodes.map(({ mediaRecommendation: {coverImage, title, id} }) =>
+                        <Link key={ id } href={`/media/${ encodeURIComponent(id) }`}>
+                           <div className={ MediaPageStyles.recommendedBarGridItem }>
+                              <Image
+                                 src={ coverImage.large }
+                                 alt='anime cover image'
+                                 height={200}
+                                 width={150}
+                                 style={{ borderRadius: '5px'}}
+                              />
+                              <p>
+                                 { title.english ? title.english : title.romanji ? title.romanji : title.native }
+                              </p>
+                           </div>
+                        </Link>
+                     )
+                  }
+                  </div>
+               </div>
             </div>
          </div>
       </div>
@@ -306,6 +338,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: Get
    if (!user) {
       return {
          props: {
+            key: media.id,
             media: media,
             userShow: null,
          }
@@ -326,9 +359,10 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context: Get
          notFound: true
       }
    }
-   
+
    return {
       props: {
+         key: media.id,
          media: media,
          userShow: userShow.length !== 0 ? userShow : null,
       }

@@ -66,6 +66,21 @@ export interface AnimeInfo {
             }
          }
       } []
+   },
+   recommendations: {
+      nodes: {
+         mediaRecommendation: {
+            id: number,
+            title: {
+               english: string,
+               romanji: string,
+               native: string,
+            },
+            coverImage: {
+               large: string
+            }
+         } 
+      } []
    }
 }
 

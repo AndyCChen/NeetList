@@ -148,7 +148,7 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo
 					day,
 				},
 				status,
-				characters (sort: RELEVANCE, perPage: 9) {
+				characters (sort: ROLE, perPage: 9) {
 					edges {
 						role,
 						node {
@@ -160,6 +160,21 @@ export const getMediaByID = async ({ id }: getMediaByIDProps): Promise<AnimeInfo
 							}
 						}
 					} 
+				},
+				recommendations (sort: RATING_DESC, perPage: 9) {
+					nodes {
+					  mediaRecommendation {
+						id,
+						title {
+							english,
+							romaji,
+							native,
+						},
+						coverImage {
+							large
+						}
+					  }
+					}
 				}
 			}
 		}`;

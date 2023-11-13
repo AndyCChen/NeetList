@@ -59,11 +59,18 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 		return isIntersectingViewport;
 	};
 
+	const animeCardRef = useRef<HTMLDivElement>(null);
+	const toolTipRef = useRef<HTMLDivElement>(null);
+
+	const [isTooltipFit, setIsTooltipFit] = useState(true);
+
+	const isAnimeCardInView = useIsInViewport(animeCardRef);
+
 	const handleResize = () => {
+		console.log('resize')
 		const animeCardBoundingRect = animeCardRef.current?.getBoundingClientRect();
 		const rightOffset = animeCardBoundingRect?.right;
 		const toolTipWidth = toolTipRef.current?.clientWidth;
-
 		if (rightOffset == undefined || toolTipWidth == undefined) {
 			return;
 		}
@@ -76,13 +83,6 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 			setIsTooltipFit(true);
 		}
 	};
-
-	const animeCardRef = useRef<HTMLDivElement>(null);
-	const toolTipRef = useRef<HTMLDivElement>(null);
-
-	const [isTooltipFit, setIsTooltipFit] = useState(true);
-
-	const isAnimeCardInView = useIsInViewport(animeCardRef);
 
 	useEffect(() => {
 		if (isAnimeCardInView) {
@@ -99,39 +99,36 @@ const AnimeCard = ({ id, coverImageUrl, title, season, seasonYear, studio, forma
 		return () => window.removeEventListener('resize', handleResize);
 	}, [isAnimeCardInView, isLastItem]);
 
-	// run handleResize on initial render of anime card to check if toolTip overflows
-	useEffect(() => {
-		handleResize();
-	}, []);
-
 	const [isImageLoaded, setLoaded] = useState(false);
 
 	return (
 		<Link className={ MediaDisplayStyles.animeCard } href={ `/media/${encodeURIComponent(id)}` }>
-			<div ref={ animeCardRef } className={ MediaDisplayStyles.animeCardInner } style={{ transform: `scale(${isImageLoaded ? '1' : '0'})`}}>
-				<div>
-					<Image 
-						alt={ 'Thumbnail' } 
-						src={ coverImageUrl } 
-						layout='responsive' 
-						height={300} 
-						width={200} 
-						style={{ borderRadius: '8px' }}
-						onLoad={() => { setLoaded(true) }}
-					/>
+			<div ref={ animeCardRef }>
+				<div className={ MediaDisplayStyles.animeCardInner } style={{ transform: `scale(${isImageLoaded ? '1' : '0'})`}}>
+					<div>
+						<Image
+							alt={ 'Thumbnail' }
+							src={ coverImageUrl }
+							layout='responsive'
+							height={300}
+							width={200}
+							style={{ borderRadius: '8px' }}
+							onLoad={() => { setLoaded(true); handleResize(); }}
+						/>
+					</div>
+					<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
 				</div>
-				<p className={ MediaDisplayStyles.animeTitle }>{ title }</p>
-			</div>
-			<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
-				<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
-				<p className={ MediaDisplayStyles.studio }>{ studio }</p>
-				<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
-				<div className={ MediaDisplayStyles.genresContainer }>
-					{
-						genres.map((genre: string, index: number) =>
-							<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
-						)
-					}
+				<div className={ isTooltipFit ? MediaDisplayStyles.toolTipRight : MediaDisplayStyles.toolTipLeft } ref={ toolTipRef }>
+					<span style={{ color: '#4f4f4f' }}>{ season } { seasonYear }</span>
+					<p className={ MediaDisplayStyles.studio }>{ studio }</p>
+					<p className={ MediaDisplayStyles.info }>{ getFormat(format) } { episodes && <span>&#8226; {episodes} episodes</span> }</p>
+					<div className={ MediaDisplayStyles.genresContainer }>
+						{
+							genres.map((genre: string, index: number) =>
+								<div className={ MediaDisplayStyles.genreItem } key={ index }>{ genre }</div>
+							)
+						}
+					</div>
 				</div>
 			</div>
 		</Link>

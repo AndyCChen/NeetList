@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, Fragment } from "react"
 import { useUser } from "@supabase/auth-helpers-react"
 import EditMenu from "../../components/animeList/EditMenu"
 import Link from "next/link"
-import { useRouter } from "next/router"
 
 import { useMediaQuery } from "../../hooks/useMediaQuery" 
 import { getMediaByID } from '../../utils/aniListQueries'
@@ -137,7 +136,7 @@ const MediaPage: NextPage<Props> = ({ media, userShow }) => {
 
       if (error) {
          console.log(error);
-         alert('There was an error!');
+         alert(error.message);
       } else {
          alert('Show added!')
          setAnime(Anime);

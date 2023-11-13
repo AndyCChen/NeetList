@@ -9,7 +9,7 @@ export async function middleware(req: NextRequest) {
    } = await supabase.auth.getSession();
 
    // redirect to homepage if user is not authenticated
-   if (req.nextUrl.pathname.startsWith('/animelist')) {
+   if (req.nextUrl.pathname.startsWith('/animelist') || req.nextUrl.pathname.startsWith('/account')) {
       if (!session) {
          const redirectURL = req.nextUrl.clone();
          redirectURL.pathname = '/';

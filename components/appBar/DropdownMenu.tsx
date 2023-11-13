@@ -1,7 +1,7 @@
 import Image from 'next/legacy/image'
 import React from 'react'
 import { useUser } from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 import dropMenuStyles from '../../styles/DropMenu.module.css'
 
@@ -11,12 +11,7 @@ type Props = {
 }
 
 const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
-	const router = useRouter();
 	const user = useUser();
-
-	const routeToAnimeList = () => {
-		router.push(`/animelist/${encodeURIComponent(user?.user_metadata.username)}`);
-	}
 
 	return (
 		<>
@@ -28,12 +23,12 @@ const DropdownMenu = React.forwardRef<HTMLDivElement, Props>((props, ref) => {
 						</div>
 						<p>{ user?.user_metadata.username }</p>
 					</div>
-					{/* <button className={ dropMenuStyles.menuButton}>
-						<p>Profile</p>
-					</button> */}
-					<button className={ dropMenuStyles.menuButton} onClick={routeToAnimeList}>
+					<Link className={ dropMenuStyles.menuButton} href={ `/account`}>
+						<p>Account</p>
+					</Link>
+					<Link className={ dropMenuStyles.menuButton} href={ `/animeList` }>
 						<p>Anime List</p>
-					</button>
+					</Link>
 					<form action="/api/auth/logout" method="post">
 						<button className={ dropMenuStyles.menuButton}>
 							<p>Logout</p>

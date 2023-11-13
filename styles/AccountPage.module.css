@@ -1,0 +1,38 @@
+.pageContainer {
+   display: flex;
+   justify-content: center;
+}
+
+.pageContent {
+   border-radius: 10px;
+   padding: 0 15px 15px 15px;
+   margin: 50px 20px 0 20px;
+   max-width: 850px;
+   width: 100%;
+   background-color: white;
+}
+
+.pageContent h2 {
+   color: #2c2c2c;
+   font-size: 25px;
+   margin-bottom: 15px;
+}
+
+.formItem  h1 {
+   color: #2c2c2c;
+   font-size: 16px;
+}
+
+.formItem {
+   display: grid;
+}
+
+.formItem input {
+   padding: 0 10px 0 10px;
+   border-radius: 5px;
+   height: 35px;
+   width: 100%;
+   outline: none;
+   border: none;
+   background-color: #d7e3ea;
+}

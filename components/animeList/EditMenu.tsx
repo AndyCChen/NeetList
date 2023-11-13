@@ -78,7 +78,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title, imageURL }: props) => {
       }: JSONResponse = await saveResponse.json();
       
       if (error) {
-         alert('Error, failed to save show!');
+         alert(error.message);
          console.log(error);
       } else {
          alert('Show added!');
@@ -100,7 +100,7 @@ const EditMenu = ({ id, onSaveCallback, anime, title, imageURL }: props) => {
       }: JSONResponse = await deleteResponse.json();
 
       if (error) {
-         alert('An error occured!');
+         alert(error.message);
          console.log(error);
       } else {
          alert('Show deleted!');

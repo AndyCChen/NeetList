@@ -7,7 +7,7 @@
    border-radius: 10px;
    padding: 0 15px 15px 15px;
    margin: 50px 20px 0 20px;
-   max-width: 850px;
+   max-width: 750px;
    width: 100%;
    background-color: white;
 }
@@ -15,12 +15,13 @@
 .pageContent h2 {
    color: #2c2c2c;
    font-size: 25px;
-   margin-bottom: 15px;
+   margin-bottom: 0px;
 }
 
 .formItem  h1 {
    color: #2c2c2c;
    font-size: 16px;
+   margin-top: 20px;
 }
 
 .formItem {
@@ -35,4 +36,16 @@
    outline: none;
    border: none;
    background-color: #d7e3ea;
+}
+
+.saveButton {
+   cursor: pointer;
+   border-radius: 5px;
+   margin-top: 15px;
+   padding: 0 15px 0 15px;
+   background-color: #418D89;
+   border: none;
+   color: white;
+   height: 35px;
+   width: fit-content;
 }

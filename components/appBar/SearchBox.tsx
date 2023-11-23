@@ -39,6 +39,8 @@ const SearchBox = () => {
 				<Image src='/search.svg' alt='search icon' height={35} width={35} layout='fixed' />
 			</div>
 			<input 
+				id='search-input'
+				autoComplete='off'
 				className={ appBarStyles.searchBox } 
 				type='search' placeholder='search anime...' 
 				onChange={ (event: React.ChangeEvent<HTMLInputElement>) => setSearchString(event.currentTarget.value) }

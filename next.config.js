@@ -8,6 +8,9 @@ module.exports = nextConfig
 
 module.exports = {
   images: {
-    domains: ['s4.anilist.co'],
+    domains: [
+      's4.anilist.co', 
+      'iggkyzciwrpmodnrhast.supabase.co'
+    ],
   },
 }

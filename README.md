@@ -6,3 +6,5 @@ on a building a proper website. Along the way i picked up next.js, typescript, a
 Though much of the difficulty I experienced from this project was building all the frontend ui components with css and html.
 
 Host on vercel -> [here!](https://neetlist.vercel.app/)
+
+![Homepage screenshot](./images/homepage.png)

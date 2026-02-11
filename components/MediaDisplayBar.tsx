@@ -32,7 +32,7 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 		],
 		6
 	);
-
+	
 	return (
 		<div className={ MediaDisplayStyles.displayBarContainerWrapper }>
 			<div className={ MediaDisplayStyles.displayBarContainer }>
@@ -52,7 +52,7 @@ const MediaDisplayBar = ({ animeList , title}: Props) => {
 								title={ anime.title.english ? anime.title.english : anime.title.romaji }
 								season={ anime.season }
 								seasonYear={ anime.seasonYear }
-								studio={ anime.studios.nodes[0].name }
+								studio={ anime.studios.nodes.length != 0 ? anime.studios.nodes[0].name : "" }
 								format={ anime.format }
 								episodes={ anime.episodes }
 								genres={ anime.genres }
